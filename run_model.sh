@@ -119,6 +119,8 @@ else
 	VARS=""
 fi
 
+SECURE_MEMORY=${SECURE_MEMORY:-0}
+
 echo "Running FVP Base Model with these parameters:"
 echo "MODEL=$MODEL"
 echo "BL1=$BL1"
@@ -130,21 +132,37 @@ echo "VARS=$VARS"
 echo "DISK=$DISK"
 echo "CLUSTER0_NUM_CORES=$CLUSTER0_NUM_CORES"
 echo "CLUSTER1_NUM_CORES=$CLUSTER1_NUM_CORES"
+echo "SECURE_MEMORY=$SECURE_MEMORY"
 
 kern_addr=0x80080000
 dtb_addr=0x83000000
 initrd_addr=0x84000000
 
 if [ "$FOUNDATION" == "1" ]; then
+	GICV3=${GICV3:-1}
+	echo "GICV3=$GICV3"
+
 	if [ "$DISK" != "" ]; then
 		disk_param=" --block-device=$DISK " 
 	fi
 
+	if [ "$SECURE_MEMORY" == "1" ]; then
+		secure_memory_param=" --secure-memory"
+	else
+		secure_memory_param=" --no-secure-memory"
+	fi
+
+	if [ "$GICV3" == "1" ]; then
+		gic_param=" --gicv3"
+	else
+		gic_param=" --no-gicv3"
+	fi
+
 	cmd="$MODEL \
 	--cores=$CLUSTER0_NUM_CORES \
-	--no-secure-memory \
+	$secure_memory_param \
 	--visualization \
-	--gicv3 \
+	$gic_param \
 	--data=${BL1}@0x0 \
 	--data=${FIP}@0x8000000 \
 	--data=${IMAGE}@${kern_addr} \
@@ -153,16 +171,19 @@ if [ "$FOUNDATION" == "1" ]; then
 	$disk_param \
 	"
 else
+	CACHE_STATE_MODELLED=${CACHE_STATE_MODELLED:=0}
+	echo "CACHE_STATE_MODELLED=$CACHE_STATE_MODELLED"
+
 	if [ "$DISK" != "" ]; then
 		disk_param=" -C bp.virtioblockdevice.image_path=$DISK "
 	fi
 
 	cmd="$MODEL \
 	-C pctl.startup=0.0.0.0 \
-	-C bp.secure_memory=0 \
+	-C bp.secure_memory=$SECURE_MEMORY \
 	-C cluster0.NUM_CORES=$CLUSTER0_NUM_CORES \
 	-C cluster1.NUM_CORES=$CLUSTER1_NUM_CORES \
-	-C cache_state_modelled=0 \
+	-C cache_state_modelled=$CACHE_STATE_MODELLED \
 	-C bp.pl011_uart0.untimed_fifos=1 \
 	-C bp.secureflashloader.fname=$BL1 \
 	-C bp.flashloader0.fname=$FIP \
