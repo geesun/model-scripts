@@ -140,7 +140,7 @@ if [ "$FOUNDATION" == "1" ]; then
 		disk_param=" --block-device=$DISK " 
 	fi
 
-	cmd="$FOUNDATION_MODEL \
+	cmd="$MODEL \
 	--cores=$CLUSTER0_NUM_CORES \
 	--no-secure-memory \
 	--visualization \
