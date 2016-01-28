@@ -84,16 +84,19 @@ if [ ! -e "$FIP" ]; then
 fi
 
 if [ ! -e "$IMAGE" ]; then
-	echo "ERROR: you should set variable IMAGE to point to a valid kernel image, currently it is set to \"$IMAGE\""
-	err=1
+	echo "WARNING: you should set variable IMAGE to point to a valid kernel image, currently it is set to \"$IMAGE\""
+	IMAGE=
+	warn=1
 fi
 if [ ! -e "$INITRD" ]; then
-	echo "ERROR: you should set variable INITRD to point to a valid initrd/ramdisk image, currently it is set to \"$INITRD\""
-	err=1
+	echo "WARNING: you should set variable INITRD to point to a valid initrd/ramdisk image, currently it is set to \"$INITRD\""
+	INITRD=
+	warn=1
 fi
 if [ ! -e "$DTB" ]; then
-	echo "ERROR: you should set variable DTB to point to a valid device tree binary (.dtb), currently it is set to \"$DTB\""
-	err=1
+	echo "WARNING: you should set variable DTB to point to a valid device tree binary (.dtb), currently it is set to \"$DTB\""
+	DTB=
+	warn=1
 fi
 
 # Exit if any obvious errors happened
@@ -158,6 +161,16 @@ if [ "$FOUNDATION" == "1" ]; then
 		gic_param=" --no-gicv3"
 	fi
 
+	if [ "$IMAGE" != "" ]; then
+		image_param="--data=${IMAGE}@${kern_addr}"
+	fi
+	if [ "$INITRD" != "" ]; then
+		initrd_param="--data=${INITRD}@${initrd_addr}"
+	fi
+	if [ "$DTB" != "" ]; then
+		dtb_param="--data=${DTB}@${dtb_addr}"
+	fi
+
 	cmd="$MODEL \
 	--cores=$CLUSTER0_NUM_CORES \
 	$secure_memory_param \
@@ -165,9 +178,9 @@ if [ "$FOUNDATION" == "1" ]; then
 	$gic_param \
 	--data=${BL1}@0x0 \
 	--data=${FIP}@0x8000000 \
-	--data=${IMAGE}@${kern_addr} \
-	--data=${DTB}@${dtb_addr} \
-	--data=${INITRD}@${initrd_addr} \
+	$image_param \
+	$dtb_param \
+	$initrd_param \
 	$disk_param \
 	"
 else
@@ -176,6 +189,16 @@ else
 
 	if [ "$DISK" != "" ]; then
 		disk_param=" -C bp.virtioblockdevice.image_path=$DISK "
+	fi
+
+	if [ "$IMAGE" != "" ]; then
+		image_param="--data cluster0.cpu0=${IMAGE}@${kern_addr}"
+	fi
+	if [ "$INITRD" != "" ]; then
+		initrd_param="--data cluster0.cpu0=${INITRD}@${initrd_addr}"
+	fi
+	if [ "$DTB" != "" ]; then
+		dtb_param="--data cluster0.cpu0=${DTB}@${dtb_addr}"
 	fi
 
 	cmd="$MODEL \
@@ -187,9 +210,9 @@ else
 	-C bp.pl011_uart0.untimed_fifos=1 \
 	-C bp.secureflashloader.fname=$BL1 \
 	-C bp.flashloader0.fname=$FIP \
-	--data cluster0.cpu0=${IMAGE}@${kern_addr} \
-	--data cluster0.cpu0=${DTB}@${dtb_addr} \
-	--data cluster0.cpu0=${INITRD}@${initrd_addr} \
+	$image_param \
+	$dtb_param \
+	$initrd_param \
 	-C bp.ve_sysregs.mmbSiteDefault=0 \
 	$disk_param \
 	$VARS \
