@@ -136,6 +136,7 @@ echo "DISK=$DISK"
 echo "CLUSTER0_NUM_CORES=$CLUSTER0_NUM_CORES"
 echo "CLUSTER1_NUM_CORES=$CLUSTER1_NUM_CORES"
 echo "SECURE_MEMORY=$SECURE_MEMORY"
+echo "NET=$NET"
 
 kern_addr=0x80080000
 dtb_addr=0x83000000
@@ -144,6 +145,12 @@ initrd_addr=0x84000000
 if [ "$FOUNDATION" == "1" ]; then
 	GICV3=${GICV3:-1}
 	echo "GICV3=$GICV3"
+
+	if [ "$NET" == "1" ]; then
+		# The Foundation Model MAC address appears to be 00:02:F7:EF
+		# followed by the last two bytes of the host's MAC address.
+		net="--network bridged --network-bridge=ARM$USER"
+	fi
 
 	if [ "$DISK" != "" ]; then
 		disk_param=" --block-device=$DISK " 
@@ -182,10 +189,23 @@ if [ "$FOUNDATION" == "1" ]; then
 	$dtb_param \
 	$initrd_param \
 	$disk_param \
+	$net \
 	"
 else
 	CACHE_STATE_MODELLED=${CACHE_STATE_MODELLED:=0}
 	echo "CACHE_STATE_MODELLED=$CACHE_STATE_MODELLED"
+
+	if [ "$NET" == "1" ]; then
+		if [ "$MACADDR" == "" ]; then
+			# if the user didn't supply a MAC address, generate one
+			MACADDR=`echo -n 00:02:F7; dd bs=1 count=3 if=/dev/random 2>/dev/null |hexdump -v -e '/1 ":%02X"'`
+			echo MACADDR=$MACADDR
+		fi
+
+		net="-C bp.hostbridge.interfaceName=ARM$USER \
+		-C bp.smsc_91c111.enabled=true \
+		-C bp.smsc_91c111.mac_address=${MACADDR}"
+	fi
 
 	if [ "$DISK" != "" ]; then
 		disk_param=" -C bp.virtioblockdevice.image_path=$DISK "
@@ -216,6 +236,7 @@ else
 	-C bp.ve_sysregs.mmbSiteDefault=0 \
 	$disk_param \
 	$VARS \
+	$net \
 	"
 fi
 
