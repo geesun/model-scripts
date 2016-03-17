@@ -234,6 +234,7 @@ else
 	$dtb_param \
 	$initrd_param \
 	-C bp.ve_sysregs.mmbSiteDefault=0 \
+	-C bp.ve_sysregs.exit_on_shutdown=1 \
 	$disk_param \
 	$VARS \
 	$net \
