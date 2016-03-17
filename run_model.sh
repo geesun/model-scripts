@@ -67,9 +67,9 @@ CLUSTER1_NUM_CORES=${CLUSTER1_NUM_CORES:-1}
 
 # Set defaults based on model type
 if [ "$FOUNDATION" == "1" ]; then
-	DTB=${DTB:-fvp-foundation-gicv2-psci.dtb}
+	DTB=${DTB:-foundation-v8-gicv3.dtb}
 else
-	DTB=${DTB:-fvp-base-gicv2-psci.dtb}
+	DTB=${DTB:-fvp-base-aemv8a-aemv8a.dtb}
 fi
 
 # Continue error checking...
