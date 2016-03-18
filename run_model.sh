@@ -221,6 +221,25 @@ else
 		dtb_param="--data cluster0.cpu0=${DTB}@${dtb_addr}"
 	fi
 
+	# Create log files with date stamps in the filename
+	# also create a softlink to these files with a static filename, eg, uart0.log
+	datestamp=`date +%s%N`
+
+	UART0_LOG=uart0-${datestamp}.log
+	touch $UART0_LOG
+	uart0log=uart0.log
+	rm -f $uart0log
+	ln -s $UART0_LOG $uart0log
+
+	UART1_LOG=uart1-${datestamp}.log
+	touch $UART1_LOG
+	uart1log=uart1.log
+	rm -f $uart1log
+	ln -s $UART1_LOG $uart1log
+
+	echo "UART0_LOG=$UART0_LOG"
+	echo "UART1_LOG=$UART1_LOG"
+
 	cmd="$MODEL \
 	-C pctl.startup=0.0.0.0 \
 	-C bp.secure_memory=$SECURE_MEMORY \
@@ -228,6 +247,8 @@ else
 	-C cluster1.NUM_CORES=$CLUSTER1_NUM_CORES \
 	-C cache_state_modelled=$CACHE_STATE_MODELLED \
 	-C bp.pl011_uart0.untimed_fifos=1 \
+        -C bp.pl011_uart0.out_file=$UART0_LOG \
+        -C bp.pl011_uart1.out_file=$UART1_LOG \
 	-C bp.secureflashloader.fname=$BL1 \
 	-C bp.flashloader0.fname=$FIP \
 	$image_param \
