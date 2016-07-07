@@ -182,6 +182,7 @@ if [ "$FOUNDATION" == "1" ]; then
 	--cores=$CLUSTER0_NUM_CORES \
 	$secure_memory_param \
 	--visualization \
+	--use-real-time \
 	$gic_param \
 	--data=${BL1}@0x0 \
 	--data=${FIP}@0x8000000 \
