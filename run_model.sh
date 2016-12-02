@@ -30,17 +30,40 @@
 
 err=0
 
-# $1 - the output dir to run in the model
-rundir=$1
+function usage
+{
+	echo "usage: $0 [--aarch32] [rundir]"
+	echo "Options:"
+	echo "  [rundir]     the script will run from a directory specified on the commandline"
+	echo "               otherwise it will run from the current working directory"
+	echo "               use this to tell the model where to find the binaries you want"
+	echo "               to load if they aren't in the current directory."
+	exit
+}
 
-# If the run dir is not set, use the current dir
-if [ "$rundir" != "" ]; then
-	if [ -e $rundir ]; then
-		cd $rundir
-	else
-		echo "ERROR: you set the run directory to $rundir, however that path does not exist"
-		exit 1
-	fi
+while [ "$1" != "" ]; do
+	case $1 in
+		"-h" | "-?" | "-help" | "--help" | "--h" | "help" )
+			usage
+			exit
+			;;
+		*)
+			if [ "$rundir" == "" ]
+			then
+				rundir=$1
+			fi
+			;;
+	esac
+	shift
+done
+
+rundir=${rundir:-.}
+
+if [ -e $rundir ]; then
+	cd $rundir
+else
+	echo "ERROR: the run directory to $rundir, however that path does not exist"
+	exit 1
 fi
 
 CLUSTER0_NUM_CORES=${CLUSTER0_NUM_CORES:-1}
@@ -133,6 +156,7 @@ SECURE_MEMORY=${SECURE_MEMORY:-0}
 
 echo "Running FVP Base Model with these parameters:"
 echo "MODEL=$MODEL"
+echo "rundir=$rundir"
 echo "BL1=$BL1"
 echo "FIP=$FIP"
 echo "IMAGE=$IMAGE"
