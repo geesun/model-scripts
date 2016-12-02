@@ -43,18 +43,34 @@ if [ "$rundir" != "" ]; then
 	fi
 fi
 
+CLUSTER0_NUM_CORES=${CLUSTER0_NUM_CORES:-1}
+CLUSTER1_NUM_CORES=${CLUSTER1_NUM_CORES:-1}
+
 # Check for obvious errors and set err=1 if we encounter one
 if [ ! -e "$MODEL" ]; then
 	echo "ERROR: you should set variable MODEL to point to a valid FVP model binary, currently it is set to \"$MODEL\""
 	err=1
 else
 	# Check if we are running the foundation model or the AEMv8 model
-	if [[ $($MODEL --version) == *Foundation* ]]; then
-		FOUNDATION=1
-	else
-		FOUNDATION=0
-	fi
+	version=$($MODEL --version)
+	echo version: $version
 
+	case $version in
+		*Foundation* )
+			model_type=foundation
+			DTB=${DTB:-foundation-v8-gicv3.dtb}
+			;;
+		*Cortex_A32* )
+			model_type=cortex-a32
+			DTB=${DTB:-fvp-base-aemv8a-aemv8a.dtb}
+			;;
+		* )
+			model_type=aemv8
+			DTB=${DTB:-fvp-base-aemv8a-aemv8a.dtb}
+			cores="-C cluster0.NUM_CORES=$CLUSTER0_NUM_CORES \
+				-C cluster1.NUM_CORES=$CLUSTER1_NUM_CORES"
+			;;
+	esac
 fi
 
 # Set some sane defaults before continuing to error check
@@ -62,15 +78,6 @@ BL1=${BL1:-bl1.bin}
 FIP=${FIP:-fip.bin}
 IMAGE=${IMAGE:-Image}
 INITRD=${INITRD:-ramdisk.img}
-CLUSTER0_NUM_CORES=${CLUSTER0_NUM_CORES:-1}
-CLUSTER1_NUM_CORES=${CLUSTER1_NUM_CORES:-1}
-
-# Set defaults based on model type
-if [ "$FOUNDATION" == "1" ]; then
-	DTB=${DTB:-foundation-v8-gicv3.dtb}
-else
-	DTB=${DTB:-fvp-base-aemv8a-aemv8a.dtb}
-fi
 
 # Continue error checking...
 if [ ! -e "$BL1" ]; then
@@ -142,7 +149,7 @@ kern_addr=0x80080000
 dtb_addr=0x82000000
 initrd_addr=0x84000000
 
-if [ "$FOUNDATION" == "1" ]; then
+if [ "$model_type" == "foundation" ]; then
 	GICV3=${GICV3:-1}
 	echo "GICV3=$GICV3"
 
@@ -244,8 +251,7 @@ else
 	cmd="$MODEL \
 	-C pctl.startup=0.0.0.0 \
 	-C bp.secure_memory=$SECURE_MEMORY \
-	-C cluster0.NUM_CORES=$CLUSTER0_NUM_CORES \
-	-C cluster1.NUM_CORES=$CLUSTER1_NUM_CORES \
+	$cores \
 	-C cache_state_modelled=$CACHE_STATE_MODELLED \
 	-C bp.pl011_uart0.untimed_fifos=1 \
         -C bp.pl011_uart0.out_file=$UART0_LOG \
@@ -260,6 +266,7 @@ else
 	$disk_param \
 	$VARS \
 	$net \
+	$arch_params
 	"
 fi
 
