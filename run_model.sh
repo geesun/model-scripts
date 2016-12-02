@@ -34,6 +34,7 @@ function usage
 {
 	echo "usage: $0 [--aarch32] [rundir]"
 	echo "Options:"
+	echo "  --aarch32    run the model in Aarch32 mode, if available"
 	echo "  [rundir]     the script will run from a directory specified on the commandline"
 	echo "               otherwise it will run from the current working directory"
 	echo "               use this to tell the model where to find the binaries you want"
@@ -47,6 +48,12 @@ while [ "$1" != "" ]; do
 			usage
 			exit
 			;;
+		"--aarch32" | "--Aarch32" | "--AARCH32" )
+			model_arch=aarch32
+			;;
+		"--aarch64" | "--Aarch64" | "--AARCH64" )
+			model_arch=aarch64
+			;;
 		*)
 			if [ "$rundir" == "" ]
 			then
@@ -57,6 +64,7 @@ while [ "$1" != "" ]; do
 	shift
 done
 
+model_arch=${model_arch:-aarch64}
 rundir=${rundir:-.}
 
 if [ -e $rundir ]; then
@@ -90,6 +98,17 @@ else
 		* )
 			model_type=aemv8
 			DTB=${DTB:-fvp-base-aemv8a-aemv8a.dtb}
+			if [ "$model_arch" == "aarch32" ]; then
+				arch_params="	-C cluster0.cpu0.CONFIG64=0                                 \
+						-C cluster0.cpu1.CONFIG64=0                                 \
+						-C cluster0.cpu2.CONFIG64=0                                 \
+						-C cluster0.cpu3.CONFIG64=0                                 \
+						-C cluster1.cpu0.CONFIG64=0                                 \
+						-C cluster1.cpu1.CONFIG64=0                                 \
+						-C cluster1.cpu2.CONFIG64=0                                 \
+						-C cluster1.cpu3.CONFIG64=0                                 \
+						"
+			fi
 			cores="-C cluster0.NUM_CORES=$CLUSTER0_NUM_CORES \
 				-C cluster1.NUM_CORES=$CLUSTER1_NUM_CORES"
 			;;
@@ -156,6 +175,7 @@ SECURE_MEMORY=${SECURE_MEMORY:-0}
 
 echo "Running FVP Base Model with these parameters:"
 echo "MODEL=$MODEL"
+echo "model_arch=$model_arch"
 echo "rundir=$rundir"
 echo "BL1=$BL1"
 echo "FIP=$FIP"
