@@ -242,6 +242,7 @@ if [ "$model_type" == "foundation" ]; then
 	$initrd_param \
 	$disk_param \
 	$net \
+	--arm-v8.0
 	"
 else
 	CACHE_STATE_MODELLED=${CACHE_STATE_MODELLED:=0}
@@ -310,7 +311,8 @@ else
 	$disk_param \
 	$VARS \
 	$net \
-	$arch_params
+	$arch_params \
+	--arm-v8.0
 	"
 fi
 
