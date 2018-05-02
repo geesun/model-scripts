@@ -27,7 +27,7 @@ model binary, currently it is set to \"$MODEL\""
 fi
 
 #Path to the binary models
-PATH_TO_MODEL="$MODEL"
+PATH_TO_MODEL=$(dirname "${MODEL}")
 
 UART0_ARMTF_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-armtf_$CURRENT_DATE
 UART1_MM_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-1-mm_$CURRENT_DATE
@@ -199,7 +199,6 @@ if [ ${FS_TYPE,,} == "distro" ]; then
 fi
 
 if [ ${MODEL_TYPE} == "sgi575" ]; then
-	MODEL_NAME="$PATH_TO_MODEL"/FVP_CSS_SGI-575
 	mkdir -p ./$MODEL_TYPE
 else
 	echo -e "$RED_FONT Unsupported <model_type> selected $NORMAL_FONT" >&2
@@ -219,7 +218,7 @@ if [ -e $PATH_TO_MODEL_ROOT/plugins/Linux64_GCC-4.9/Crypto.so ]; then
 		   --plugin $PATH_TO_MODEL_ROOT/plugins/Linux64_GCC-4.9/Crypto.so"
 fi
 if [ ${MODEL_TYPE,,} == "sgi575" ]; then
-	./${MODEL_NAME} \
+	${MODEL} \
                 -C css.cmn600.mesh_config_file="$PATH_TO_MODEL/SGI-575_cmn600.yml" \
 		-C css.cmn600.force_on_from_start=1 \
                 --data css.scp.armcortexm7ct=$OUTDIR/scp-ram.bin@0x0BD80000 \
