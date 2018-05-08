@@ -299,6 +299,7 @@ else
 	$cores \
 	-C cache_state_modelled=$CACHE_STATE_MODELLED \
 	-C bp.pl011_uart0.untimed_fifos=1 \
+	-C bp.pl011_uart0.unbuffered_output=1 \
         -C bp.pl011_uart0.out_file=$UART0_LOG \
         -C bp.pl011_uart1.out_file=$UART1_LOG \
 	-C bp.secureflashloader.fname=$BL1 \
@@ -311,8 +312,7 @@ else
 	$disk_param \
 	$VARS \
 	$net \
-	$arch_params \
-	--arm-v8.0
+	$arch_params
 	"
 fi
 
