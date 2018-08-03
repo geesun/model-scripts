@@ -41,12 +41,13 @@ UART0_MCP_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-mcp_$CURRENT_DATE
 
 
 if [ $# -eq 0 ]; then
-	echo -e "$YELLOW_FONT Warning!!!!!: Continuing with Default : -t sgi575 -f busybox <no network enabled> -v <no custom virtio image>" >&2
+	echo -e "$YELLOW_FONT Warning!!!!!: Continuing with Default : -t sgi575 -f busybox <no network enabled> -v <no custom virtio image> -a <no additional model_args> " >&2
 	echo -e "$YELLOW_FONT Use for more option  ${0##*/} -h|-- help $NORMAL_FONT" >&2
 	MODEL_TYPE="sgi575";
 	FS_TYPE="busybox";
 	NTW_ENABLE="false";
 	VIRT_IMG="false";
+	EXTRA_MODEL_PARAMS="";
 fi
 
 # Display usage message and exit
@@ -56,6 +57,7 @@ function usage_help {
 	echo -e "$GREEN_FONT fs_type = $RED_FONT busybox $GREEN_FONT or $RED_FONT oe $GREEN_FONT lamp $RED_FONT" >&2
 	echo -e "$GREEN_FONT network_enabled = $RED_FONT true $GREEN_FONT or $RED_FONT false $NORMAL_FONT" >&2
 	echo -e "$GREEN_FONT virtio_imag_path = Please input virtio image path $NORMAL_FONT" >&2
+	echo -e "$GREEN_FONT extra_model_params = Input additional model parameters $NORMAL_FONT" >&2
 }
 
 while test $# -gt 0; do
@@ -97,6 +99,13 @@ while test $# -gt 0; do
 			shift
 			if test $# -gt 0; then
 				SATADISK_IMAGE_PATH=$1
+			fi
+			shift
+			;;
+		-a)
+			shift
+			if test $# -gt 0; then
+				EXTRA_MODEL_PARAMS=$1
 			fi
 			shift
 			;;
@@ -240,7 +249,8 @@ if [ ${MODEL_TYPE,,} == "sgi575" ]; then
                 -C soc.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
                 -C soc.pl011_uart1.unbuffered_output=1 \
                 -C css.pl011_uart_ap.unbuffered_output=1 \
-               ${BOOT_ARGS}
+               ${BOOT_ARGS} \
+	       ${EXTRA_MODEL_PARAMS}
 else
 	:
 fi
