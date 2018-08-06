@@ -222,7 +222,6 @@ if [ ${MODEL_TYPE,,} == "sgi575" ]; then
                 -C css.cmn600.mesh_config_file="$PATH_TO_MODEL/SGI-575_cmn600.yml" \
 		-C css.cmn600.force_on_from_start=1 \
                 --data css.scp.armcortexm7ct=$OUTDIR/scp-ram.bin@0x0BD80000 \
-                --data css.scp.armcortexm7ct=$OUTDIR/mcp-ram.bin@0x0BE00000 \
                 -C css.mcp.ROMloader.fname="$OUTDIR/mcp-rom.bin" \
                 -C css.scp.ROMloader.fname="$OUTDIR/scp-rom.bin" \
                 -C css.trustedBootROMloader.fname="$OUTDIR/$BL1_IMAGE" \
