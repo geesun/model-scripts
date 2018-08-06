@@ -109,7 +109,7 @@ done
 
 declare -r flavour=$(echo $MODEL_TYPE | cut -f1 -d_)
 ROOTDIR="../../output/sgi575"
-OUTDIR=${ROOTDIR}/enterprise
+OUTDIR=${ROOTDIR}/sgi575
 
 if [[ -z $MODEL_TYPE ]]; then
 	echo -e "$RED_FONT Continue with <model_type> as sgi575 !!! $NORMAL_FONT" >&2
