@@ -11,13 +11,16 @@
 # Either copy the model to this folder or fix for your FVP_CSS_SGI-575 path below
 #
 
-
 NORMAL_FONT="\e[0m"
 RED_FONT="\e[31;1m"
 GREEN_FONT="\e[32;1m"
 YELLOW_FONT="\e[33;1m"
 CURRENT_DATE="`date +%Y%m%d_%H-%M-%S`"
 MYPID=$$
+ROOTDIR="../../output/sgi575"
+OUTDIR=${ROOTDIR}/sgi575
+MODEL_TYPE="sgi575"
+FS_TYPE="busybox"
 
 # Check that a path to the model has been provided
 if [ ! -e "$MODEL" ]; then
@@ -41,7 +44,7 @@ UART0_MCP_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-mcp_$CURRENT_DATE
 
 
 if [ $# -eq 0 ]; then
-	echo -e "$YELLOW_FONT Warning!!!!!: Continuing with Default : -t sgi575 -f busybox <no network enabled> -v <no custom virtio image> -a <no additional model_args> " >&2
+	echo -e "$YELLOW_FONT Warning!!!!!: Continuing with default : -f busybox" >&2
 	echo -e "$YELLOW_FONT Use for more option  ${0##*/} -h|-- help $NORMAL_FONT" >&2
 	MODEL_TYPE="sgi575";
 	FS_TYPE="busybox";
@@ -52,11 +55,11 @@ fi
 
 # Display usage message and exit
 function usage_help {
-	echo -e "$GREEN_FONT usage: ${0##*/} -t <model_type> -n <interface_name> -f <fs_type> -v <virtio_image_path>" >&2
-	echo -e "$GREEN_FONT model_type = $RED_FONT sgi575" >&2
-	echo -e "$GREEN_FONT fs_type = $RED_FONT busybox $GREEN_FONT or $RED_FONT oe $GREEN_FONT lamp $RED_FONT" >&2
+	echo -e "$GREEN_FONT usage: ${0##*/} -n <interface_name> -f <fs_type> -v <virtio_image_path> -d <sata_image_path> -a <extra_model_params>" >&2
+	echo -e "$GREEN_FONT fs_type = $RED_FONT busybox $NORMAL_FONT" >&2
 	echo -e "$GREEN_FONT network_enabled = $RED_FONT true $GREEN_FONT or $RED_FONT false $NORMAL_FONT" >&2
 	echo -e "$GREEN_FONT virtio_imag_path = Please input virtio image path $NORMAL_FONT" >&2
+	echo -e "$GREEN_FONT sata_image_path = Please input sata disk image path $NORMAL_FONT" >&2
 	echo -e "$GREEN_FONT extra_model_params = Input additional model parameters $NORMAL_FONT" >&2
 }
 
@@ -66,14 +69,6 @@ while test $# -gt 0; do
 			usage_help
 			exit 1
 			;;
-		-t)
-			shift
-			if test $# -gt 0; then
-				MODEL_TYPE=$1
-			fi
-			shift
-			;;
-
 		-f)
 			shift
 			if test $# -gt 0; then
@@ -109,21 +104,16 @@ while test $# -gt 0; do
 			fi
 			shift
 			;;
+		-p)
+			shift
+			shift
+			;;
 		*)
 			usage_help
 			exit 1
 			;;
 esac
 done
-
-declare -r flavour=$(echo $MODEL_TYPE | cut -f1 -d_)
-ROOTDIR="../../output/sgi575"
-OUTDIR=${ROOTDIR}/sgi575
-
-if [[ -z $MODEL_TYPE ]]; then
-	echo -e "$RED_FONT Continue with <model_type> as sgi575 !!! $NORMAL_FONT" >&2
-	MODEL_TYPE="sgi575";
-fi
 
 if [[ -z $NTW_ENABLE ]]; then
 	echo -e "$RED_FONT Continue with <network_enabled> as false !!! $NORMAL_FONT" >&2
@@ -155,69 +145,28 @@ if [[ -z $FIP_IMAGE ]]; then
 	FIP_IMAGE="fip-uefi.bin";
 fi
 
-if [[ -z $VIRTIO_IMAGE_PATH && -z $SATADISK_IMAGE_PATH ]]; then
-	if [[ "$TEST_NAME" == "sataboot" ]]; then
-		IMAGE_DEV="pci.ahci.ahci"
-		IMAGE_NAME_OE="grub-oe-sata.img"
-		IMAGE_NAME_LAMP="grub-oe-lamp-sata.img"
-	elif [[ "$TEST_NAME" == "ras" ]]; then
-		IMAGE_DEV="board.virtioblockdevice"
-		IMAGE_NAME_OE="grub-oe-ras.img"
-		IMAGE_NAME_LAMP="grub-oe-lamp-ras.img"
-	else
-		IMAGE_DEV="board.virtioblockdevice"
-		IMAGE_NAME_OE="grub-oe.img"
-		IMAGE_NAME_LAMP="grub-oe-lamp.img"
-	fi
+if [[ ! -z $FS_TYPE ]] && [ ${FS_TYPE,,} == "busybox" ]; then
+	VIRTIO_IMAGE_PATH="${ROOTDIR}/grub-busybox.img"
+fi
 
-	if [[ -z $FS_TYPE ]]; then
-		echo -e "$RED_FONT Continue with <fs_type> as busybox !!! $NORMAL_FONT" >&2
-		FS_TYPE="busybox";
-	fi
-	echo -e "$RED_FONT Continue with $FS_TYPE virtio image> !!! $NORMAL_FONT" >&2
+if [[ -n "$VIRTIO_IMAGE_PATH" ]]; then
+	KERNEL_ARGS="-C board.virtioblockdevice.image_path=${VIRTIO_IMAGE_PATH}"
+fi
 
-	#Load supported FS type Virtio Image
-	if [ ${FS_TYPE,,} == "oe" ]; then
-		KERNEL_ARGS="-C ${IMAGE_DEV}.image_path=${ROOTDIR}/${IMAGE_NAME_OE}"
-	elif [ ${FS_TYPE,,} == "lamp" ]; then
-                KERNEL_ARGS="-C ${IMAGE_DEV}.image_path=${ROOTDIR}/${IMAGE_NAME_LAMP}"
-	elif [ ${FS_TYPE,,} == "busybox" ]; then
-		KERNEL_ARGS="-C board.virtioblockdevice.image_path=${ROOTDIR}/grub-busybox.img"
-	else
-		echo -e "$RED_FONT Unsupported <fs_type> selected $NORMAL_FONT" >&2
-		usage_help
-		exit 1;
-	fi
-
-else
-	if [[ -n "$VIRTIO_IMAGE_PATH" ]]; then
-		#To load customized Virtio images
-		echo -e "$RED_FONT Continue with custom virtio image: $VIRTIO_IMAGE_PATH> !!! $NORMAL_FONT" >&2
-		KERNEL_ARGS="-C board.virtioblockdevice.image_path=${VIRTIO_IMAGE_PATH}"
-	fi
-	if [[ -n "$SATADISK_IMAGE_PATH" ]]; then
-		echo -e "$RED_FONT Continue with sata disk image: $SATADISK_IMAGE_PATH> !!! $NORMAL_FONT" >&2
-		KERNEL_ARGS="$KERNEL_ARGS \
-					-C pci.ahci.ahci.image_path="${SATADISK_IMAGE_PATH}""
-	fi
-
+if [[ -n "$SATADISK_IMAGE_PATH" ]]; then
+	KERNEL_ARGS="$KERNEL_ARGS \
+			-C pci.ahci.ahci.image_path="${SATADISK_IMAGE_PATH}""
 fi
 
 #For distribution installation and boot, ensure that the virtio devices
 #behind the PCIe RC are not enumerated.
-if [ ${FS_TYPE,,} == "distro" ]; then
+if [[ ! -z $FS_TYPE ]] && [ ${FS_TYPE,,} == "distro" ]; then
 	KERNEL_ARGS="$KERNEL_ARGS \
 		-C pci.pcidevice0.bus=0xFF \
 		-C pci.pcidevice1.bus=0xFF"
 fi
 
-if [ ${MODEL_TYPE} == "sgi575" ]; then
-	mkdir -p ./$MODEL_TYPE
-else
-	echo -e "$RED_FONT Unsupported <model_type> selected $NORMAL_FONT" >&2
-	usage_help
-	exit 1;
-fi
+mkdir -p ./$MODEL_TYPE
 
 if [ ${NTW_ENABLE,,} == "true" ]; then
 	BOOT_ARGS="$BOOT_ARGS \
@@ -230,6 +179,13 @@ if [ -e $PATH_TO_MODEL_ROOT/plugins/Linux64_GCC-4.9/Crypto.so ]; then
 	BOOT_ARGS="$BOOT_ARGS \
 		   --plugin $PATH_TO_MODEL_ROOT/plugins/Linux64_GCC-4.9/Crypto.so"
 fi
+
+echo
+echo "Starting model "$MODEL_TYPE
+echo "  KERNEL_ARGS = "$KERNEL_ARGS
+echo "  BOOT_ARGS = "$BOOT_ARGS
+echo
+
 if [ ${MODEL_TYPE,,} == "sgi575" ]; then
 	${MODEL} \
                 -C css.cmn600.mesh_config_file="$PATH_TO_MODEL/SGI-575_cmn600.yml" \
