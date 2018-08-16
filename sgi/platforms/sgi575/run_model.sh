@@ -17,15 +17,16 @@ GREEN_FONT="\e[32;1m"
 YELLOW_FONT="\e[33;1m"
 CURRENT_DATE="`date +%Y%m%d_%H-%M-%S`"
 MYPID=$$
-ROOTDIR="../../output/sgi575"
+ROOTDIR="../../../../output/sgi575"
 OUTDIR=${ROOTDIR}/sgi575
 MODEL_TYPE="sgi575"
-FS_TYPE="busybox"
+MODEL_PARAMS=""
+FS_TYPE=""
 
 # Check that a path to the model has been provided
 if [ ! -e "$MODEL" ]; then
 	#if no model path has been provided, assign a default path
-	MODEL="../../fastmodel/sgi/models/Linux64_GCC-4.9/FVP_CSS_SGI-575"
+	MODEL="../../../../fastmodel/sgi/models/Linux64_GCC-4.9/FVP_CSS_SGI-575"
 	if [ ! -f "$MODEL" ]; then
 		echo "ERROR: you should set variable MODEL to point to a valid SGI575 " \
 		     "model binary, currently it is set to \"$MODEL\""
@@ -145,23 +146,24 @@ if [[ -z $FIP_IMAGE ]]; then
 	FIP_IMAGE="fip-uefi.bin";
 fi
 
-if [[ ! -z $FS_TYPE ]] && [ ${FS_TYPE,,} == "busybox" ]; then
+if [[ ${FS_TYPE,,} == "busybox" ]]; then
 	VIRTIO_IMAGE_PATH="${ROOTDIR}/grub-busybox.img"
 fi
 
 if [[ -n "$VIRTIO_IMAGE_PATH" ]]; then
-	KERNEL_ARGS="-C board.virtioblockdevice.image_path=${VIRTIO_IMAGE_PATH}"
+	MODEL_PARAMS="$MODEL_PARAMS \
+			-C board.virtioblockdevice.image_path=${VIRTIO_IMAGE_PATH}"
 fi
 
 if [[ -n "$SATADISK_IMAGE_PATH" ]]; then
-	KERNEL_ARGS="$KERNEL_ARGS \
+	MODEL_PARAMS="$MODEL_PARAMS \
 			-C pci.ahci.ahci.image_path="${SATADISK_IMAGE_PATH}""
 fi
 
 #For distribution installation and boot, ensure that the virtio devices
 #behind the PCIe RC are not enumerated.
 if [[ ! -z $FS_TYPE ]] && [ ${FS_TYPE,,} == "distro" ]; then
-	KERNEL_ARGS="$KERNEL_ARGS \
+	MODEL_PARAMS="$MODEL_PARAMS \
 		-C pci.pcidevice0.bus=0xFF \
 		-C pci.pcidevice1.bus=0xFF"
 fi
@@ -169,44 +171,43 @@ fi
 mkdir -p ./$MODEL_TYPE
 
 if [ ${NTW_ENABLE,,} == "true" ]; then
-	BOOT_ARGS="$BOOT_ARGS \
+	MODEL_PARAMS="$MODEL_PARAMS \
 		   -C board.hostbridge.interfaceName="$INTERFACE_NAME" \
 		   -C board.smsc_91c111.enabled=1"
 fi
 
 #check whether crypto plugin exists
 if [ -e $PATH_TO_MODEL_ROOT/plugins/Linux64_GCC-4.9/Crypto.so ]; then
-	BOOT_ARGS="$BOOT_ARGS \
+	MODEL_PARAMS="$MODEL_PARAMS \
 		   --plugin $PATH_TO_MODEL_ROOT/plugins/Linux64_GCC-4.9/Crypto.so"
 fi
 
 echo
 echo "Starting model "$MODEL_TYPE
-echo "  KERNEL_ARGS = "$KERNEL_ARGS
-echo "  BOOT_ARGS = "$BOOT_ARGS
+echo "  MODEL_PARAMS = "$MODEL_PARAMS
+echo "  EXTRA_PARAMS = "$EXTRA_MODEL_PARAMS
 echo
 
 if [ ${MODEL_TYPE,,} == "sgi575" ]; then
 	${MODEL} \
-                -C css.cmn600.mesh_config_file="$PATH_TO_MODEL/SGI-575_cmn600.yml" \
+		-C css.cmn600.mesh_config_file="$PATH_TO_MODEL/SGI-575_cmn600.yml" \
 		-C css.cmn600.force_on_from_start=1 \
-                --data css.scp.armcortexm7ct=$OUTDIR/scp-ram.bin@0x0BD80000 \
-                -C css.mcp.ROMloader.fname="$OUTDIR/mcp-rom.bin" \
-                -C css.scp.ROMloader.fname="$OUTDIR/scp-rom.bin" \
-                -C css.trustedBootROMloader.fname="$OUTDIR/$BL1_IMAGE" \
-                -C board.flashloader0.fname="$OUTDIR/$FIP_IMAGE" \
-                ${KERNEL_ARGS} \
-                -S -R \
-                -C css.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME} \
-                -C css.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
-                -C soc.pl011_uart_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
-                -C soc.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
-                -C soc.pl011_uart0.unbuffered_output=1 \
-                -C soc.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
-                -C soc.pl011_uart1.unbuffered_output=1 \
-                -C css.pl011_uart_ap.unbuffered_output=1 \
-               ${BOOT_ARGS} \
-	       ${EXTRA_MODEL_PARAMS}
+		--data css.scp.armcortexm7ct=$OUTDIR/scp-ram.bin@0x0BD80000 \
+		-C css.mcp.ROMloader.fname="$OUTDIR/mcp-rom.bin" \
+		-C css.scp.ROMloader.fname="$OUTDIR/scp-rom.bin" \
+		-C css.trustedBootROMloader.fname="$OUTDIR/$BL1_IMAGE" \
+		-C board.flashloader0.fname="$OUTDIR/$FIP_IMAGE" \
+		-S -R \
+		-C css.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME} \
+		-C css.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
+		-C soc.pl011_uart_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
+		-C soc.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
+		-C soc.pl011_uart0.unbuffered_output=1 \
+		-C soc.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
+		-C soc.pl011_uart1.unbuffered_output=1 \
+		-C css.pl011_uart_ap.unbuffered_output=1 \
+		${MODEL_PARAMS} \
+		${EXTRA_MODEL_PARAMS}
 else
 	:
 fi

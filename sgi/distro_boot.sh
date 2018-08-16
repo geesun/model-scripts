@@ -3,6 +3,22 @@
 installer_image=""
 disk_size=""
 mode=""
+platform_dir=""
+network=false
+extra_param=""
+
+declare -A sgi_platforms
+sgi_platforms[sgi575]=1
+
+__print_supported_sgi_platforms()
+{
+	echo "Supported platforms are -"
+	for plat in "${!sgi_platforms[@]}" ;
+		do
+			printf "\t $plat \n"
+		done
+	echo
+}
 
 install ()
 {
@@ -13,7 +29,8 @@ install ()
 
 	echo "Created $disk_name of size $disk_size GB, proceeding to install $installer_image ..."
 
-	./run_model.sh -v $installer_image -d $disk_name
+	pushd $platform_dir
+	./run_model.sh -v $installer_image -d $disk_name -n $network -a "$extra_param"
 }
 
 # This script allows a user to create a virtual satadisk and install either
@@ -32,14 +49,15 @@ boot ()
 
 	case $num_available_images in
 		0)
-			echo "No available images found to boot from, please install one, see distr_boot -h for help"
+			echo "No available images found to boot from, please install one, see distro_boot -h for help"
 			exit 1
 			;;
 		1)
 			# In the case of exactly one, the list of images will
 			# be the image name so just use it
 			echo "Found $available_images, proceeding to boot ..."
-			./run_model.sh -d $available_images
+			pushd $platform_dir
+			./run_model.sh -d $available_images -n $network -a "$extra_param"
 			;;
 		*)
 			if [[ -z "$disk_image" ]]; then
@@ -51,7 +69,8 @@ boot ()
 				echo ""
 			else
 				echo "Proceeding to boot supplied disk image name: $disk_image ..."
-				./run_model.sh -d $disk_image
+				pushd $platform_dir
+				./run_model.sh -d $disk_image -n $network -a "$extra_param"
 			fi
 			;;
 	esac
@@ -63,12 +82,15 @@ print_usage ()
 	echo ""
 	echo " Install or boot Linux distos on System Guidance Models."
 	echo ""
-	echo "distro_boot -i [image] -s [disk size] -d [ disk image]"
+	echo "distro_boot -p [platform] -i [image] -s [disk size] -d [ disk image]"
+	echo "	-p - SGI platform name"
 	echo "	-i - Image, takes a path to an iso installer image"
 	echo "	-s - Disk size in GB."
 	echo "	-d - Disk image with previously installed distro, used for"
 	echo "	     disambiguation if there are more than one installed"
 	echo "	     concurrently"
+	echo "  -n - Enable network: true or (default)false"
+	echo "  -a - Additional model parameters, if any"
 	echo ""
 	echo " distro_boot must be called either with both -i and -s options or"
 	echo " with neither, please see examples below"
@@ -77,20 +99,23 @@ print_usage ()
 	echo ""
 	echo "	Install Fedora 27 on to a 16 GB disk"
 	echo ""
-	echo "		distro_boot -i Fedora-Server-dvd-aarch64-27-1.6.iso -s 16"
+	echo "		distro_boot -p sgi575 -i Fedora-Server-dvd-aarch64-27-1.6.iso -s 16"
 	echo ""
 	echo "	Boot existing single install"
 	echo ""
-	echo "		distro_boot"
+	echo "		distro_boot -p sgi575"
 	echo ""
 	echo "	Boot existing install from a set of intalled disks"
 	echo ""
-	echo "		distro_boot -d bluepeter.satadisk"
+	echo "		distro_boot -p sgi575 -d bluepeter.satadisk"
 	echo ""
 }
 
-while getopts "i:s:d:h" opt; do
+while getopts "p:i:s:d:n:a:h" opt; do
 	case $opt in
+		p)
+			platform=$OPTARG
+			;;
 		i)
 			installer_image=$OPTARG
 			;;
@@ -99,6 +124,12 @@ while getopts "i:s:d:h" opt; do
 			;;
 		d)
 			disk_image=$OPTARG
+			;;
+		n)
+			network=$OPTARG
+			;;
+		a)
+			extra_param=$OPTARG
 			;;
 		*)
 			print_usage
@@ -124,6 +155,19 @@ else
 	print_usage
 	exit 1
 fi
+
+#Ensure that the platform is supported
+if [ -z "$platform" ] ; then
+	print_usage
+	exit 1
+fi
+if [ -z "${sgi_platforms[$platform]}" ] ; then
+	echo "[ERROR] Could not deduce the selected platform."
+	__print_supported_sgi_platforms
+	exit 1
+fi
+
+platform_dir="platforms/$platform"
 
 case $mode in
 	install)
