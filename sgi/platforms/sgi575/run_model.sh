@@ -22,6 +22,9 @@ OUTDIR=${ROOTDIR}/sgi575
 MODEL_TYPE="sgi575"
 MODEL_PARAMS=""
 FS_TYPE=""
+TAP_INTERFACE=""
+
+source ../../sgi_common_util.sh
 
 # Check that a path to the model has been provided
 if [ ! -e "$MODEL" ]; then
@@ -122,11 +125,14 @@ if [[ -z $NTW_ENABLE ]]; then
 fi
 
 if [ ${NTW_ENABLE,,} == "true" ]; then
-	echo -e "$YELLOW_FONT Please input a unique bridge interface name for network setup $NORMAL_FONT" >&2
-	read INTERFACE_NAME
-	if [[ -z $INTERFACE_NAME ]]; then
-		echo -e "$RED_FONT network interface name is empty $NORMAL_FONT" >&2
-		exit 1;
+	find_tap_interface
+	if [[ -z $TAP_INTERFACE ]]; then
+		echo -e "$YELLOW_FONT Please input a unique bridge interface name for network setup $NORMAL_FONT" >&2
+		read TAP_INTERFACE
+		if [[ -z $TAP_INTERFACE ]]; then
+			echo -e "$RED_FONT network interface name is empty $NORMAL_FONT" >&2
+			exit 1;
+		fi
 	fi
 fi
 
@@ -172,7 +178,7 @@ mkdir -p ./$MODEL_TYPE
 
 if [ ${NTW_ENABLE,,} == "true" ]; then
 	MODEL_PARAMS="$MODEL_PARAMS \
-		   -C board.hostbridge.interfaceName="$INTERFACE_NAME" \
+		   -C board.hostbridge.interfaceName="$TAP_INTERFACE" \
 		   -C board.smsc_91c111.enabled=1"
 fi
 
