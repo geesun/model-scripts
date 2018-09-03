@@ -70,3 +70,14 @@ find_tap_interface()
     fi
     return 0
 }
+
+# creates a nor flash image with the path and filename passed as parameter.
+create_nor_flash_image () {
+	if [ ! -f $1 ]; then
+		echo -e "\n[INFO] Creating NOR Flash image"
+		#create 64MB image of 256K block size
+		dd if=/dev/zero of=$1 bs=256K count=256 > /dev/null 2>&1
+		#Gzip it
+		gzip $1 && mv $1.gz $1
+	fi
+}
