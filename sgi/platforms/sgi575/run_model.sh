@@ -188,6 +188,9 @@ if [ -e $PATH_TO_MODEL_ROOT/plugins/Linux64_GCC-4.9/Crypto.so ]; then
 		   --plugin $PATH_TO_MODEL_ROOT/plugins/Linux64_GCC-4.9/Crypto.so"
 fi
 
+echo "NOR1 flash image: $PWD/nor1_flash.img"
+create_nor_flash_image "$PWD/nor1_flash.img"
+
 echo
 echo "Starting model "$MODEL_TYPE
 echo "  MODEL_PARAMS = "$MODEL_PARAMS
@@ -203,6 +206,8 @@ if [ ${MODEL_TYPE,,} == "sgi575" ]; then
 		-C css.scp.ROMloader.fname="$OUTDIR/scp-rom.bin" \
 		-C css.trustedBootROMloader.fname="$OUTDIR/$BL1_IMAGE" \
 		-C board.flashloader0.fname="$OUTDIR/$FIP_IMAGE" \
+		-C board.flashloader1.fname="$PWD/nor1_flash.img" \
+		-C board.flashloader1.fnameWrite="$PWD/nor1_flash.img" \
 		-S -R \
 		-C css.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME} \
 		-C css.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
