@@ -34,6 +34,8 @@
 # This script is contains different utility method to run validation tests  #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
+TEST_HARD_TIMEOUT=7200
+
 # search all the available network interfaces and find an available tap
 # network interface to use.
 find_tap_interface()
@@ -80,4 +82,43 @@ create_nor_flash_image () {
 		#Gzip it
 		gzip $1 && mv $1.gz $1
 	fi
+}
+
+# kill the model's children, then kill the model
+kill_model () {
+    if [[ -z "$MODEL_PID" ]]; then
+        :
+    else
+        echo -e "\n[INFO] Killing all children of PID: $MODEL_PID"
+        MODEL_CHILDREN=$(pgrep -P $MODEL_PID)
+        for CHILD in $MODEL_CHILDREN
+        do
+            echo -e "\n[INFO] Killing $CHILD $(ps -e | grep $CHILD)"
+            kill -9 $CHILD > /dev/null 2>&1
+        done
+        kill -9 $MODEL_PID > /dev/null 2>&1
+        echo -e "\n[INFO] All model processes killed successfully."
+    fi
+}
+
+# wait for boot to complete by parsing UART log
+check_boot_complete ()
+{
+	local testdone=1
+	local cnt=0
+
+	while [  $testdone -ne 0 ]; do
+		sleep 1
+		if ls $1 1> /dev/null 2>&1; then
+			tail $1 | grep -q -s -e "$2" > /dev/null 2>&1
+			testdone=$?
+			if [ "$cnt" -ge "$TEST_HARD_TIMEOUT" ];then
+				echo -e "\n[ERROR] The model took longer than expected to boot, terminating the test..."
+				return 1
+			fi
+			cnt=$((cnt+1))
+		fi
+	done
+        echo -e "\n[INFO] Boot complete!"
+	return 0
 }
