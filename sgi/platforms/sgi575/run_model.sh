@@ -23,6 +23,7 @@ MODEL_TYPE="sgi575"
 MODEL_PARAMS=""
 FS_TYPE=""
 TAP_INTERFACE=""
+AUTOMATE=0
 
 source ../../sgi_common_util.sh
 
@@ -50,7 +51,6 @@ UART0_MCP_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-mcp_$CURRENT_DATE
 if [ $# -eq 0 ]; then
 	echo -e "$YELLOW_FONT Warning!!!!!: Continuing with default : -f busybox" >&2
 	echo -e "$YELLOW_FONT Use for more option  ${0##*/} -h|-- help $NORMAL_FONT" >&2
-	MODEL_TYPE="sgi575";
 	FS_TYPE="busybox";
 	NTW_ENABLE="false";
 	VIRT_IMG="false";
@@ -105,6 +105,13 @@ while test $# -gt 0; do
 			shift
 			if test $# -gt 0; then
 				EXTRA_MODEL_PARAMS=$1
+			fi
+			shift
+			;;
+		-j)
+			shift
+			if test $# -gt 0; then
+				AUTOMATE=$1
 			fi
 			shift
 			;;
@@ -197,28 +204,36 @@ echo "  MODEL_PARAMS = "$MODEL_PARAMS
 echo "  EXTRA_PARAMS = "$EXTRA_MODEL_PARAMS
 echo
 
-if [ ${MODEL_TYPE,,} == "sgi575" ]; then
-	${MODEL} \
-		-C css.cmn600.mesh_config_file="$PATH_TO_MODEL/SGI-575_cmn600.yml" \
-		-C css.cmn600.force_on_from_start=1 \
-		--data css.scp.armcortexm7ct=$OUTDIR/scp-ram.bin@0x0BD80000 \
-		-C css.mcp.ROMloader.fname="$OUTDIR/mcp-rom.bin" \
-		-C css.scp.ROMloader.fname="$OUTDIR/scp-rom.bin" \
-		-C css.trustedBootROMloader.fname="$OUTDIR/$BL1_IMAGE" \
-		-C board.flashloader0.fname="$OUTDIR/$FIP_IMAGE" \
-		-C board.flashloader1.fname="$PWD/nor1_flash.img" \
-		-C board.flashloader1.fnameWrite="$PWD/nor1_flash.img" \
-		-S -R \
-		-C css.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME} \
-		-C css.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
-		-C soc.pl011_uart_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
-		-C soc.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
-		-C soc.pl011_uart0.unbuffered_output=1 \
-		-C soc.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
-		-C soc.pl011_uart1.unbuffered_output=1 \
-		-C css.pl011_uart_ap.unbuffered_output=1 \
-		${MODEL_PARAMS} \
-		${EXTRA_MODEL_PARAMS}
+PARAMS="-C css.cmn600.mesh_config_file=\"$PATH_TO_MODEL/SGI-575_cmn600.yml\" \
+	-C css.cmn600.force_on_from_start=1 \
+	--data css.scp.armcortexm7ct=$OUTDIR/scp-ram.bin@0x0BD80000 \
+	-C css.mcp.ROMloader.fname=\"$OUTDIR/mcp-rom.bin\" \
+	-C css.scp.ROMloader.fname=\"$OUTDIR/scp-rom.bin\" \
+	-C css.trustedBootROMloader.fname=\"$OUTDIR/$BL1_IMAGE\" \
+	-C board.flashloader0.fname=\"$OUTDIR/$FIP_IMAGE\" \
+	-C board.flashloader1.fname=\"$PWD/nor1_flash.img\" \
+	-C board.flashloader1.fnameWrite=\"$PWD/nor1_flash.img\" \
+	-S -R \
+	-C css.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME} \
+	-C css.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
+	-C soc.pl011_uart_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
+	-C soc.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
+	-C soc.pl011_uart0.unbuffered_output=1 \
+	-C soc.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
+	-C soc.pl011_uart1.unbuffered_output=1 \
+	-C css.pl011_uart_ap.unbuffered_output=1 \
+	${MODEL_PARAMS} \
+	${EXTRA_MODEL_PARAMS}"
+
+if [ "$AUTOMATE" == "1" ] ; then
+	${MODEL} $PARAMS ${MODEL_PARAMS} ${EXTRA_MODEL_PARAMS} 2>&1 &
 else
-	:
+	${MODEL} $PARAMS ${MODEL_PARAMS} ${EXTRA_MODEL_PARAMS} 2>&1
+fi
+if [ "$?" == "0" ] ; then
+	echo "Model launched with pid: "$!
+	export MODEL_PID=$!
+else
+	echo "Failed to launch the model"
+	export MODEL_PID=0
 fi
