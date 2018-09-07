@@ -31,6 +31,8 @@
 
 platform_dir=""
 
+source sgi_common_util.sh
+
 declare -A sgi_platforms
 sgi_platforms[sgi575]=1
 
@@ -59,10 +61,12 @@ print_usage ()
 	echo ""
 }
 
-while getopts "p:n:a:h" opt; do
+while getopts "p:n:a:j:h" opt; do
 	case $opt in
 		p)
 			platform=$OPTARG
+			;;
+		j)
 			;;
 		n|a)
 			;;
@@ -88,5 +92,14 @@ platform_dir="platforms/$platform"
 pushd $platform_dir
 set -- "$@" "-f" "busybox"
 source ./run_model.sh
+
+# if not model failed to start, return
+if [ "$MODEL_PID" == "0" ] ; then
+	exit 1
+fi
+
+# wait for boot to complete and the model to be killed
+check_boot_complete "$PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME" "/ #"
+kill_model
 popd
 exit 0
