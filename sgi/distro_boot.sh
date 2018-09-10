@@ -22,7 +22,7 @@ __print_supported_sgi_platforms()
 
 install ()
 {
-	disk_name=$RANDOM.satadisk
+	disk_name="$PWD/$RANDOM.satadisk"
 
 	# Create a disk of $disk_size GB
 	dd if=/dev/zero of=$disk_name bs=1G count=$disk_size
@@ -38,24 +38,32 @@ install ()
 
 boot ()
 {
+	# Check if a installed sata disk image is supplied. If yes, boot from it.
+	if [ ! -z "$disk_image" ] ; then
+		dir_name="$(dirname $disk_image)"
+		if [ $dir_name == "." ] ; then
+			disk_image="$PWD/$disk_image"
+		fi
+		echo "Proceeding to boot supplied disk image name: $disk_image ..."
+		pushd $platform_dir
+		./run_model.sh -d $disk_image -n $network -a "$extra_param"
+		exit 0
+	fi
+
 	# If $disk_image is not specified, see if there are more than one
 	# .satadisk files, if so, prompt the user to pick one with -d.
 	# If there is exactly one available, boot it. If there are none, prompt
 	# the user to install with -i/-s
 
 	available_images=$(find . -name "*.satadisk")
-
 	num_available_images=$(echo $available_images | wc -w)
 
 	case $num_available_images in
-		0)
-			echo "No available images found to boot from, please install one, see distro_boot -h for help"
-			exit 1
-			;;
 		1)
 			# In the case of exactly one, the list of images will
 			# be the image name so just use it
 			echo "Found $available_images, proceeding to boot ..."
+			available_images=$PWD/$available_images
 			pushd $platform_dir
 			./run_model.sh -d $available_images -n $network -a "$extra_param"
 			;;
@@ -67,10 +75,6 @@ boot ()
 				echo ""
 				echo "Please choose one using distro_boot -d [disk_image]"
 				echo ""
-			else
-				echo "Proceeding to boot supplied disk image name: $disk_image ..."
-				pushd $platform_dir
-				./run_model.sh -d $disk_image -n $network -a "$extra_param"
 			fi
 			;;
 	esac
