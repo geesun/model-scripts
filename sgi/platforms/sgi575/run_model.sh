@@ -55,6 +55,7 @@ if [ $# -eq 0 ]; then
 	NTW_ENABLE="false";
 	VIRT_IMG="false";
 	EXTRA_MODEL_PARAMS="";
+    VIRTIO_NET="false";
 fi
 
 # Display usage message and exit
@@ -65,6 +66,7 @@ function usage_help {
 	echo -e "$GREEN_FONT virtio_imag_path = Please input virtio image path $NORMAL_FONT" >&2
 	echo -e "$GREEN_FONT sata_image_path = Please input sata disk image path $NORMAL_FONT" >&2
 	echo -e "$GREEN_FONT extra_model_params = Input additional model parameters $NORMAL_FONT" >&2
+    echo -e "$GREEN_FONT smscnet = Use SMSC91c111 network interface instead of Virtio Net $NORMAL_FONT" >&2
 }
 
 while test $# -gt 0; do
@@ -105,6 +107,13 @@ while test $# -gt 0; do
 			shift
 			if test $# -gt 0; then
 				EXTRA_MODEL_PARAMS=$1
+			fi
+			shift
+			;;
+		-smscnet)
+			shift
+			if test $# -gt 0; then
+				VIRTIO_NET="false"
 			fi
 			shift
 			;;
@@ -183,10 +192,15 @@ fi
 
 mkdir -p ./$MODEL_TYPE
 
-if [ ${NTW_ENABLE,,} == "true" ]; then
+if [[ ${NTW_ENABLE,,} == "true" && ${VIRTIO_NET} == "false" ]]; then
 	MODEL_PARAMS="$MODEL_PARAMS \
 		   -C board.hostbridge.interfaceName="$TAP_INTERFACE" \
 		   -C board.smsc_91c111.enabled=1"
+elif [ ${NTW_ENABLE,,} == "true" ]; then
+	MODEL_PARAMS="$MODEL_PARAMS \
+		-C board.virtio_net.hostbridge.interfaceName="$TAP_INTERFACE" \
+		-C board.virtio_net.enabled=1 \
+		-C board.virtio_net.transport="legacy" "
 fi
 
 #check whether crypto plugin exists
