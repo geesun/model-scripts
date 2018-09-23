@@ -211,6 +211,8 @@ fi
 
 echo "NOR1 flash image: $PWD/nor1_flash.img"
 create_nor_flash_image "$PWD/nor1_flash.img"
+echo "NOR2 flash image: $PWD/nor2_flash.img"
+create_nor_flash_image "$PWD/nor2_flash.img"
 
 echo
 echo "Starting model "$MODEL_TYPE
@@ -228,6 +230,8 @@ PARAMS="-C css.cmn600.mesh_config_file=\"$PATH_TO_MODEL/SGI-575_cmn600.yml\" \
 	-C board.flashloader0.fname=\"$OUTDIR/$FIP_IMAGE\" \
 	-C board.flashloader1.fname=\"$PWD/nor1_flash.img\" \
 	-C board.flashloader1.fnameWrite=\"$PWD/nor1_flash.img\" \
+	-C board.flashloader2.fname=$PWD/nor2_flash.img \
+	-C board.flashloader2.fnameWrite=$PWD/nor2_flash.img \
 	-S -R \
 	-C css.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME} \
 	-C css.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
