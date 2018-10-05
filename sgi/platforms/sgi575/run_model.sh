@@ -202,6 +202,7 @@ echo
 echo "Starting model "$MODEL_TYPE
 echo "  MODEL_PARAMS = "$MODEL_PARAMS
 echo "  EXTRA_PARAMS = "$EXTRA_MODEL_PARAMS
+echo "  UART Log     = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
 echo
 
 PARAMS="-C css.cmn600.mesh_config_file=\"$PATH_TO_MODEL/SGI-575_cmn600.yml\" \
