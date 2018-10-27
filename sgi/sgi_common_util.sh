@@ -34,7 +34,7 @@
 # This script is contains different utility method to run validation tests  #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-TEST_HARD_TIMEOUT=7200
+SGI_TEST_MAX_TIMEOUT=7200
 CURRENT_DATE_TIME=`date +%Y-%m-%d_%H.%M.%S`
 
 # search all the available network interfaces and find an available tap
@@ -102,24 +102,38 @@ kill_model () {
     fi
 }
 
-# wait for boot to complete by parsing UART log
-check_boot_complete ()
+# parse_log_file: waits until the search string is found in the log file
+#				  or timeout occurs
+# Arguments: 1. log file name
+#            2. search string
+#            3. timeout
+# Return Value: 0 -> Success
+#              -1 -> Failure
+parse_log_file ()
 {
 	local testdone=1
 	local cnt=0
+	local logfile=$1
+	local search_str=$2
+	local timeout=$3
+
+	if [ "$timeout" -le 0 ] || [ "$timeout" -gt $SGI_TEST_MAX_TIMEOUT ]; then
+		echo -e "\n[WARN] timeout value $timeout is invalid. Setting" \
+			"timeout to $SGI_TEST_MAX_TIMEOUT seconds."
+		timeout=$SGI_TEST_MAX_TIMEOUT;
+	fi
 
 	while [  $testdone -ne 0 ]; do
 		sleep 1
-		if ls $1 1> /dev/null 2>&1; then
-			tail $1 | grep -q -s -e "$2" > /dev/null 2>&1
+		if ls $logfile 1> /dev/null 2>&1; then
+			tail $logfile | grep -q -s -e "$search_str" > /dev/null 2>&1
 			testdone=$?
-			if [ "$cnt" -ge "$TEST_HARD_TIMEOUT" ];then
-				echo -e "\n[ERROR] The model took longer than expected to boot, terminating the test..."
-				return 1
-			fi
-			cnt=$((cnt+1))
 		fi
+		if [ "$cnt" -ge "$timeout" ]; then
+			echo -e "\n[ERROR]: ${FUNCNAME[0]}: Timedout or $logfile may not found!\n"
+			return -1
+		fi
+		cnt=$((cnt+1))
 	done
-        echo -e "\n[INFO] Boot complete!"
 	return 0
 }

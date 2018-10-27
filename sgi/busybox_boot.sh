@@ -119,7 +119,18 @@ if [ "$MODEL_PID" == "0" ] ; then
 fi
 
 # wait for boot to complete and the model to be killed
-check_boot_complete "$PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME" "/ #"
+parse_log_file "$PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME" "/ #" 7200
+ret=$?
+
 kill_model
+sleep 3
+
+if [ "$ret" != "0" ]; then
+	echo "[ERROR]: Busybox boot test failed or timedout!"
+	exit 1
+else
+	echo "[SUCCESS]: Busybox boot test completed!"
+fi
+
 popd
 exit 0
