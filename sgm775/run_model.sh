@@ -62,7 +62,7 @@ model binary, currently it is set to \"$MODEL\""
 fi
 
 # GGA/GRM specific
-PATH_TO_SIDECHANNEL_LIB="$PATH_TO_MODEL_ROOT/plugins/Linux64_GCC-4.9/Sidechannel.so"
+PATH_TO_SIDECHANNEL_LIB="$PATH_TO_MODEL_ROOT/plugins/Linux64_GCC-4.8/Sidechannel.so"
 PATH_TO_RECONCILER_LIB="$PATH_TO_MODEL_ROOT/GGA/reconciler/linux-x86_64/gcc-4.9.2/rel/libReconciler.so"
 PATH_TO_SETTINGS_INI_GENERATOR="settings_generator.sh"
 
