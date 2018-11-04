@@ -121,6 +121,24 @@ while test $# -gt 0; do
 			shift
 			if test $# -gt 0; then
 				AUTOMATE=$1
+				MODEL_PARAMS="$MODEL_PARAMS \
+						-C css.scp.terminal_uart_aon.start_telnet=0 \
+						-C css.mcp.terminal_uart0.start_telnet=0 \
+						-C css.mcp.terminal_uart1.start_telnet=0 \
+						-C css.terminal_uart_ap.start_telnet=0 \
+						-C css.terminal_uart1_ap.start_telnet=0 \
+						-C soc.terminal_s0.start_telnet=0 \
+						-C soc.terminal_s1.start_telnet=0 \
+						-C soc.terminal_mcp.start_telnet=0 \
+						-C board.terminal_0.start_telnet=0 \
+						-C board.terminal_1.start_telnet=0 \
+						-C css.pl011_uart1_ap.out_file="ap-uart1"  \
+						-C soc.pl011_uart_mcp.out_file="soc-mcp-uart0" \
+						-C css.mcp.pl011_uart1_mcp.out_file="css-mcp_uar1" \
+						-C css.mcp.pl011_uart0_mcp.out_file="css-mcp_uar0" \
+						-C soc.pl011_uart1.out_file="soc-uart1" \
+						-C board.pl011_uart0.out_file="board-uart0" \
+						-C board.pl011_uart1.out_file="board-uart1""
 			fi
 			shift
 			;;
