@@ -35,6 +35,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 TEST_HARD_TIMEOUT=7200
+CURRENT_DATE_TIME=`date +%Y-%m-%d_%H.%M.%S`
 
 # search all the available network interfaces and find an available tap
 # network interface to use.
