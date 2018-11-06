@@ -36,6 +36,14 @@
 
 SGI_TEST_MAX_TIMEOUT=7200
 CURRENT_DATE_TIME=`date +%Y-%m-%d_%H.%M.%S`
+MYPID=$$
+
+# UART Log files
+UART0_ARMTF_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-armtf_$CURRENT_DATE_TIME
+UART1_MM_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-1-mm_$CURRENT_DATE_TIME
+UART0_CONSOLE_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-console_$CURRENT_DATE_TIME
+UART0_SCP_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-scp_$CURRENT_DATE_TIME
+UART0_MCP_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-mcp_$CURRENT_DATE_TIME
 
 # search all the available network interfaces and find an available tap
 # network interface to use.

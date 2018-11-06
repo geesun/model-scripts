@@ -15,8 +15,6 @@ NORMAL_FONT="\e[0m"
 RED_FONT="\e[31;1m"
 GREEN_FONT="\e[32;1m"
 YELLOW_FONT="\e[33;1m"
-CURRENT_DATE="`date +%Y%m%d_%H-%M-%S`"
-MYPID=$$
 ROOTDIR="../../../../output/sgi575"
 OUTDIR=${ROOTDIR}/sgi575
 MODEL_TYPE="sgi575"
@@ -40,13 +38,6 @@ fi
 
 #Path to the binary models
 PATH_TO_MODEL=$(dirname "${MODEL}")
-
-UART0_ARMTF_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-armtf_$CURRENT_DATE
-UART1_MM_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-1-mm_$CURRENT_DATE
-UART0_CONSOLE_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-console_$CURRENT_DATE
-UART0_SCP_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-scp_$CURRENT_DATE
-UART0_MCP_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-mcp_$CURRENT_DATE
-
 
 if [ $# -eq 0 ]; then
 	echo -e "$YELLOW_FONT Warning!!!!!: Continuing with default : -f busybox" >&2
