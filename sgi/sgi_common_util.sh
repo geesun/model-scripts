@@ -145,3 +145,19 @@ parse_log_file ()
 	done
 	return 0
 }
+
+##
+# Get the IP address of the Fast Model running Fedora OS.
+#
+# In case if host dhcp server doesn't assign fixed IP address to the fast model,
+# this function will be useful to extract the IP from the UART0_ARMTF Log
+##
+get_ip_addr_fedora () {
+	local _IP=""
+	console_op=$(grep -e 'Admin Console' $PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME)
+	re="https://([^/]+):" # regular expression
+	if [[ $console_op =~ $re ]]; then _IP=${BASH_REMATCH[1]}; fi
+	echo -e "\n[INFO] IP address of the model: $_IP"
+	eval "$1=$_IP"
+	return 0
+}
