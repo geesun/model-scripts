@@ -23,7 +23,7 @@ MODEL_TYPE="sgi575"
 MODEL_PARAMS=""
 FS_TYPE=""
 TAP_INTERFACE=""
-AUTOMATE=0
+AUTOMATE="false"
 
 source ../../sgi_common_util.sh
 
@@ -244,7 +244,7 @@ PARAMS="-C css.cmn600.mesh_config_file=\"$PATH_TO_MODEL/SGI-575_cmn600.yml\" \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
-if [ "$AUTOMATE" == "1" ] ; then
+if [ "$AUTOMATE" == "true" ] ; then
 	${MODEL} $PARAMS ${MODEL_PARAMS} ${EXTRA_MODEL_PARAMS} 2>&1 &
 else
 	${MODEL} $PARAMS ${MODEL_PARAMS} ${EXTRA_MODEL_PARAMS} 2>&1
