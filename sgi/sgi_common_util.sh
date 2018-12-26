@@ -161,3 +161,19 @@ get_ip_addr_fedora () {
 	eval "$1=$_IP"
 	return 0
 }
+
+##
+# send shutdown signal to the os
+##
+send_shutdown () {
+	RET=1
+
+	echo -e "\n[INFO] Sending Shutdown Signal ...\n"
+	ssh  -o ServerAliveInterval=30 \
+	 -o ServerAliveCountMax=720 \
+	 -o StrictHostKeyChecking=no \
+	 -o UserKnownHostsFile=/dev/null root@$2 \
+	 'shutdown -h now' 2>&1 | tee -a $1
+	RET=$?
+	return $RET
+}
