@@ -55,15 +55,22 @@ print_usage ()
 	echo "  -p   SGI platform name (mandatory)"
 	echo "  -n   Enable network: true or false (default: false)"
 	echo "  -j   Automate acs test: true or false (default: false)"
+	echo "  -v   Absolute path of luv-live image (optional)"
 	echo "  -a   Additional model parameters, if any"
 	echo ""
 	__print_supported_sgi_platforms
 	echo "Example 1: ./acs.sh -p sgi575"
-	echo "  Executes ACS tests for sgi575 platform."
+	echo "  Executes ACS tests for sgi575 platform. The luv live image is picked"
+	echo "  from the location \"output/sgi575/luv-live-image-gpt.img\""
 	echo
 	echo "Example 2: ./acs.sh -p sgi575 -j true"
 	echo "  Executes ACS tests for sgi575 platform and terminates the fvp model"
-	echo "  automatically when the test ends."
+	echo "  automatically when the test ends. The luv live image is picked"
+	echo "  from the location \"output/sgi575/luv-live-image-gpt.img\""
+	echo ""
+	echo "Example 3: ./acs.sh -p sgi575 -v ~/prebuilts/acs/luv-live-image-gpt.img"
+	echo "  Executes ACS tests for sgi575 platform. The luv live image is picked"
+	echo "  from the location \"~/prebuilts/acs/luv-live-image-gpt.img\""
 	echo ""
 }
 
@@ -114,7 +121,7 @@ print_acs_test_summary()
 			$PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME
 }
 
-while getopts "p:n:a:j:h" opt; do
+while getopts "p:n:a:j:v:h" opt; do
 	case $opt in
 		p)
 			platform=$OPTARG
@@ -122,6 +129,10 @@ while getopts "p:n:a:j:h" opt; do
 		j)
 			;;
 		n|a)
+			;;
+		v)
+			prebuilt="true"
+			acs_image=$OPTARG
 			;;
 		*)
 			print_usage
@@ -143,7 +154,9 @@ if [ -z "${sgi_platforms[$platform]}" ] ; then
 fi
 
 #Run the SBSA/SBBR tests
-acs_image="../../../../output/$platform/luv-live-image-gpt.img"
+if [ "$prebuilt" != "true" ]; then
+	acs_image="../../../../output/$platform/luv-live-image-gpt.img"
+fi
 
 platform_dir="platforms/$platform"
 
@@ -155,7 +168,11 @@ if [ ! -f $acs_image ]; then
 	exit 1
 fi
 
-set -- "$@" "-v" "$acs_image"
+if [ "$prebuilt" != "true" ]; then
+	set -- "$@" "-v" "$acs_image"
+else
+	set -- "$@"
+fi
 source ./run_model.sh
 
 # if model failed to start, exit
