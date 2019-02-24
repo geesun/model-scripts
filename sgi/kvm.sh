@@ -46,6 +46,7 @@ GUEST_OS0_BOOT_LOG=kvm_test_guest_os0_${MYPID}_$CURRENT_DATE_TIME.log
 
 declare -A sgi_platforms
 sgi_platforms[sgi575]=1
+sgi_platforms[sgiclarka]=1
 
 ##
 # Start guest os with lkvm
