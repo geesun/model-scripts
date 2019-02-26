@@ -36,7 +36,7 @@ source $PWD/../sgi/sgi_common_util.sh
 declare -A sgi_platforms
 sgi_platforms[sgi575]=1
 sgi_platforms[rdn1edge]=1
-sgi_platforms[sgiclarkh]=1
+sgi_platforms[rde1edge]=1
 
 __print_supported_sgi_platforms()
 {

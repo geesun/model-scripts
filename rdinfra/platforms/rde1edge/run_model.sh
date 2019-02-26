@@ -35,15 +35,15 @@ NORMAL_FONT="\e[0m"
 RED_FONT="\e[31;1m"
 GREEN_FONT="\e[32;1m"
 YELLOW_FONT="\e[33;1m"
-ROOTDIR="../../../../output/sgiclarkh"
-OUTDIR=${ROOTDIR}/sgiclarkh
-MODEL_TYPE="sgiclarkh"
+ROOTDIR="../../../../output/rde1edge"
+OUTDIR=${ROOTDIR}/rde1edge
+MODEL_TYPE="rde1edge"
 MODEL_PARAMS=""
 FS_TYPE=""
 TAP_INTERFACE=""
 AUTOMATE="false"
 
-source ../../sgi_common_util.sh
+source $PWD/../../../sgi/sgi_common_util.sh
 
 # Check that a path to the model has been provided
 if [ ! -e "$MODEL" ]; then
@@ -51,7 +51,7 @@ if [ ! -e "$MODEL" ]; then
 	MODEL="../../../../fastmodel/sgi/models/Linux64_GCC-4.9/FVP_CSS_SGI-Clark_HeliosMP8"
 	if [ ! -f "$MODEL" ]; then
 		echo "ERROR: you should set variable MODEL to point to a valid " \
-		     "SGI-Clark.Ares model binary, currently it is set to \"$MODEL\""
+		     "RD-E1-Edge model binary, currently it is set to \"$MODEL\""
 		exit 1
 	fi
 fi
