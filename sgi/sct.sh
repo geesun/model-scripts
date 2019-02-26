@@ -30,7 +30,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #################################################################################
 
-source sgi_common_util.sh
+source $PWD/../sgi/sgi_common_util.sh
 
 declare -A sgi_platforms
 sgi_platforms[sgi575]=1

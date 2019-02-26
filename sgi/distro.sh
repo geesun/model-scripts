@@ -29,6 +29,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #################################################################################
 
+source $PWD/../sgi/sgi_common_util.sh
+
 installer_image=""
 disk_size=""
 mode=""

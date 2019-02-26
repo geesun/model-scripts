@@ -43,7 +43,7 @@ RESULT_LOG_FILE1=ras_test.log
 RESULT_LOG_FILE2=ras_mm_test.log
 RESULT_FILE=ras_test_result.log
 
-source sgi_common_util.sh
+source $PWD/../sgi/sgi_common_util.sh
 
 declare -A sgi_platforms
 sgi_platforms[sgi575]=1

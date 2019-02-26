@@ -39,7 +39,7 @@ RUNDIR=$(pwd)
 IP="10.0.2.16" # defualt IP
 RC_ERROR=1
 
-source sgi_common_util.sh
+source $PWD/../sgi/sgi_common_util.sh
 
 HOST_OS_LOG_FILE=kvm_test_host_os_${MYPID}_$CURRENT_DATE_TIME.log
 GUEST_OS0_BOOT_LOG=kvm_test_guest_os0_${MYPID}_$CURRENT_DATE_TIME.log
