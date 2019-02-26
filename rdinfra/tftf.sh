@@ -29,4 +29,5 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #################################################################################
 
+refinfra="rdinfra"
 source ../sgi/tftf.sh

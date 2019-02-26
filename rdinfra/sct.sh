@@ -30,4 +30,5 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #################################################################################
 
+refinfra="rdinfra"
 source ../sgi/sct.sh
