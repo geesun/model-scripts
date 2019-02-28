@@ -30,8 +30,8 @@
 
 TOP_DIR="../../../.."
 PREBUILTS=${TOP_DIR}/prebuilts
-image_name="fedora.sgi.satadisk"
-disk_name="$PREBUILTS/sgi/$image_name"
+image_name="fedora.satadisk"
+disk_name="$PREBUILTS/refinfra/$image_name"
 network=false
 automate=0
 extra_param=""
