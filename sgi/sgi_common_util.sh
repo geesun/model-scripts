@@ -39,11 +39,60 @@ CURRENT_DATE_TIME=`date +%Y-%m-%d_%H.%M.%S`
 MYPID=$$
 
 # UART Log files
-UART0_ARMTF_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-armtf_$CURRENT_DATE_TIME
-UART1_MM_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-1-mm_$CURRENT_DATE_TIME
-UART0_CONSOLE_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-console_$CURRENT_DATE_TIME
-UART0_SCP_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-scp_$CURRENT_DATE_TIME
-UART0_MCP_OUTPUT_FILE_NAME=sgi-${MYPID}-uart-0-mcp_$CURRENT_DATE_TIME
+UART0_ARMTF_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-0-armtf_$CURRENT_DATE_TIME
+UART1_MM_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-1-mm_$CURRENT_DATE_TIME
+UART0_CONSOLE_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-0-console_$CURRENT_DATE_TIME
+UART0_SCP_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-0-scp_$CURRENT_DATE_TIME
+UART0_MCP_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-0-mcp_$CURRENT_DATE_TIME
+
+if [ -z "$refinfra" ] ; then
+	refinfra="sgi"
+fi
+
+__print_supported_platforms_sgi()
+{
+	echo "Supported platforms are -"
+	for plat in "${!platforms_sgi[@]}" ;
+		do
+			printf "\t $plat\n"
+		done
+	echo
+}
+
+__print_supported_platforms_rdinfra()
+{
+	echo "Supported platforms are -"
+	for plat in "${!platforms_rdinfra[@]}" ;
+		do
+			printf "\t $plat\n"
+		done
+	echo
+}
+
+__print_examples_sgi()
+{
+	__print_examples "sgi575"
+}
+
+__print_examples_rdinfra()
+{
+	__print_examples "rdn1edge"
+}
+
+__parse_params_validate()
+{
+	#Ensure that the platform is supported
+	if [ -z "$platform" ] ; then
+		print_usage
+		exit 1
+	fi
+	if [ -z "${platforms_sgi[$platform]}" -a \
+             -z "${platforms_rdinfra[$platform]}" ]; then
+		echo "[ERROR] Could not deduce which platform to execute on."
+		__print_supported_platforms_$refinfra
+		exit 1
+	fi
+}
 
 # search all the available network interfaces and find an available tap
 # network interface to use.
