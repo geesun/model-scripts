@@ -44,10 +44,12 @@ source $PWD/../sgi/sgi_common_util.sh
 HOST_OS_LOG_FILE=kvm_test_host_os_${MYPID}_$CURRENT_DATE_TIME.log
 GUEST_OS0_BOOT_LOG=kvm_test_guest_os0_${MYPID}_$CURRENT_DATE_TIME.log
 
-declare -A sgi_platforms
-sgi_platforms[sgi575]=1
-sgi_platforms[rdn1edge]=1
-sgi_platforms[rde1edge]=1
+# List of all the supported platforms.
+declare -A platforms_sgi
+platforms_sgi[sgi575]=1
+declare -A platforms_rdinfra
+platforms_rdinfra[rdn1edge]=1
+platforms_rdinfra[rde1edge]=1
 
 ##
 # Start guest os with lkvm
@@ -89,15 +91,20 @@ get_kvm_results () {
 	return 0
 }
 
-
-__print_supported_sgi_platforms()
+__print_examples()
 {
-	echo "Supported platforms are -"
-	for plat in "${!sgi_platforms[@]}" ;
-		do
-			printf "\t $plat \n"
-		done
-	echo
+	echo "Example 1: ./kvm.sh -p $1"
+	echo "  Boot the distro image for KVM test."
+        echo ""
+	echo "Example 2: ./kvm.sh -p $1 -n true"
+	echo "  Boot the distro image for KVM test with network enabled."
+	echo ""
+	echo "Example 3: ./kvm.sh -p $1 -j true -n true"
+	echo "  Boot the distro image for KVM and automate the test."
+	echo ""
+	echo "Note: For automating the KVM test, it is a prerequisite to have"
+	echo "      tap interface set in the host machine."
+
 }
 
 print_usage ()
@@ -107,23 +114,13 @@ print_usage ()
 	echo "Usage: ./kvm.sh -p <platform> [-n <true|false>] [-j <true|false>] [-a \"model params\"]"
 	echo ""
 	echo "Supported command line parameters:"
-	echo "	-p   SGI platform name (mandatory)"
+	echo "	-p   platform name (mandatory)"
 	echo "	-n   Enable network: true or false (default: false)"
 	echo "	-j   Automate kvm test: true or false (default: false)"
 	echo "	-a   Additional model parameters, if any"
 	echo ""
-	__print_supported_sgi_platforms
-	echo "Example 1: ./kvm.sh -p sgi575"
-	echo "  Boot the distro image for KVM test."
-        echo ""
-	echo "Example 2: ./kvm.sh -p sgi575 -n true"
-	echo "  Boot the distro image for KVM test with network enabled."
-	echo ""
-	echo "Example 3: ./kvm.sh -p sgi575 -j true -n true"
-	echo "  Boot the distro image for KVM and automate the test."
-	echo ""
-	echo "Note: For automating the KVM test, it is a prerequisite to have"
-	echo "      tap interface set in the host machine."
+	__print_supported_platforms_$refinfra
+	__print_examples_$refinfra
 	echo ""
 }
 
@@ -148,17 +145,8 @@ while getopts "p:n:a:j:h" opt; do
 	esac
 done
 
-# Ensure that the platform is supported
-if [ -z "$platform" ] ; then
-	print_usage
-	exit 1
-fi
-
-if [ -z "${sgi_platforms[$platform]}" ] ; then
-	echo "[ERROR] Could not deduce the selected platform."
-	__print_supported_sgi_platforms
-	exit 1
-fi
+#Ensure that the platform is supported
+__parse_params_validate
 
 platform_dir="platforms/$platform"
 RESULT_OUTPUT_FOLDER="$RUNDIR/$platform_dir/$platform/kvm_test_results"

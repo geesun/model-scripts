@@ -38,20 +38,12 @@ platform_dir=""
 network=false
 extra_param=""
 
-declare -A sgi_platforms
-sgi_platforms[sgi575]=1
-sgi_platforms[rdn1edge]=1
-sgi_platforms[rde1edge]=1
-
-__print_supported_sgi_platforms()
-{
-	echo "Supported platforms are -"
-	for plat in "${!sgi_platforms[@]}" ;
-		do
-			printf "\t $plat \n"
-		done
-	echo
-}
+# List of all the supported platforms.
+declare -A platforms_sgi
+platforms_sgi[sgi575]=1
+declare -A platforms_rdinfra
+platforms_rdinfra[rdn1edge]=1
+platforms_rdinfra[rde1edge]=1
 
 install ()
 {
@@ -113,14 +105,26 @@ boot ()
 	esac
 }
 
+__print_examples()
+{
+	echo "Example 1: ./distro.sh -p $1 -i Fedora-Server-dvd-aarch64-27-1.6.iso -s 16"
+	echo "  Installs Fedora 27 on to a 16 GB disk."
+	echo ""
+	echo "Example 2: ./distro.sh -p $1"
+	echo "  Finds an available installed disk image and boots from it."
+	echo ""
+	echo "Example 3: ./distro.sh -p $1 -d fedora27.satadisk"
+	echo "  Boot from an existing installed disk image"
+}
+
 print_usage ()
 {
 	echo ""
-	echo "Install or boot linux distribution on SGI platforms"
+	echo "Install or boot linux distribution."
 	echo "Usage: ./distro.sh -p <platform> -i <image> -s <disk size> [-d <disk image>] [-n <true|false>] [-a \"model params\"]"
 	echo ""
 	echo "Supported command line parameters:"
-	echo "  -p   SGI platform name (mandatory)"
+	echo "  -p   platform name (mandatory)"
 	echo "  -i   Image, takes a path to an iso installer image (mandatory for installation)"
 	echo "  -s   Disk size in GB (mandatory for installation)"
 	echo "  -d   Disk image with previously installed distro, used for"
@@ -129,15 +133,8 @@ print_usage ()
 	echo "  -n   Enable network: true or false (default: false)"
 	echo "  -a   Additional model parameters, if any"
 	echo ""
-	__print_supported_sgi_platforms
-	echo "Example 1: ./distro.sh -p sgi575 -i Fedora-Server-dvd-aarch64-27-1.6.iso -s 16"
-	echo "  Installs Fedora 27 on to a 16 GB disk."
-	echo ""
-	echo "Example 2: ./distro.sh -p sgi575"
-	echo "  Finds an available installed disk image and boots from it."
-	echo ""
-	echo "Example 3: ./distro.sh -p sgi575 -d fedora27.satadisk"
-	echo "  Boot from an existing installed disk image"
+	__print_supported_platforms_$refinfra
+	__print_examples_$refinfra
 	echo ""
 }
 
@@ -168,7 +165,6 @@ while getopts "p:i:s:d:n:a:h" opt; do
 	esac
 done
 
-
 # Either an installer and a disk size is specified or neither.
 # If they are specified, create a new disk and boot the model with those params
 # if not, check for an existing .satadisk file and use that to boot from
@@ -187,15 +183,7 @@ else
 fi
 
 #Ensure that the platform is supported
-if [ -z "$platform" ] ; then
-	print_usage
-	exit 1
-fi
-if [ -z "${sgi_platforms[$platform]}" ] ; then
-	echo "[ERROR] Could not deduce the selected platform."
-	__print_supported_sgi_platforms
-	exit 1
-fi
+__parse_params_validate
 
 platform_dir="platforms/$platform"
 

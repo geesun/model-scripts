@@ -33,18 +33,21 @@ platform_dir=""
 
 source $PWD/../sgi/sgi_common_util.sh
 
-declare -A sgi_platforms
-sgi_platforms[sgi575]=1
-sgi_platforms[rdn1edge]=1
+# List of all the supported platforms.
+declare -A platforms_sgi
+platforms_sgi[sgi575]=1
+declare -A platforms_rdinfra
+platforms_rdinfra[rdn1edge]=1
 
-__print_supported_sgi_platforms()
+__print_examples()
 {
-	echo "Supported platforms are -"
-	for plat in "${!sgi_platforms[@]}" ;
-		do
-			printf "\t $plat \n"
-		done
-	echo
+	echo "Example 1: ./tftf.sh -p $1"
+	echo "  Executes the Trusted Firmware-A tests on the $1 model and prints"
+	echo "  the results on the console."
+	echo ""
+	echo "Example 2: ./tftf.sh -p $1 -j true"
+	echo "  Executes the Trusted Firmware-A tests on $1 model and automatically"
+	echo "  terminates the FVP model when the test is completed."
 }
 
 print_usage ()
@@ -63,14 +66,8 @@ print_usage ()
 	echo "       tests \(optional\). If not specified, default behaviour is to keep the"
 	echo "       model executing."
 	echo ""
-	__print_supported_sgi_platforms
-	echo "Example 1: ./tftf.sh -p sgi575"
-	echo "  Executes the Trusted Firmware-A tests on the SGI-575 model and prints"
-	echo "  the results on the console."
-	echo ""
-	echo "Example 2: ./tftf.sh -p sgi575 -j true"
-	echo "  Executes the Trusted Firmware-A tests on SGI-575 model and automatically"
-	echo "  terminates the FVP model when the test is completed."
+	__print_supported_platforms_$refinfra
+	__print_examples_$refinfra
 	echo ""
 }
 
@@ -91,15 +88,7 @@ while getopts "p:n:a:j:h" opt; do
 done
 
 #Ensure that the platform is supported
-if [ -z "$platform" ] ; then
-	print_usage
-	exit 1
-fi
-if [ -z "${sgi_platforms[$platform]}" ] ; then
-	echo "[ERROR] Could not deduce the selected platform."
-	__print_supported_sgi_platforms
-	exit 1
-fi
+__parse_params_validate
 
 platform_dir="platforms/$platform"
 pushd $platform_dir

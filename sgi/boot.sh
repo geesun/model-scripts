@@ -33,30 +33,39 @@ platform_dir=""
 
 source $PWD/../sgi/sgi_common_util.sh
 
-declare -A sgi_platforms
-sgi_platforms[sgi575]=1
-sgi_platforms[rdn1edge]=1
-sgi_platforms[rde1edge]=1
+# List of all the supported platforms.
+declare -A platforms_sgi
+platforms_sgi[sgi575]=1
+declare -A platforms_rdinfra
+platforms_rdinfra[rdn1edge]=1
+platforms_rdinfra[rde1edge]=1
 
-__print_supported_sgi_platforms()
+__print_examples()
 {
-	echo "Supported platforms are -"
-	for plat in "${!sgi_platforms[@]}" ;
-		do
-			printf "\t $plat \n"
-		done
-	echo
+	echo "Example 1: ./boot.sh -p $1"
+	echo "  Starts the execution of the $1 model and the software boots upto the"
+	echo "  busybox prompt"
+	echo ""
+	echo "Example 2: ./boot.sh -p $1 -n true"
+	echo "  Starts the execution of the $1 model and the software boots upto the"
+	echo "  busybox prompt. The model supports networking allowing the software running"
+	echo "   within the model to access the network."
+	echo ""
+	echo "Example 3: ./boot.sh -p $1 -n true -a \"board.flash0.diagnostics=1\""
+	echo "  Starts the execution of the $1 model with networking enabled and the"
+	echo "  software boots upto the busybox prompt. Additional parameters to the model"
+	echo "  are supplied using the -a command line parameter."
 }
 
 print_usage ()
 {
 	echo ""
-	echo "Boots upto busybox console on a specified SGI platform."
+	echo "Boots upto busybox console on a specified platform."
 	echo "Usage: ./boot.sh -p <platform> [-n <true|false>] [-a \"model params\"] [-j <true|false>]"
 	echo ""
 	echo "Supported command line parameters - "
-	echo "  -p   Specifies the SGI platform to be selected. See below for list of"
-	echo "       SGI platforms supported \(mandatory\)"
+	echo "  -p   Specifies the platform to be selected. See below for list of"
+	echo "       platforms supported \(mandatory\)"
 	echo "  -n   Enable or disable network controller support on the platform \(optional\)."
 	echo "       If not specified, network support is disabled by default."
 	echo "  -j   Enable or disable auto termination of the model after booting upto"
@@ -64,21 +73,8 @@ print_usage ()
 	echo "       to keep the model executing."
 	echo "  -a   Additional model parameters \(optional\)."
 	echo ""
-	__print_supported_sgi_platforms
-	echo ""
-	echo "Example 1: ./boot.sh -p sgi575"
-	echo "  Starts the execution of the SGI-575 model and the software boots upto the"
-	echo "  busybox prompt"
-	echo ""
-	echo "Example 2: ./boot.sh -p sgi575 -n true"
-	echo "  Starts the execution of the SGI-575 model and the software boots upto the"
-	echo "  busybox prompt. The model supports networking allowing the software running"
-	echo "   within the model to access the network."
-	echo ""
-	echo "Example 3: ./boot.sh -p sgi575 -n true -a \"board.flash0.diagnostics=1\""
-	echo "  Starts the execution of the SGI-575 model with networking enabled and the"
-	echo "  software boots upto the busybox prompt. Additional parameters to the model"
-	echo "  are supplied using the -a command line parameter."
+	__print_supported_platforms_$refinfra
+	__print_examples_$refinfra
 	echo ""
 }
 
@@ -99,15 +95,7 @@ while getopts "p:n:a:j:h" opt; do
 done
 
 #Ensure that the platform is supported
-if [ -z "$platform" ] ; then
-	print_usage
-	exit 1
-fi
-if [ -z "${sgi_platforms[$platform]}" ] ; then
-	echo "[ERROR] Could not deduce the selected platform."
-	__print_supported_sgi_platforms
-	exit 1
-fi
+__parse_params_validate
 
 platform_dir="platforms/$platform"
 pushd $platform_dir

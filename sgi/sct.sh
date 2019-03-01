@@ -32,39 +32,36 @@
 
 source $PWD/../sgi/sgi_common_util.sh
 
-declare -A sgi_platforms
-sgi_platforms[sgi575]=1
-sgi_platforms[rdn1edge]=1
-sgi_platforms[rde1edge]=1
+# List of all the supported platforms.
+declare -A platforms_sgi
+platforms_sgi[sgi575]=1
+declare -A platforms_rdinfra
+platforms_rdinfra[rdn1edge]=1
+platforms_rdinfra[rde1edge]=1
 
-__print_supported_sgi_platforms()
+__print_examples()
 {
-	echo "Supported platforms are -"
-	for plat in "${!sgi_platforms[@]}" ;
-		do
-			printf "\t $plat \n"
-		done
+	echo "Example 1: ./sct.sh -p $1"
+	echo "  Executes UEFI SCT tests for $1 platform."
 	echo
+	echo "Example 2: ./sct.sh -p $1 -j true"
+	echo "  Executes UEFI SCT tests for $1 platform and terminates the fvp model"
+	echo "  automatically when the test ends."
 }
 
 print_usage ()
 {
 	echo ""
-	echo "Execute UEFI SCT tests on SGI platforms"
+	echo "Execute UEFI SCT tests"
 	echo "Usage: ./sct.sh -p <platform> [-n <true|false>] [-j <true|false>] [-a \"model params\"]"
-	echo "  -p   SGI platform name (mandatory)"
+	echo "  -p   Platform name (mandatory)"
 	echo "  -n   Enable network: true or false (default: false)"
 	echo "  -j   Automate sct test: true or false (default: false)"
 	echo "  -a   Additional model parameters, if any"
 	echo ""
-	__print_supported_sgi_platforms
-	echo "Example 1: ./sct.sh -p sgi575"
-	echo "  Executes UEFI SCT tests for sgi575 platform."
-	echo
-	echo "Example 2: ./sct.sh -p sgi575 -j true"
-	echo "  Executes UEFI SCT tests for sgi575 platform and terminates the fvp model"
-	echo "  automatically when the test ends."
-	echo
+	__print_supported_platforms_$refinfra
+	__print_examples_$refinfra
+	echo ""
 }
 
 # get_sct_test_results: Extracts the UEFI SCT test results from SCT partition
@@ -124,16 +121,7 @@ while getopts "p:n:a:j:h" opt; do
 done
 
 #Ensure that the platform is supported
-if [ -z "$platform" ] ; then
-	print_usage
-	exit 1
-fi
-
-if [ -z "${sgi_platforms[$platform]}" ] ; then
-	echo "[ERROR] Could not deduce the selected platform."
-	__print_supported_sgi_platforms
-	exit 1
-fi
+__parse_params_validate
 
 #Run the UEFI SCT tests
 sct_image="../../../../output/$platform/uefisct/uefi-sct.img"

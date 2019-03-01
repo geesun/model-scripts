@@ -32,19 +32,26 @@
 
 source $PWD/../sgi/sgi_common_util.sh
 
-declare -A sgi_platforms
-sgi_platforms[sgi575]=1
-sgi_platforms[rdn1edge]=1
-sgi_platforms[rde1edge]=1
+# List of all the supported platforms.
+declare -A platforms_sgi
+platforms_sgi[sgi575]=1
+declare -A platforms_rdinfra
+platforms_rdinfra[rdn1edge]=1
 
-__print_supported_sgi_platforms()
+__print_examples()
 {
-	echo "Supported platforms are -"
-	for plat in "${!sgi_platforms[@]}" ;
-		do
-			printf "\t $plat \n"
-		done
+	echo "Example 1: ./acs.sh -p $1"
+	echo "  Executes ACS tests for $1 platform. The luv live image is picked"
+	echo "  from the location \"output/$1/luv-live-image-gpt.img\""
 	echo
+	echo "Example 2: ./acs.sh -p $1 -j true"
+	echo "  Executes ACS tests for $1 platform and terminates the fvp model"
+	echo "  automatically when the test ends. The luv live image is picked"
+	echo "  from the location \"output/$1/luv-live-image-gpt.img\""
+	echo ""
+	echo "Example 3: ./acs.sh -p $1 -v ~/prebuilts/acs/luv-live-image-gpt.img"
+	echo "  Executes ACS tests for $1 platform. The luv live image is picked"
+	echo "  from the location \"~/prebuilts/acs/luv-live-image-gpt.img\""
 }
 
 print_usage ()
@@ -60,19 +67,8 @@ print_usage ()
 	echo "  -v   Absolute path of luv-live image (optional)"
 	echo "  -a   Additional model parameters, if any"
 	echo ""
-	__print_supported_sgi_platforms
-	echo "Example 1: ./acs.sh -p sgi575"
-	echo "  Executes ACS tests for sgi575 platform. The luv live image is picked"
-	echo "  from the location \"output/sgi575/luv-live-image-gpt.img\""
-	echo
-	echo "Example 2: ./acs.sh -p sgi575 -j true"
-	echo "  Executes ACS tests for sgi575 platform and terminates the fvp model"
-	echo "  automatically when the test ends. The luv live image is picked"
-	echo "  from the location \"output/sgi575/luv-live-image-gpt.img\""
-	echo ""
-	echo "Example 3: ./acs.sh -p sgi575 -v ~/prebuilts/acs/luv-live-image-gpt.img"
-	echo "  Executes ACS tests for sgi575 platform. The luv live image is picked"
-	echo "  from the location \"~/prebuilts/acs/luv-live-image-gpt.img\""
+	__print_supported_platforms_$refinfra
+	__print_examples_$refinfra
 	echo ""
 }
 
@@ -90,19 +86,19 @@ get_acs_test_results()
 
 	# Copy the SBSA/SBBR results from the LUV-RESULTS partition
 	dd if=$acs_image of=luvres skip=${arr[0]} count=${arr[1]} &> /dev/null
-	mcopy -i luvres ::/Sbsa_results/uefi/SbsaResults.log $outdir/sgi-${MODEL_PID}-sbsaResults_uefi_${CURRENT_DATE_TIME}.log
-	mcopy -i luvres ::/Sbsa_results/linux/SbsaResults.log $outdir/sgi-${MODEL_PID}-sbsaResults_linux_${CURRENT_DATE_TIME}.log
-	mcopy -i luvres ::/results.md $outdir/sgi-${MODEL_PID}-acs_results_${CURRENT_DATE_TIME}.md
+	mcopy -i luvres ::/Sbsa_results/uefi/SbsaResults.log $outdir/refinfra-${MODEL_PID}-sbsaResults_uefi_${CURRENT_DATE_TIME}.log
+	mcopy -i luvres ::/Sbsa_results/linux/SbsaResults.log $outdir/refinfra-${MODEL_PID}-sbsaResults_linux_${CURRENT_DATE_TIME}.log
+	mcopy -i luvres ::/results.md $outdir/refinfra-${MODEL_PID}-acs_results_${CURRENT_DATE_TIME}.md
 
 	# Check whether the results are extracted successfully or not
-	if [ -f "$outdir/sgi-${MODEL_PID}-sbsaResults_uefi_${CURRENT_DATE_TIME}.log" ] && \
-		[ -f "$outdir/sgi-${MODEL_PID}-sbsaResults_linux_${CURRENT_DATE_TIME}.log" ] && \
-		[ -f "$outdir/sgi-${MODEL_PID}-acs_results_${CURRENT_DATE_TIME}.md" ]; then
+	if [ -f "$outdir/refinfra-${MODEL_PID}-sbsaResults_uefi_${CURRENT_DATE_TIME}.log" ] && \
+		[ -f "$outdir/refinfra-${MODEL_PID}-sbsaResults_linux_${CURRENT_DATE_TIME}.log" ] && \
+		[ -f "$outdir/refinfra-${MODEL_PID}-acs_results_${CURRENT_DATE_TIME}.md" ]; then
 		flag=true
 		echo "Detailed SBSA/SBBR results:"
-		echo "SBSA UEFI shell tests results are at $outdir/sgi-${MODEL_PID}-sbsaResults_uefi_${CURRENT_DATE_TIME}.log"
-		echo "SBSA OS tests results are at $outdir/sgi-${MODEL_PID}-sbsaResults_linux_${CURRENT_DATE_TIME}.log"
-		echo "LuvOS test results are at $outdir/sgi-${MODEL_PID}-acs_results_${CURRENT_DATE_TIME}.md"
+		echo "SBSA UEFI shell tests results are at $outdir/refinfra-${MODEL_PID}-sbsaResults_uefi_${CURRENT_DATE_TIME}.log"
+		echo "SBSA OS tests results are at $outdir/refinfra-${MODEL_PID}-sbsaResults_linux_${CURRENT_DATE_TIME}.log"
+		echo "LuvOS test results are at $outdir/refinfra-${MODEL_PID}-acs_results_${CURRENT_DATE_TIME}.md"
 	fi
 	if [[ ! "$flag" = true ]]; then
 		echo "SBSA/SBBR results files are not exist in LUV-RESULTS partitions"
@@ -144,16 +140,7 @@ while getopts "p:n:a:j:v:h" opt; do
 done
 
 #Ensure that the platform is supported
-if [ -z "$platform" ] ; then
-	print_usage
-	exit 1
-fi
-
-if [ -z "${sgi_platforms[$platform]}" ] ; then
-	echo "[ERROR] Could not deduce the selected platform."
-	__print_supported_sgi_platforms
-	exit 1
-fi
+__parse_params_validate
 
 #Run the SBSA/SBBR tests
 if [ "$prebuilt" != "true" ]; then
