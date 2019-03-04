@@ -48,7 +48,7 @@ source $PWD/../../../sgi/sgi_common_util.sh
 # Check that a path to the model has been provided
 if [ ! -e "$MODEL" ]; then
 	#if no model path has been provided, assign a default path
-	MODEL="../../../../fastmodel/sgi/models/Linux64_GCC-4.9/FVP_CSS_SGI-Clark"
+	MODEL="../../../../fastmodel/refinfra/models/Linux64_GCC-4.9/FVP_CSS_SGI-Clark"
 	if [ ! -f "$MODEL" ]; then
 		echo "ERROR: you should set variable MODEL to point to a valid " \
 		     "RD-N1-Edge model binary, currently it is set to \"$MODEL\""
