@@ -63,7 +63,7 @@ start_guest_os () {
 	 -o ServerAliveCountMax=720 \
 	 -o StrictHostKeyChecking=no \
 	 -o UserKnownHostsFile=/dev/null root@$IP \
-	 './lkvm run -k Image -c 8 --irqchip gicv3 -p "console=ttyAMA0,115200 earlycon=uart,mmio,0x3f8 debug"' 2>&1 | tee $RESULT_OUTPUT_FOLDER/$GUEST_OS0_BOOT_LOG
+	 './lkvm run -k /boot/vmlinux-refinfra -c 8 --irqchip gicv3 -p "console=ttyAMA0,115200 earlycon=uart,mmio,0x3f8 debug"' 2>&1 | tee $RESULT_OUTPUT_FOLDER/$GUEST_OS0_BOOT_LOG
 	RET=$?
 	return $RET
 }
