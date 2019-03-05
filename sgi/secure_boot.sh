@@ -73,6 +73,7 @@ while getopts "p:n:a:j:h" opt; do
 			platform=$OPTARG
 			;;
 		j)
+			automate=1
 			;;
 		n|a)
 			;;
@@ -89,6 +90,9 @@ __parse_params_validate
 platform_dir="platforms/$platform"
 pushd $platform_dir
 set -- "$@" "-f" "busybox"
+if [[ $automate == 1 ]]; then
+	wget http://files.oss.arm.com/releases/SSG-SW/prebuilts/refinfra/secure_boot/nor2_flash.img
+fi
 source ./run_model.sh
 
 # if not model failed to start, return
