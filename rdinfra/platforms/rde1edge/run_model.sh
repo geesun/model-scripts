@@ -147,7 +147,6 @@ while test $# -gt 0; do
 						-C soc.pl011_uart_mcp.out_file="soc-mcp-uart0" \
 						-C css.mcp.pl011_uart1_mcp.out_file="css-mcp_uart1" \
 						-C css.mcp.pl011_uart0_mcp.out_file="css-mcp_uart0" \
-						-C soc.pl011_uart1.out_file="soc-uart1" \
 						-C board.pl011_uart0.out_file="board-uart0" \
 						-C board.pl011_uart1.out_file="board-uart1""
 			fi
