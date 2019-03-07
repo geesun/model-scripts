@@ -48,7 +48,7 @@ source $PWD/../../../sgi/sgi_common_util.sh
 # Check that a path to the model has been provided
 if [ ! -e "$MODEL" ]; then
 	#if no model path has been provided, assign a default path
-	MODEL="../../../../fastmodel/refinfra/models/Linux64_GCC-4.9/FVP_CSS_SGI-Clark"
+	MODEL="../../../../fastmodel/refinfra/models/Linux64_GCC-4.9/FVP_RD_N1_edge"
 	if [ ! -f "$MODEL" ]; then
 		echo "ERROR: you should set variable MODEL to point to a valid " \
 		     "RD-N1-Edge model binary, currently it is set to \"$MODEL\""
@@ -252,7 +252,7 @@ echo
 # print the model version.
 ${MODEL} --version
 
-PARAMS="-C css.cmn600.mesh_config_file=$PATH_TO_MODEL/clark_cmn600.yml \
+PARAMS="-C css.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600.yml \
 	-C css.cmn600.force_on_from_start=1 \
 	--data css.scp.armcortexm7ct=$OUTDIR/scp-ram.bin@0x0BD80000 \
 	-C css.mcp.ROMloader.fname=$OUTDIR/mcp-rom.bin \
