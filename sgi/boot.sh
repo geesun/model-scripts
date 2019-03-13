@@ -98,8 +98,10 @@ done
 __parse_params_validate
 
 platform_dir="platforms/$platform"
+disk_image="$platform/grub-busybox.img"
+
 pushd $platform_dir
-set -- "$@" "-f" "busybox"
+set -- "$@" "-v" "../../../../output/$disk_image"
 source ./run_model.sh
 
 # if not model failed to start, return
