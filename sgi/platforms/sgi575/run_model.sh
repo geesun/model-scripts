@@ -176,10 +176,6 @@ if [[ -z $FIP_IMAGE ]]; then
 	FIP_IMAGE="fip-uefi.bin";
 fi
 
-if [[ ${FS_TYPE,,} == "busybox" ]]; then
-	VIRTIO_IMAGE_PATH="${ROOTDIR}/grub-busybox.img"
-fi
-
 if [[ -n "$VIRTIO_IMAGE_PATH" ]]; then
 	MODEL_PARAMS="$MODEL_PARAMS \
 			-C board.virtioblockdevice.image_path=${VIRTIO_IMAGE_PATH}"
