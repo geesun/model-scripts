@@ -424,7 +424,7 @@ fi
 
 ${MODEL_NAME} \
 	-C css.trustedBootROMloader.fname="${OUTDIR}/$BL1_IMAGE" \
-	-C css.scp.ROMloader.fname="${OUTDIR}/scp-rom.bin" \
+	-C css.scp.ROMloader.fname="${OUTDIR}/scp_romfw.bin" \
 	-C soc.pl011_uart0.out_file="${MODEL_TYPE,,}/$UART0_OUTPUT_FILE_NAME" \
 	-C soc.pl011_uart1.out_file="${MODEL_TYPE,,}/$UART1_OUTPUT_FILE_NAME" \
 	-C soc.pl011_uart0.unbuffered_output=1 \
