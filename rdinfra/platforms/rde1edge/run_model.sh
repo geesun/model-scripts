@@ -250,9 +250,9 @@ ${MODEL} --version
 
 PARAMS="-C css.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600.yml \
 	-C css.cmn600.force_on_from_start=1 \
-	--data css.scp.armcortexm7ct=$OUTDIR/scp-ram.bin@0x0BD80000 \
-	-C css.mcp.ROMloader.fname=$OUTDIR/mcp-rom.bin \
-	-C css.scp.ROMloader.fname=$OUTDIR/scp-rom.bin \
+	--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	-C css.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
+	-C css.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css.trustedBootROMloader.fname=$OUTDIR/$BL1_IMAGE \
 	-C board.flashloader0.fname=$OUTDIR/$FIP_IMAGE \
 	-C board.flashloader1.fname=$PWD/nor1_flash.img \
