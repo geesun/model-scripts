@@ -88,8 +88,10 @@ done
 __parse_params_validate
 
 platform_dir="platforms/$platform"
+disk_image="$platform/grub-busybox.img"
+
 pushd $platform_dir
-set -- "$@" "-f" "busybox"
+set -- "$@" "-v" "../../../../output/$disk_image"
 if [[ $automate == 1 ]]; then
 	wget http://files.oss.arm.com/releases/SSG-SW/prebuilts/refinfra/secure_boot/nor2_flash.img
 fi
