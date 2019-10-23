@@ -37,6 +37,7 @@ declare -A platforms_sgi
 platforms_sgi[sgi575]=1
 declare -A platforms_rdinfra
 platforms_rdinfra[rdn1edge]=1
+platforms_rdinfra[rde1edge]=1
 
 __print_examples()
 {
