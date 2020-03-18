@@ -248,7 +248,7 @@ echo
 
 # print the model version.
 ${MODEL} --version
-export FASTSIM_CMN600_INTERNAL_RNSAM=1
+export FASTSIM_CMN_INTERNAL_RNSAM=1
 
 TZC_BYPASS_PARAMS=" \
 	-C css.mem.tzc0.tzc400.rst_gate_keeper=0x0f                \
