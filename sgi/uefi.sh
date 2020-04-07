@@ -40,6 +40,7 @@ declare -A platforms_rdinfra
 platforms_rdinfra[rdn1edge]=1
 platforms_rdinfra[rde1edge]=1
 platforms_rdinfra[rddaniel]=1
+platforms_rdinfra[rddanielxlr]=1
 
 __print_examples()
 {
