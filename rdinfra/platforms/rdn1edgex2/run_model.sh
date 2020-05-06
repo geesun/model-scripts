@@ -271,15 +271,17 @@ PARAMS=" \
 	-C board0.flashloader2.fname=$PWD/nor2_flash.img \
 	-C board0.flashloader2.fnameWrite=$PWD/nor2_flash.img \
 	-C css0.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME} \
+	-C css0.scp.pl011_uart_scp.unbuffered_output=1 \
 	-C css0.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
+	-C css0.pl011_uart_ap.unbuffered_output=1 \
 	-C soc0.pl011_uart_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
+	-C soc0.pl011_uart_mcp.unbuffered_output=1 \
 	-C soc0.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
 	-C soc0.pl011_uart0.unbuffered_output=1 \
 	-C soc0.pl011_uart0.flow_ctrl_mask_en=1 \
 	-C soc0.pl011_uart0.enable_dc4=0 \
 	-C soc0.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
 	-C soc0.pl011_uart1.unbuffered_output=1 \
-	-C css0.pl011_uart_ap.unbuffered_output=1 \
 	-C css0.gic_distributor.ITS-device-bits=20 \
 	-C css0.gic_distributor.multichip-threaded-dgi=0 \
 
@@ -296,13 +298,15 @@ PARAMS=" \
 	-C board1.flashloader2.fnameWrite=$PWD/nor2_flash_1.img \
 	-S -R \
 	-C css1.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}_1 \
+	-C css1.scp.pl011_uart_scp.unbuffered_output=1 \
 	-C css1.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME}_1 \
+	-C css1.pl011_uart_ap.unbuffered_output=1 \
 	-C soc1.pl011_uart_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}_1 \
+	-C soc1.pl011_uart_mcp.unbuffered_output=1 \
 	-C soc1.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}_1 \
 	-C soc1.pl011_uart0.unbuffered_output=1 \
 	-C soc1.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}_1 \
 	-C soc1.pl011_uart1.unbuffered_output=1 \
-	-C css1.pl011_uart_ap.unbuffered_output=1 \
 	-C css1.gic_distributor.ITS-device-bits=20 \
 	-C css1.gic_distributor.multichip-threaded-dgi=0 \
 	${MODEL_PARAMS} \
