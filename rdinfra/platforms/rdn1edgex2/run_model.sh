@@ -273,8 +273,8 @@ echo
 ${MODEL} --version
 
 PARAMS=" \
-	-C css0.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600_ccix.yml \
-	-C css0.cmn600.force_on_from_start=1 \
+	-C css0.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600.yml \
+	-C css0.cmn600.force_rnsam_internal=false \
 	--data css0.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css0.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css0.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
@@ -295,8 +295,8 @@ PARAMS=" \
 	-C soc0.pl011_uart1.unbuffered_output=1 \
 	-C css0.pl011_uart_ap.unbuffered_output=1 \
 
-	-C css1.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600_ccix.yml \
-	-C css1.cmn600.force_on_from_start=1 \
+	-C css1.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600.yml \
+	-C css1.cmn600.force_rnsam_internal=false \
 	--data css1.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css1.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css1.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \

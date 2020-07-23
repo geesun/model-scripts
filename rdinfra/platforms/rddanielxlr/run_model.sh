@@ -278,7 +278,6 @@ echo
 
 # print the model version.
 ${MODEL} --version
-export FASTSIM_CMN_INTERNAL_RNSAM=1
 
 TZC_BYPASS_PARAMS=" \
 	-C css0.mem.tzc0.tzc400.rst_gate_keeper=0x0f                \
@@ -380,8 +379,8 @@ TZC_BYPASS_PARAMS=" \
 	"
 
 PARAMS=" \
-	-C css0.cmn_rhodes.force_on_from_start=1 \
 	--data css0.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	-C css0.cmn_rhodes.force_rnsam_internal=true \
 	-C css0.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css0.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css0.trustedBootROMloader.fname=$OUTDIR/$BL1_IMAGE \
@@ -403,8 +402,8 @@ PARAMS=" \
 	-C soc0.pl011_uart1.unbuffered_output=1 \
 	-C css0.pl011_uart_ap.unbuffered_output=1 \
 
-	-C css1.cmn_rhodes.force_on_from_start=1 \
 	--data css1.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	-C css1.cmn_rhodes.force_rnsam_internal=true \
 	-C css1.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css1.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css1.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}_1 \
@@ -416,8 +415,8 @@ PARAMS=" \
 	-C soc1.pl011_uart1.unbuffered_output=1 \
 	-C css1.pl011_uart_ap.unbuffered_output=1 \
 
-	-C css2.cmn_rhodes.force_on_from_start=1 \
 	--data css2.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	-C css2.cmn_rhodes.force_rnsam_internal=true \
 	-C css2.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css2.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css2.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}_2 \
@@ -429,8 +428,8 @@ PARAMS=" \
 	-C soc2.pl011_uart1.unbuffered_output=1 \
 	-C css2.pl011_uart_ap.unbuffered_output=1 \
 
-	-C css3.cmn_rhodes.force_on_from_start=1 \
 	--data css3.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	-C css3.cmn_rhodes.force_rnsam_internal=true \
 	-C css3.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css3.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css3.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}_3 \

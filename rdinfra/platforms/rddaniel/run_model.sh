@@ -248,7 +248,6 @@ echo
 
 # print the model version.
 ${MODEL} --version
-export FASTSIM_CMN_INTERNAL_RNSAM=1
 
 TZC_BYPASS_PARAMS=" \
 	-C css.mem.tzc0.tzc400.rst_gate_keeper=0x0f                \
@@ -266,7 +265,7 @@ TZC_BYPASS_PARAMS=" \
 	"
 
 PARAMS="-C css.cmn_rhodes.mesh_config_file=$PATH_TO_MODEL/rhodes_daniel_cfgm.yml \
-	-C css.cmn_rhodes.force_on_from_start=1 \
+	-C css.cmn_rhodes.force_rnsam_internal=true \
 	--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
