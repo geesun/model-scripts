@@ -264,8 +264,8 @@ TZC_BYPASS_PARAMS=" \
 	-C css.mem.tzc3.tzc400.rst_region_id_access_0=0xffffffff   \
 	"
 
-PARAMS="-C css.cmn_rhodes.mesh_config_file=$PATH_TO_MODEL/rhodes_daniel_cfgm.yml \
-	-C css.cmn_rhodes.force_rnsam_internal=true \
+PARAMS="-C css.cmn_650.mesh_config_file=$PATH_TO_MODEL/cmn650_daniel_cfgm.yml \
+	-C css.cmn_650.force_rnsam_internal=true \
 	--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \

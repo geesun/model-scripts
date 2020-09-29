@@ -380,7 +380,7 @@ TZC_BYPASS_PARAMS=" \
 
 PARAMS=" \
 	--data css0.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
-	-C css0.cmn_rhodes.force_rnsam_internal=true \
+	-C css0.cmn_650.force_rnsam_internal=true \
 	-C css0.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css0.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css0.trustedBootROMloader.fname=$OUTDIR/$BL1_IMAGE \
@@ -404,7 +404,7 @@ PARAMS=" \
 	-C css0.gic_distributor.ITS-device-bits=20 \
 
 	--data css1.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
-	-C css1.cmn_rhodes.force_rnsam_internal=true \
+	-C css1.cmn_650.force_rnsam_internal=true \
 	-C css1.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css1.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css1.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}_1 \
@@ -418,7 +418,7 @@ PARAMS=" \
 	-C css1.gic_distributor.ITS-device-bits=20 \
 
 	--data css2.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
-	-C css2.cmn_rhodes.force_rnsam_internal=true \
+	-C css2.cmn_650.force_rnsam_internal=true \
 	-C css2.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css2.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css2.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}_2 \
@@ -432,7 +432,7 @@ PARAMS=" \
 	-C css2.gic_distributor.ITS-device-bits=20 \
 
 	--data css3.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
-	-C css3.cmn_rhodes.force_rnsam_internal=true \
+	-C css3.cmn_650.force_rnsam_internal=true \
 	-C css3.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css3.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css3.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}_3 \
