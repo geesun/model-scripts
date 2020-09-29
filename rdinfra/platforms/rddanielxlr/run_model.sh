@@ -401,6 +401,7 @@ PARAMS=" \
 	-C soc0.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
 	-C soc0.pl011_uart1.unbuffered_output=1 \
 	-C css0.pl011_uart_ap.unbuffered_output=1 \
+	-C css0.gic_distributor.ITS-device-bits=20 \
 
 	--data css1.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css1.cmn_rhodes.force_rnsam_internal=true \
@@ -414,6 +415,7 @@ PARAMS=" \
 	-C soc1.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}_1 \
 	-C soc1.pl011_uart1.unbuffered_output=1 \
 	-C css1.pl011_uart_ap.unbuffered_output=1 \
+	-C css1.gic_distributor.ITS-device-bits=20 \
 
 	--data css2.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css2.cmn_rhodes.force_rnsam_internal=true \
@@ -427,6 +429,7 @@ PARAMS=" \
 	-C soc2.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}_2 \
 	-C soc2.pl011_uart1.unbuffered_output=1 \
 	-C css2.pl011_uart_ap.unbuffered_output=1 \
+	-C css2.gic_distributor.ITS-device-bits=20 \
 
 	--data css3.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css3.cmn_rhodes.force_rnsam_internal=true \
@@ -440,6 +443,7 @@ PARAMS=" \
 	-C soc3.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}_3 \
 	-C soc3.pl011_uart1.unbuffered_output=1 \
 	-C css3.pl011_uart_ap.unbuffered_output=1 \
+	-C css3.gic_distributor.ITS-device-bits=20 \
 	${MODEL_PARAMS} \
 	${TZC_BYPASS_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"

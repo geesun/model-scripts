@@ -271,6 +271,7 @@ PARAMS="-C css.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600.yml \
 	-C soc.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
 	-C soc.pl011_uart1.unbuffered_output=1 \
 	-C css.pl011_uart_ap.unbuffered_output=1 \
+	-C css.gic_distributor.ITS-device-bits=20 \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
