@@ -266,6 +266,8 @@ PARAMS="-C css.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600.yml \
 	-C soc.pl011_uart_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
 	-C soc.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
 	-C soc.pl011_uart0.unbuffered_output=1 \
+	-C soc.pl011_uart0.flow_ctrl_mask_en=1 \
+	-C soc.pl011_uart0.enable_dc4=0 \
 	-C soc.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
 	-C soc.pl011_uart1.unbuffered_output=1 \
 	-C css.pl011_uart_ap.unbuffered_output=1 \
