@@ -295,6 +295,7 @@ PARAMS=" \
 	-C soc0.pl011_uart1.unbuffered_output=1 \
 	-C css0.pl011_uart_ap.unbuffered_output=1 \
 	-C css0.gic_distributor.ITS-device-bits=20 \
+	-C css0.gic_distributor.multichip-threaded-dgi=0 \
 
 	-C css1.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600.yml \
 	-C css1.cmn600.force_rnsam_internal=false \
@@ -317,6 +318,7 @@ PARAMS=" \
 	-C soc1.pl011_uart1.unbuffered_output=1 \
 	-C css1.pl011_uart_ap.unbuffered_output=1 \
 	-C css1.gic_distributor.ITS-device-bits=20 \
+	-C css1.gic_distributor.multichip-threaded-dgi=0 \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
