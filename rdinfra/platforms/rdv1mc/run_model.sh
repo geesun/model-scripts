@@ -373,7 +373,6 @@ PARAMS=" \
 	-C css0.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css0.trustedBootROMloader.fname=$OUTDIR/$BL1_IMAGE \
 	-C board0.flashloader0.fname=$OUTDIR/$FIP_IMAGE \
-	--data board0.dram=$ROOTDIR/grub-busybox.img@0x08000000 \
 	-C board0.flashloader1.fname=$PWD/nor1_flash.img \
 	-C board0.flashloader1.fnameWrite=$PWD/nor1_flash.img \
 	-C board0.flashloader2.fname=$PWD/nor2_flash.img \
