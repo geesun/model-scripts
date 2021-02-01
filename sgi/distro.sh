@@ -57,7 +57,7 @@ install ()
 	echo "Created $disk_name of size $disk_size GB, proceeding to install $installer_image ..."
 
 	pushd $platform_dir
-	./run_model.sh -v $installer_image -d $disk_name -n $network -a "$extra_param"
+	source ./run_model.sh -v $installer_image -d $disk_name -n $network -a "$extra_param"
 }
 
 # This script allows a user to create a virtual satadisk and install either
@@ -73,7 +73,7 @@ boot ()
 		fi
 		echo "Proceeding to boot supplied disk image name: $disk_image ..."
 		pushd $platform_dir
-		./run_model.sh -d $disk_image -n $network -a "$extra_param"
+		source ./run_model.sh -d $disk_image -n $network -a "$extra_param"
 		exit 0
 	fi
 
@@ -92,7 +92,7 @@ boot ()
 			echo "Found $available_images, proceeding to boot ..."
 			available_images=$PWD/$available_images
 			pushd $platform_dir
-			./run_model.sh -d $available_images -n $network -a "$extra_param"
+			source ./run_model.sh -d $available_images -n $network -a "$extra_param"
 			;;
 		*)
 			if [[ -z "$disk_image" ]]; then
