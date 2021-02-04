@@ -180,7 +180,7 @@ fi
 
 if [[ -n "$SATADISK_IMAGE_PATH" ]]; then
 	MODEL_PARAMS="$MODEL_PARAMS \
-			-C pci0.ahci.ahci.image_path="${SATADISK_IMAGE_PATH}""
+			-C pci0.pcie_rc.ahci0.ahci.image_path="${SATADISK_IMAGE_PATH}""
 fi
 
 #For distribution installation and boot, ensure that the virtio devices
