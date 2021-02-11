@@ -258,8 +258,7 @@ TZC_BYPASS_PARAMS=" \
 	-C css.mem.tzc7.tzc400.rst_region_id_access_0=0xffffffff   \
 	"
 
-PARAMS="-C css.cmn_kampos.force_rnsam_internal=true \
-	--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css.trustedBootROMloader.fname=$OUTDIR/$BL1_IMAGE \
