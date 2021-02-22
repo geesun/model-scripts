@@ -45,6 +45,7 @@ declare -A platforms_rdinfra
 platforms_rdinfra[rdn1edge]=1
 platforms_rdinfra[rde1edge]=1
 platforms_rdinfra[rdv1]=1
+platforms_rdinfra[rdv1mc]=1
 platforms_rdinfra[rdn2]=1
 
 install ()
