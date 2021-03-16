@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2020, ARM Limited and Contributors. All rights reserved.
+# Copyright (c) 2020-2021, ARM Limited and Contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -37,6 +37,7 @@ GREEN_FONT="\e[32;1m"
 YELLOW_FONT="\e[33;1m"
 ROOTDIR="../../../../output/rdn2"
 OUTDIR=${ROOTDIR}/rdn2
+TOPOLOGY_FILE="../../pcie_hierarchies/exerciser_minimal_ep.json"
 MODEL_TYPE="rdn2"
 MODEL_PARAMS=""
 FS_TYPE=""
@@ -174,7 +175,7 @@ fi
 
 if [[ -n "$SATADISK_IMAGE_PATH" ]]; then
 	MODEL_PARAMS="$MODEL_PARAMS \
-			-C pci.pcie_rc.ahci0.ahci.image_path="${SATADISK_IMAGE_PATH}""
+			-C io_macro_0.pciex4_0.pcie_rc.ahci0.ahci.image_path="${SATADISK_IMAGE_PATH}""
 fi
 
 #For distribution installation and boot, ensure that the virtio devices
@@ -284,6 +285,25 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C soc.pl011_uart1.enable_dc4=0 \
 	-C css.pl011_s_uart_ap.unbuffered_output=1 \
 	-C css.gic_distributor.ITS-device-bits=20 \
+	-C io_macro_0.pciex16.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_0.pciex8.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_0.pciex4_1.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_1.pciex16.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_1.pciex8.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_1.pciex4_1.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_1.pciex4_0.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_2.pciex16.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_2.pciex8.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_2.pciex4_1.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_2.pciex4_0.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_3.pciex16.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_3.pciex8.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_3.pciex4_1.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_3.pciex4_0.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_4.pciex16.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_4.pciex8.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_4.pciex4_1.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_4.pciex4_0.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
