@@ -47,7 +47,7 @@ source $PWD/../../../sgi/sgi_common_util.sh
 
 # Check that the path to the model exists.
 if [ ! -f "$MODEL" ]; then
-	echo "ERROR: you should set variable MODEL to point to a valid FVP_RD_Daniel" \
+	echo "ERROR: you should set variable MODEL to point to a valid FVP_RD_V1" \
 	     "model binary, currently it is set to \"$MODEL\""
 	exit 1
 fi
