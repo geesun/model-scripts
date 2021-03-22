@@ -45,12 +45,6 @@ AUTOMATE="false"
 
 source $PWD/../../../sgi/sgi_common_util.sh
 
-# Check that a path to the model has been provided
-if [ "$MODEL" == "" ]; then
-	#if no model path has been provided, assign a default path
-	MODEL="../../../../fastmodel/refinfra/models/Linux64_GCC-4.9/FVP_RD_N1_edge"
-fi
-
 # Check that the path to the model exists.
 if [ ! -f "$MODEL" ]; then
 	echo "ERROR: you should set variable MODEL to point to a valid RD-N1-Edge" \
