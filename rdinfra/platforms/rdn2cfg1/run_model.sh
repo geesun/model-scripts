@@ -37,7 +37,7 @@ GREEN_FONT="\e[32;1m"
 YELLOW_FONT="\e[33;1m"
 ROOTDIR="../../../../output/rdn2cfg1"
 OUTDIR=${ROOTDIR}/rdn2cfg1
-TOPOLOGY_FILE="../../pcie_hierarchies/exerciser_minimal_ep.json"
+MINIMAL_EP_TOPOLOGY_FILE="../../pcie_hierarchies/exerciser_minimal_ep.json"
 MODEL_TYPE="rdn2cfg1"
 MODEL_PARAMS=""
 FS_TYPE=""
@@ -267,13 +267,13 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C soc.pl011_uart1.enable_dc4=0 \
 	-C css.pl011_s_uart_ap.unbuffered_output=1 \
 	-C css.gic_distributor.ITS-device-bits=20 \
-	-C io_macro_0.pciex16.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
-	-C io_macro_0.pciex8.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
-	-C io_macro_0.pciex4_1.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
-	-C io_macro_1.pciex16.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
-	-C io_macro_1.pciex8.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
-	-C io_macro_1.pciex4_1.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
-	-C io_macro_1.pciex4_0.pcie_rc.hierarchy_file_name=${TOPOLOGY_FILE} \
+	-C io_macro_0.pciex16.pcie_rc.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
+	-C io_macro_0.pciex8.pcie_rc.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
+	-C io_macro_0.pciex4_1.pcie_rc.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
+	-C io_macro_1.pciex16.pcie_rc.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
+	-C io_macro_1.pciex8.pcie_rc.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
+	-C io_macro_1.pciex4_1.pcie_rc.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
+	-C io_macro_1.pciex4_0.pcie_rc.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
