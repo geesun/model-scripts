@@ -1,0 +1,37 @@
+{
+	"rootbridge/rb0": {
+		"ecam_start"	: 0x1016000000,
+		"ecam_end_incl"	: 0x1017FFFFFF,
+		"mem32_start"	: 0x6C000000,
+		"mem32_end_incl": 0x6FFFFFFF,
+		"mem64_start"	: 0x5800000000,
+		"mem64_end_incl": 0x5FFFFFFFFF,
+		"__downstream__": {
+			"exerciser/exerciser0": {
+				"interrupt_pin_index": 4,
+				"express_capability_device_type": 9
+			},
+			"rootport/rootport0": {
+				"device_number": 15,
+				"__downstream__": {
+					"switch/switch0": {
+						"__downstream__10": {
+							"exerciser/exerciser4": {}
+						},
+						"__downstream__20": {
+							"ahci/ahci2": {}
+						}
+					}
+				}
+			},
+			"rootport/rootport1": {
+				"device_number": 30,
+				"__downstream__": {
+					"ahci/ahci0": {
+						"image_path": ""
+					}
+				}
+			}
+		}
+	}
+}
