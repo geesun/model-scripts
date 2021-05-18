@@ -263,6 +263,7 @@ TZC_BYPASS_PARAMS=" \
 	"
 
 PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	--data css.mcp.armcortexm7ct=$OUTDIR/mcp_ramfw.bin@0x0BF80000 \
 	-C css.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css.trustedBootROMloader.fname=$OUTDIR/$BL1_IMAGE \
