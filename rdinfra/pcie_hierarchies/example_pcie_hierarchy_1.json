@@ -6,6 +6,7 @@
 		"mem32_end_incl": 0x67FFFFFF,
 		"mem64_start"	: 0x4800000000,
 		"mem64_end_incl": 0x4FFFFFFFFF,
+		"ecam_start_bus_number":32,
 		"__downstream__": {
 			"exerciser/exerciser0": {
 				"interrupt_pin_index": 4,
