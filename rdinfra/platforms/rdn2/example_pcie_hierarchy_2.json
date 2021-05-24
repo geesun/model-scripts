@@ -1,12 +1,12 @@
 {
 	"rootbridge/rb0": {
-		"ecam_start"	: 0x1014000000,
-		"ecam_end_incl"	: 0x1015FFFFFF,
-		"mem32_start"	: 0x68000000,
-		"mem32_end_incl": 0x6BFFFFFF,
-		"mem64_start"	: 0x5000000000,
-		"mem64_end_incl": 0x57FFFFFFFF,
-		"ecam_start_bus_number":64,
+		"ecam_start"	: 0x1018000000,
+		"ecam_end_incl"	: 0x101BFFFFFF,
+		"mem32_start"	: 0x70000000,
+		"mem32_end_incl": 0x77FFFFFF,
+		"mem64_start"	: 0x6000000000,
+		"mem64_end_incl": 0x6FFFFFFFFF,
+		"ecam_start_bus_number":128,
 		"__downstream__": {
 			"exerciser/exerciser0": {
 				"interrupt_pin_index": 4,
