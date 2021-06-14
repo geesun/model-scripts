@@ -170,6 +170,9 @@ then
 	"
 fi
 
+echo "INFO: Timing annotations enabled to perform high-level performance estimation"
+export FASTSIM_DISABLE_TA=0
+
 LOGS_DIR="$RUN_SCRIPTS_DIR"/logs
 mkdir -p $LOGS_DIR
 
