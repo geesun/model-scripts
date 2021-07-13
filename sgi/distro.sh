@@ -48,6 +48,7 @@ platforms_rdinfra[rdv1]=1
 platforms_rdinfra[rdv1mc]=1
 platforms_rdinfra[rdn2]=1
 platforms_rdinfra[rdn2cfg1]=1
+platforms_rdinfra[rdn2cfg2]=1
 
 install ()
 {
