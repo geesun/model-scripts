@@ -174,13 +174,18 @@ LOGS_DIR="$RUN_SCRIPTS_DIR"/logs
 mkdir -p $LOGS_DIR
 
 "$MODEL" \
--C css.scp.ROMloader.fname=$YOCTO_OUTDIR/scp_romfw.bin \
--C css.trustedBootROMloader.fname=$YOCTO_OUTDIR/bl1-tc0.bin \
--C board.flashloader0.fname=$YOCTO_OUTDIR/fip-tc0.bin \
--C soc.pl011_uart0.out_file=$LOGS_DIR/uart0_soc.log \
--C soc.pl011_uart1.out_file=$LOGS_DIR/uart1_soc.log \
--C css.pl011_uart_ap.out_file=$LOGS_DIR/uart_ap.log \
--C displayController=2 \
-${TAP_INTERFACE_MODEL_PARAMS} \
-${DISTRO_MODEL_PARAMS} \
-${EXTRA_MODEL_PARAMS} \
+    -C css.scp.ROMloader.fname=$YOCTO_OUTDIR/scp_romfw.bin \
+    -C css.trustedBootROMloader.fname=$YOCTO_OUTDIR/bl1-tc0.bin \
+    -C board.flashloader0.fname=$YOCTO_OUTDIR/fip-tc0.bin \
+    -C soc.pl011_uart0.out_file=$LOGS_DIR/uart0_soc.log \
+    -C soc.pl011_uart0.unbuffered_output=1 \
+    -C soc.pl011_uart1.out_file=$LOGS_DIR/uart1_soc.log \
+    -C soc.pl011_uart1.unbuffered_output=1 \
+    -C css.pl011_uart_ap.out_file=$LOGS_DIR/uart_ap.log \
+    -C css.pl011_uart_ap.unbuffered_output=1 \
+    -C displayController=2 \
+    ${TAP_INTERFACE_MODEL_PARAMS} \
+    ${DISTRO_MODEL_PARAMS} \
+    ${EXTRA_MODEL_PARAMS}
+
+exit $?
