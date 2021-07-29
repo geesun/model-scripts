@@ -272,10 +272,6 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C pcie_group_0.pciex8.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
 	-C pcie_group_0.pciex4_0.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
 	-C pcie_group_0.pciex4_1.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
-	-C pcie_group_1.pciex16.hierarchy_file_name=${EXAMPLE_TOPOLOGY_FILE1} \
-	-C pcie_group_1.pciex8.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
-	-C pcie_group_1.pciex4_1.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
-	-C pcie_group_1.pciex4_0.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
