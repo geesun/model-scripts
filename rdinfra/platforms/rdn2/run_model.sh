@@ -289,6 +289,7 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C soc.pl011_uart1.enable_dc4=0 \
 	-C css.pl011_s_uart_ap.unbuffered_output=1 \
 	-C css.gic_distributor.ITS-device-bits=20 \
+	-C pcie_group_0.pciex16.hierarchy_file_name=<default> \
 	-C pcie_group_0.pciex8.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
 	-C pcie_group_0.pciex4_1.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
 	-C pcie_group_0.pciex4_0.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
