@@ -37,7 +37,6 @@ GREEN_FONT="\e[32;1m"
 YELLOW_FONT="\e[33;1m"
 ROOTDIR="../../../../output/rdn2"
 OUTDIR=${ROOTDIR}/rdn2
-MINIMAL_EP_TOPOLOGY_FILE="../../pcie_hierarchies/exerciser_minimal_ep.json"
 EXAMPLE_TOPOLOGY_FILE1="example_pcie_hierarchy_1.json"
 EXAMPLE_TOPOLOGY_FILE2="example_pcie_hierarchy_2.json"
 EXAMPLE_TOPOLOGY_FILE3="example_pcie_hierarchy_3.json"
@@ -290,21 +289,9 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css.pl011_s_uart_ap.unbuffered_output=1 \
 	-C css.gic_distributor.ITS-device-bits=20 \
 	-C pcie_group_0.pciex16.hierarchy_file_name=<default> \
-	-C pcie_group_0.pciex8.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
-	-C pcie_group_0.pciex4_1.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
-	-C pcie_group_0.pciex4_0.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
 	-C pcie_group_1.pciex16.hierarchy_file_name=${EXAMPLE_TOPOLOGY_FILE1} \
-	-C pcie_group_1.pciex8.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
-	-C pcie_group_1.pciex4_1.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
-	-C pcie_group_1.pciex4_0.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
 	-C pcie_group_2.pciex16.hierarchy_file_name=${EXAMPLE_TOPOLOGY_FILE2} \
-	-C pcie_group_2.pciex8.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
-	-C pcie_group_2.pciex4_1.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
-	-C pcie_group_2.pciex4_0.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
 	-C pcie_group_3.pciex16.hierarchy_file_name=${EXAMPLE_TOPOLOGY_FILE3} \
-	-C pcie_group_3.pciex8.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
-	-C pcie_group_3.pciex4_1.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
-	-C pcie_group_3.pciex4_0.hierarchy_file_name=${MINIMAL_EP_TOPOLOGY_FILE} \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
