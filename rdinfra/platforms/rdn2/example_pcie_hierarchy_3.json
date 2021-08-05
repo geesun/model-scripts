@@ -8,8 +8,7 @@
 		"mem64_end_incl": 0x7FFFFFFFFF,
 		"ecam_start_bus_number":192,
 		"__downstream__": {
-			"exerciser/exerciser0": {
-				"interrupt_pin_index": 4,
+			"smmuv3testengine/smmuv3testengine0": {
 				"express_capability_device_type": 9
 			},
 			"rootport/rootport0": {
@@ -17,7 +16,7 @@
 				"__downstream__": {
 					"switch/switch0": {
 						"__downstream__10": {
-							"exerciser/exerciser4": {}
+							"smmuv3testengine/smmuv3testengine4": {}
 						},
 						"__downstream__20": {
 							"ahci/ahci2": {}
