@@ -9,23 +9,26 @@
 		"ecam_start_bus_number":128,
 		"__downstream__": {
 			"smmuv3testengine/smmuv3testengine0": {
-				"express_capability_device_type": 9
+				"express_capability_device_type": 9,
+				"ats_supported": true,
+				"uses_client_based_atc": true,
+				"pasid_supported": true
 			},
 			"rootport/rootport0": {
 				"device_number": 15,
+				"acs_supported": true,
 				"__downstream__": {
-					"switch/switch0": {
-						"__downstream__10": {
-							"smmuv3testengine/smmuv3testengine4": {}
-						},
-						"__downstream__20": {
-							"ahci/ahci2": {}
-						}
+					"smmuv3testengine/smmuv3testengine4": {
+						"interrupt_pin_index": 4,
+						"pasid_supported": true,
+						"ats_supported": true,
+						"uses_client_based_atc": true
 					}
 				}
 			},
 			"rootport/rootport1": {
 				"device_number": 30,
+				"acs_supported": true,
 				"__downstream__": {
 					"ahci/ahci0": {
 						"image_path": ""
