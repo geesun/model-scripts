@@ -292,6 +292,12 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C pcie_group_1.pciex16.hierarchy_file_name=${EXAMPLE_TOPOLOGY_FILE1} \
 	-C pcie_group_2.pciex16.hierarchy_file_name=${EXAMPLE_TOPOLOGY_FILE2} \
 	-C pcie_group_3.pciex16.hierarchy_file_name=${EXAMPLE_TOPOLOGY_FILE3} \
+	-C soc.nonPCIe_devices_iomacro.pl330_dma_0.p_controller_nsecure=1 \
+	-C soc.nonPCIe_devices_iomacro.pl330_dma_0.p_irq_nsecure=1 \
+	-C soc.nonPCIe_devices_iomacro.pl330_dma_0.p_periph_nsecure=1 \
+	-C soc.nonPCIe_devices_iomacro.pl330_dma_1.p_controller_nsecure=1 \
+	-C soc.nonPCIe_devices_iomacro.pl330_dma_1.p_irq_nsecure=1 \
+	-C soc.nonPCIe_devices_iomacro.pl330_dma_1.p_periph_nsecure=1 \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
