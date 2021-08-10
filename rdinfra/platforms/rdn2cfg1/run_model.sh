@@ -38,7 +38,6 @@ YELLOW_FONT="\e[33;1m"
 ROOTDIR="../../../../output/rdn2cfg1"
 OUTDIR=${ROOTDIR}/rdn2cfg1
 MINIMAL_EP_TOPOLOGY_FILE="../../pcie_hierarchies/exerciser_minimal_ep.json"
-EXAMPLE_TOPOLOGY_FILE1="example_pcie_hierarchy_1.json"
 MODEL_TYPE="rdn2cfg1"
 MODEL_PARAMS=""
 FS_TYPE=""
