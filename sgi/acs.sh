@@ -41,6 +41,7 @@ platforms_rdinfra[rde1edge]=1
 platforms_rdinfra[rdv1]=1
 platforms_rdinfra[rdn2]=1
 platforms_rdinfra[rdn2cfg1]=1
+platforms_rdinfra[rdedmunds]=1
 
 __print_examples()
 {
