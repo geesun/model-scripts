@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (c) 2020-2021, ARM Limited and Contributors. All rights reserved.
+# Copyright (c) 2021, ARM Limited and Contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -129,12 +129,12 @@ if [ ! -f "$MODEL" ]; then
     exit 1
 fi
 
-YOCTO_OUTDIR="${YOCTO_DIR}"/build-poky/tmp-poky/deploy/images/tc0/
+YOCTO_OUTDIR="${YOCTO_DIR}"/build-poky/tmp-poky/deploy/images/tc1/
 check_dir_exists_and_exit $YOCTO_OUTDIR "firmware and kernel images"
 
 case $DISTRO in
     poky)
-		DISTRO_MODEL_PARAMS="--data board.dram=$YOCTO_OUTDIR/fitImage-core-image-minimal-tc0-tc0@0x20000000"
+		DISTRO_MODEL_PARAMS="--data board.dram=$YOCTO_OUTDIR/fitImage-core-image-minimal-tc1-tc1@0x20000000"
         ;;
     android-nano)
 		[ -z "$ANDROID_PRODUCT_OUT" ] && echo "var ANDROID_PRODUCT_OUT is empty" && exit 1
