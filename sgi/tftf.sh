@@ -1,6 +1,6 @@
 #!/bin/bash
 ###############################################################################
-# Copyright (c) 2019, ARM Limited and Contributors. All rights reserved.
+# Copyright (c) 2019-2022, ARM Limited and Contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -38,6 +38,7 @@ declare -A platforms_sgi
 platforms_sgi[sgi575]=1
 declare -A platforms_rdinfra
 platforms_rdinfra[rdn1edge]=1
+platforms_rdinfra[rdv1]=1
 
 __print_examples()
 {
