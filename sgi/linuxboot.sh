@@ -33,6 +33,10 @@ platform_dir=""
 
 source $PWD/../sgi/sgi_common_util.sh
 
+# List of all the supported platforms.
+declare -A platforms_rdinfra
+platforms_rdinfra[rdv1]=1
+
 __print_examples()
 {
 	echo "Example 1: ./linuxboot.sh -p $1"
