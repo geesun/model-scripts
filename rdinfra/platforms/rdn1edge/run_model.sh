@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2019, ARM Limited and Contributors. All rights reserved.
+# Copyright (c) 2019-2021, ARM Limited and Contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -234,6 +234,7 @@ ${MODEL} --version
 PARAMS="-C css.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600.yml \
 	-C css.cmn600.force_rnsam_internal=false \
 	--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	--data css.mcp.armcortexm7ct=$OUTDIR/mcp_ramfw.bin@0x0BF80000 \
 	-C css.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
 	-C css.trustedBootROMloader.fname=$OUTDIR/$BL1_IMAGE \
