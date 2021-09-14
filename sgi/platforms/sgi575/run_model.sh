@@ -2,7 +2,7 @@
 
 # This proprietary software may be used only as authorised by a licensing
 # agreement from ARM Limited
-# (C) COPYRIGHT 2015 ARM Limited
+# (C) COPYRIGHT 2015-2021 ARM Limited
 # The entire notice above must be reproduced on all authorised copies and
 # copies may only be made to the extent permitted by a licensing agreement from
 # ARM Limited.
@@ -214,6 +214,7 @@ ${MODEL} --version
 PARAMS="-C css.cmn600.mesh_config_file=\"$PATH_TO_MODEL/SGI-575_cmn600.yml\" \
 	-C css.cmn600.force_rnsam_internal=false \
 	--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	--data css.mcp.armcortexm7ct=$OUTDIR/mcp_ramfw.bin@0x0BF80000 \
 	-C css.mcp.ROMloader.fname=\"$OUTDIR/mcp_romfw.bin\" \
 	-C css.scp.ROMloader.fname=\"$OUTDIR/scp_romfw.bin\" \
 	-C css.trustedBootROMloader.fname=\"$OUTDIR/$BL1_IMAGE\" \
