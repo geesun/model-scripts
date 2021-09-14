@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2020, ARM Limited and Contributors. All rights reserved.
+# Copyright (c) 2020-2021, ARM Limited and Contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -263,6 +263,7 @@ ${MODEL} --version
 
 PARAMS=" \
 	--data css0.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	--data css0.mcp.armcortexm7ct=$OUTDIR/mcp_ramfw.bin@0x0BF80000 \
 	-C css0.cmn_650.force_rnsam_internal=true \
 	-C css0.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css0.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
@@ -289,6 +290,7 @@ PARAMS=" \
 	-C css0.gic_distributor.multichip-threaded-dgi=0 \
 
 	--data css1.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	--data css1.mcp.armcortexm7ct=$OUTDIR/mcp_ramfw.bin@0x0BF80000 \
 	-C css1.cmn_650.force_rnsam_internal=true \
 	-C css1.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css1.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
@@ -306,6 +308,7 @@ PARAMS=" \
 	-C css1.gic_distributor.multichip-threaded-dgi=0 \
 
 	--data css2.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	--data css2.mcp.armcortexm7ct=$OUTDIR/mcp_ramfw.bin@0x0BF80000 \
 	-C css2.cmn_650.force_rnsam_internal=true \
 	-C css2.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css2.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
@@ -323,6 +326,7 @@ PARAMS=" \
 	-C css2.gic_distributor.multichip-threaded-dgi=0 \
 
 	--data css3.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
+	--data css3.mcp.armcortexm7ct=$OUTDIR/mcp_ramfw.bin@0x0BF80000 \
 	-C css3.cmn_650.force_rnsam_internal=true \
 	-C css3.mcp.ROMloader.fname=$OUTDIR/mcp_romfw.bin \
 	-C css3.scp.ROMloader.fname=$OUTDIR/scp_romfw.bin \
