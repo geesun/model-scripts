@@ -15,7 +15,6 @@
 				"pasid_supported": true
 			},
 			"rootport/rootport0": {
-				"acs_supported": true,
 				"device_number": 15,
 				"__downstream__": {
 					"switch/switch0": {
@@ -34,7 +33,6 @@
 				}
 			},
 			"rootport/rootport1": {
-				"acs_supported": true,
 				"device_number": 30,
 				"__downstream__": {
 					"ahci/ahci0": {

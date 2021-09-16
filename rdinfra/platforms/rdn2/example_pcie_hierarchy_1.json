@@ -16,7 +16,6 @@
 			},
 			"rootport/rootport0": {
 				"device_number": 15,
-				"acs_supported": true,
 				"__downstream__": {
 					"smmuv3testengine/smmuv3testengine4": {
 						"interrupt_pin_index": 4,
@@ -29,7 +28,6 @@
 			},
 			"rootport/rootport1": {
 				"device_number": 30,
-				"acs_supported": true,
 				"__downstream__": {
 					"ahci/ahci": {
 						"image_path": ""

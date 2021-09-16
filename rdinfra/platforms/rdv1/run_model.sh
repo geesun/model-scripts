@@ -272,14 +272,6 @@ PARAMS="-C css.cmn_650.force_rnsam_internal=true \
 	-C soc.pl011_uart1.unbuffered_output=1 \
 	-C css.gic_distributor.ITS-device-bits=20 \
 	-C pci.pcie_rc.ahci0.endpoint.ats_supported=true \
-	-C pci.pcie_rc.rootport0.acs_supported=true \
-	-C pci.pcie_rc.rootport1.acs_supported=true \
-	-C pci.pcie_rc.rootport2.acs_supported=true \
-	-C pci.pcie_rc.rootport3.acs_supported=true \
-	-C pci.pcie_rc.rootport0.error_injection_supported=true \
-	-C pci.pcie_rc.rootport1.error_injection_supported=true \
-	-C pci.pcie_rc.rootport2.error_injection_supported=true \
-	-C pci.pcie_rc.rootport3.error_injection_supported=true \
 	${MODEL_PARAMS} \
 	${TZC_BYPASS_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
