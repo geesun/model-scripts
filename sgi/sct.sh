@@ -38,6 +38,11 @@ platforms_sgi[sgi575]=1
 declare -A platforms_rdinfra
 platforms_rdinfra[rdn1edge]=1
 platforms_rdinfra[rde1edge]=1
+platforms_rdinfra[rdv1]=1
+platforms_rdinfra[rdv1mc]=1
+platforms_rdinfra[rdn2]=1
+platforms_rdinfra[rdn2cfg1]=1
+platforms_rdinfra[rdn2cfg2]=1
 
 __print_examples()
 {
