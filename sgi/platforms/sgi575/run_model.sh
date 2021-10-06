@@ -228,8 +228,8 @@ PARAMS="-C css.cmn600.mesh_config_file=\"$PATH_TO_MODEL/SGI-575_cmn600.yml\" \
 	-C css.scp.pl011_uart_scp.unbuffered_output=1 \
 	-C css.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
 	-C css.pl011_uart_ap.unbuffered_output=1 \
-	-C soc.pl011_uart_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
-	-C soc.pl011_uart_mcp.unbuffered_output=1 \
+	-C css.mcp.pl011_uart0_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
+	-C css.mcp.pl011_uart0_mcp.unbuffered_output=1 \
 	-C soc.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
 	-C soc.pl011_uart0.unbuffered_output=1 \
 	-C soc.pl011_uart0.flow_ctrl_mask_en=1 \
