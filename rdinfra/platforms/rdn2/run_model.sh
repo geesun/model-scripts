@@ -276,8 +276,8 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css.scp.pl011_uart_scp.unbuffered_output=1 \
 	-C css.scp.pl011_uart_scp.uart_enable=true \
 	-C css.pl011_s_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
-	-C soc.pl011_uart_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
-	-C soc.pl011_uart_mcp.unbuffered_output=1 \
+	-C css.mcp.pl011_uart_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
+	-C css.mcp.pl011_uart_mcp.unbuffered_output=1 \
 	-C soc.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
 	-C soc.pl011_uart0.unbuffered_output=1 \
 	-C soc.pl011_uart0.flow_ctrl_mask_en=1 \
