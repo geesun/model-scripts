@@ -35,6 +35,7 @@ NORMAL_FONT="\e[0m"
 RED_FONT="\e[31;1m"
 GREEN_FONT="\e[32;1m"
 YELLOW_FONT="\e[33;1m"
+CYAN_FONT="\033[0;36m"
 ROOTDIR="../../../../output/rdn2cfg1"
 OUTDIR=${ROOTDIR}/rdn2cfg1
 MODEL_TYPE="rdn2cfg1"
@@ -220,13 +221,6 @@ if [ "$AUTOMATE" == "true" ] ; then
 		"
 fi
 
-echo
-echo "Starting model "$MODEL_TYPE
-echo "  MODEL_PARAMS = "$MODEL_PARAMS
-echo "  EXTRA_PARAMS = "$EXTRA_MODEL_PARAMS
-echo "  UART Log     = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
-echo
-
 # print the model version.
 ${MODEL} --version
 #export FASTSIM_CMN_INTERNAL_RNSAM=1
@@ -277,6 +271,17 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C soc.nonPCIe_devices_iomacro.pl330_dma_1.p_periph_nsecure=1 \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
+
+echo
+echo "SCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}
+echo "MCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}
+echo "AP  UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
+echo "MM  UART Log = "$PWD/${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}
+echo
+echo -e "${GREEN_FONT}Launching RD-N2-Cfg1 model${NORMAL_FONT}"
+echo
+echo -e "${CYAN_FONT}${MODEL} ${PARAMS}${NORMAL_FONT}"
+echo
 
 if [ "$AUTOMATE" == "true" ] ; then
 	${MODEL} ${PARAMS} 2>&1 &
