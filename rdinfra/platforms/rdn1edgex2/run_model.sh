@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2019, ARM Limited and Contributors. All rights reserved.
+# Copyright (c) 2019-2021, ARM Limited and Contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -242,13 +242,6 @@ if [ "$AUTOMATE" == "true" ] ; then
 		"
 fi
 
-echo
-echo "Starting model "$MODEL_TYPE
-echo "  MODEL_PARAMS = "$MODEL_PARAMS
-echo "  EXTRA_PARAMS = "$EXTRA_MODEL_PARAMS
-echo "  UART Log     = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
-echo
-
 # print the model version.
 ${MODEL} --version
 
@@ -307,6 +300,18 @@ PARAMS=" \
 	-C css1.gic_distributor.multichip-threaded-dgi=0 \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
+
+echo
+echo "Chip 0's SCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}
+echo "Chip 0's MCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}
+echo "Chip 0's AP  UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
+echo "Chip 0's MM  UART Log = "$PWD/${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}
+echo
+echo
+echo -e "${GREEN_FONT}Launching RD-N1-Edge-X2 model${NORMAL_FONT}"
+echo
+echo -e "${CYAN_FONT}${MODEL} ${PARAMS}${NORMAL_FONT}"
+echo
 
 if [ "$AUTOMATE" == "true" ] ; then
 	${MODEL} ${PARAMS} 2>&1 &
