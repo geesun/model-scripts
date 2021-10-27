@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2019, ARM Limited and Contributors. All rights reserved.
+# Copyright (c) 2019-2021, ARM Limited and Contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -35,6 +35,7 @@ NORMAL_FONT="\e[0m"
 RED_FONT="\e[31;1m"
 GREEN_FONT="\e[32;1m"
 YELLOW_FONT="\e[33;1m"
+CYAN_FONT="\033[0;36m"
 ROOTDIR="../../../../output/rde1edge"
 OUTDIR=${ROOTDIR}/rde1edge
 MODEL_TYPE="rde1edge"
@@ -221,13 +222,6 @@ if [ "$AUTOMATE" == "true" ] ; then
 		"
 fi
 
-echo
-echo "Starting model "$MODEL_TYPE
-echo "  MODEL_PARAMS = "$MODEL_PARAMS
-echo "  EXTRA_PARAMS = "$EXTRA_MODEL_PARAMS
-echo "  UART Log     = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
-echo
-
 # print the model version.
 ${MODEL} --version
 
@@ -258,6 +252,17 @@ PARAMS="-C css.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600.yml \
 	-C css.gic_distributor.ITS-device-bits=20 \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
+
+echo
+echo "SCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}
+echo "MCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}
+echo "AP  UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
+echo "MM  UART Log = "$PWD/${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}
+echo
+echo -e "${GREEN_FONT}Launching RD-E1-Edge model${NORMAL_FONT}"
+echo
+echo -e "${CYAN_FONT}${MODEL} ${PARAMS}${NORMAL_FONT}"
+echo
 
 if [ "$AUTOMATE" == "true" ] ; then
 	${MODEL} ${PARAMS} 2>&1 &
