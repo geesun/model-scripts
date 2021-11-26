@@ -288,6 +288,7 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C soc.nonPCIe_devices_iomacro.pl330_dma_1.p_irq_nsecure=1 \
 	-C soc.nonPCIe_devices_iomacro.pl330_dma_1.p_periph_nsecure=1 \
 	${MODEL_PARAMS} \
+	${TZC_BYPASS_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
 echo
