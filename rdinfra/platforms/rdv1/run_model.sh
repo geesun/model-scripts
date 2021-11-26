@@ -226,18 +226,18 @@ fi
 ${MODEL} --version
 
 TZC_BYPASS_PARAMS=" \
-	-C css.mem.tzc0.tzc400.rst_gate_keeper=0x0f                \
-	-C css.mem.tzc0.tzc400.rst_region_attributes_0=0xc000000f  \
-	-C css.mem.tzc0.tzc400.rst_region_id_access_0=0xffffffff   \
-	-C css.mem.tzc1.tzc400.rst_gate_keeper=0x0f                \
-	-C css.mem.tzc1.tzc400.rst_region_attributes_0=0xc000000f  \
-	-C css.mem.tzc1.tzc400.rst_region_id_access_0=0xffffffff   \
-	-C css.mem.tzc2.tzc400.rst_gate_keeper=0x0f                \
-	-C css.mem.tzc2.tzc400.rst_region_attributes_0=0xc000000f  \
-	-C css.mem.tzc2.tzc400.rst_region_id_access_0=0xffffffff   \
-	-C css.mem.tzc3.tzc400.rst_gate_keeper=0x0f                \
-	-C css.mem.tzc3.tzc400.rst_region_attributes_0=0xc000000f  \
-	-C css.mem.tzc3.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css.tzc0.tzc400.rst_gate_keeper=0x0f                \
+	-C css.tzc0.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css.tzc0.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css.tzc1.tzc400.rst_gate_keeper=0x0f                \
+	-C css.tzc1.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css.tzc1.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css.tzc2.tzc400.rst_gate_keeper=0x0f                \
+	-C css.tzc2.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css.tzc2.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css.tzc3.tzc400.rst_gate_keeper=0x0f                \
+	-C css.tzc3.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css.tzc3.tzc400.rst_region_id_access_0=0xffffffff   \
 	"
 
 PARAMS="-C css.cmn_650.force_rnsam_internal=true \
