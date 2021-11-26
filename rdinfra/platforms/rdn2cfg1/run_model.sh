@@ -226,12 +226,12 @@ ${MODEL} --version
 #export FASTSIM_CMN_INTERNAL_RNSAM=1
 
 TZC_BYPASS_PARAMS=" \
-	-C css.mem.tzc0.tzc400.rst_gate_keeper=0x0f                \
-	-C css.mem.tzc0.tzc400.rst_region_attributes_0=0xc000000f  \
-	-C css.mem.tzc0.tzc400.rst_region_id_access_0=0xffffffff   \
-	-C css.mem.tzc1.tzc400.rst_gate_keeper=0x0f                \
-	-C css.mem.tzc1.tzc400.rst_region_attributes_0=0xc000000f  \
-	-C css.mem.tzc1.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css.tzc0.tzc400.rst_gate_keeper=0x0f                \
+	-C css.tzc0.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css.tzc0.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css.tzc1.tzc400.rst_gate_keeper=0x0f                \
+	-C css.tzc1.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css.tzc1.tzc400.rst_region_id_access_0=0xffffffff   \
 	"
 
 PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
