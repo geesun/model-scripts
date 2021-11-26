@@ -448,6 +448,7 @@ PARAMS="\
 	-C css3.gic_distributor.ITS-device-bits=20 \
 	-C css3.gic_distributor.multichip-threaded-dgi=0 \
 	${MODEL_PARAMS} \
+	${TZC_BYPASS_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
 echo
