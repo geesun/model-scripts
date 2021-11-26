@@ -255,6 +255,105 @@ fi
 # print the model version.
 ${MODEL} --version
 
+TZC_BYPASS_PARAMS=" \
+	-C css0.tzc0.tzc400.rst_gate_keeper=0x0f                \
+	-C css0.tzc0.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css0.tzc0.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css0.tzc1.tzc400.rst_gate_keeper=0x0f                \
+	-C css0.tzc1.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css0.tzc1.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css0.tzc2.tzc400.rst_gate_keeper=0x0f                \
+	-C css0.tzc2.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css0.tzc2.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css0.tzc3.tzc400.rst_gate_keeper=0x0f                \
+	-C css0.tzc3.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css0.tzc3.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css0.tzc4.tzc400.rst_gate_keeper=0x0f                \
+	-C css0.tzc4.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css0.tzc4.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css0.tzc5.tzc400.rst_gate_keeper=0x0f                \
+	-C css0.tzc5.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css0.tzc5.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css0.tzc6.tzc400.rst_gate_keeper=0x0f                \
+	-C css0.tzc6.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css0.tzc6.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css0.tzc7.tzc400.rst_gate_keeper=0x0f                \
+	-C css0.tzc7.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css0.tzc7.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css1.tzc0.tzc400.rst_gate_keeper=0x0f                \
+	-C css1.tzc0.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css1.tzc0.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css1.tzc1.tzc400.rst_gate_keeper=0x0f                \
+	-C css1.tzc1.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css1.tzc1.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css1.tzc2.tzc400.rst_gate_keeper=0x0f                \
+	-C css1.tzc2.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css1.tzc2.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css1.tzc3.tzc400.rst_gate_keeper=0x0f                \
+	-C css1.tzc3.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css1.tzc3.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css1.tzc4.tzc400.rst_gate_keeper=0x0f                \
+	-C css1.tzc4.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css1.tzc4.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css1.tzc5.tzc400.rst_gate_keeper=0x0f                \
+	-C css1.tzc5.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css1.tzc5.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css1.tzc6.tzc400.rst_gate_keeper=0x0f                \
+	-C css1.tzc6.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css1.tzc6.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css1.tzc7.tzc400.rst_gate_keeper=0x0f                \
+	-C css1.tzc7.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css1.tzc7.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css2.tzc0.tzc400.rst_gate_keeper=0x0f                \
+	-C css2.tzc0.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css2.tzc0.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css2.tzc1.tzc400.rst_gate_keeper=0x0f                \
+	-C css2.tzc1.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css2.tzc1.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css2.tzc2.tzc400.rst_gate_keeper=0x0f                \
+	-C css2.tzc2.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css2.tzc2.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css2.tzc3.tzc400.rst_gate_keeper=0x0f                \
+	-C css2.tzc3.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css2.tzc3.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css2.tzc4.tzc400.rst_gate_keeper=0x0f                \
+	-C css2.tzc4.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css2.tzc4.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css2.tzc5.tzc400.rst_gate_keeper=0x0f                \
+	-C css2.tzc5.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css2.tzc5.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css2.tzc6.tzc400.rst_gate_keeper=0x0f                \
+	-C css2.tzc6.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css2.tzc6.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css2.tzc7.tzc400.rst_gate_keeper=0x0f                \
+	-C css2.tzc7.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css2.tzc7.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css3.tzc0.tzc400.rst_gate_keeper=0x0f                \
+	-C css3.tzc0.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css3.tzc0.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css3.tzc1.tzc400.rst_gate_keeper=0x0f                \
+	-C css3.tzc1.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css3.tzc1.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css3.tzc2.tzc400.rst_gate_keeper=0x0f                \
+	-C css3.tzc2.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css3.tzc2.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css3.tzc3.tzc400.rst_gate_keeper=0x0f                \
+	-C css3.tzc3.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css3.tzc3.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css3.tzc4.tzc400.rst_gate_keeper=0x0f                \
+	-C css3.tzc4.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css3.tzc4.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css3.tzc5.tzc400.rst_gate_keeper=0x0f                \
+	-C css3.tzc5.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css3.tzc5.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css3.tzc6.tzc400.rst_gate_keeper=0x0f                \
+	-C css3.tzc6.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css3.tzc6.tzc400.rst_region_id_access_0=0xffffffff   \
+	-C css3.tzc7.tzc400.rst_gate_keeper=0x0f                \
+	-C css3.tzc7.tzc400.rst_region_attributes_0=0xc000000f  \
+	-C css3.tzc7.tzc400.rst_region_id_access_0=0xffffffff   \
+	"
+
 PARAMS=" \
 	--data css0.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	--data css0.mcp.armcortexm7ct=$OUTDIR/mcp_ramfw.bin@0x0BF80000 \
@@ -337,6 +436,7 @@ PARAMS=" \
 	-C css3.gic_distributor.ITS-device-bits=20 \
 	-C css3.gic_distributor.multichip-threaded-dgi=0 \
 	${MODEL_PARAMS} \
+	${TZC_BYPASS_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
 echo
