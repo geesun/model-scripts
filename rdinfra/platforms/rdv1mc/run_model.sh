@@ -373,12 +373,10 @@ PARAMS=" \
 	-C css0.pl011_uart_ap.unbuffered_output=1 \
 	-C css0.mcp.pl011_uart0_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
 	-C css0.mcp.pl011_uart0_mcp.unbuffered_output=1 \
-	-C soc0.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
-	-C soc0.pl011_uart0.unbuffered_output=1 \
-	-C soc0.pl011_uart0.flow_ctrl_mask_en=1 \
-	-C soc0.pl011_uart0.enable_dc4=0 \
-	-C soc0.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
-	-C soc0.pl011_uart1.unbuffered_output=1 \
+	-C css0.pl011_uart1_ap.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
+	-C css0.pl011_uart1_ap.unbuffered_output=1 \
+	-C css0.pl011_uart1_ap.flow_ctrl_mask_en=1 \
+	-C css0.pl011_uart1_ap.enable_dc4=0 \
 	-C css0.gic_distributor.ITS-device-bits=20 \
 	-C css0.gic_distributor.multichip-threaded-dgi=0 \
 
@@ -393,10 +391,8 @@ PARAMS=" \
 	-C css1.pl011_uart_ap.unbuffered_output=1 \
 	-C css1.mcp.pl011_uart0_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}_1 \
 	-C css1.mcp.pl011_uart0_mcp.unbuffered_output=1 \
-	-C soc1.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}_1 \
-	-C soc1.pl011_uart0.unbuffered_output=1 \
-	-C soc1.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}_1 \
-	-C soc1.pl011_uart1.unbuffered_output=1 \
+	-C css1.pl011_uart1_ap.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}_1 \
+	-C css1.pl011_uart1_ap.unbuffered_output=1 \
 	-C css1.gic_distributor.ITS-device-bits=20 \
 	-C css1.gic_distributor.multichip-threaded-dgi=0 \
 
@@ -411,10 +407,8 @@ PARAMS=" \
 	-C css2.pl011_uart_ap.unbuffered_output=1 \
 	-C css2.mcp.pl011_uart0_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}_2 \
 	-C css2.mcp.pl011_uart0_mcp.unbuffered_output=1 \
-	-C soc2.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}_2 \
-	-C soc2.pl011_uart0.unbuffered_output=1 \
-	-C soc2.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}_2 \
-	-C soc2.pl011_uart1.unbuffered_output=1 \
+	-C css2.pl011_uart1_ap.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}_2 \
+	-C css2.pl011_uart1_ap.unbuffered_output=1 \
 	-C css2.gic_distributor.ITS-device-bits=20 \
 	-C css2.gic_distributor.multichip-threaded-dgi=0 \
 
@@ -429,10 +423,8 @@ PARAMS=" \
 	-C css3.pl011_uart_ap.unbuffered_output=1 \
 	-C css3.mcp.pl011_uart0_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}_3 \
 	-C css3.mcp.pl011_uart0_mcp.unbuffered_output=1 \
-	-C soc3.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}_3 \
-	-C soc3.pl011_uart0.unbuffered_output=1 \
-	-C soc3.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}_3 \
-	-C soc3.pl011_uart1.unbuffered_output=1 \
+	-C css3.pl011_uart1_ap.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}_3 \
+	-C css3.pl011_uart1_ap.unbuffered_output=1 \
 	-C css3.gic_distributor.ITS-device-bits=20 \
 	-C css3.gic_distributor.multichip-threaded-dgi=0 \
 	--min-sync-latency=0 \
@@ -448,8 +440,8 @@ export FASTSIM_AUTO_SYNC=1
 echo
 echo "Chip 0's SCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}
 echo "Chip 0's MCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}
-echo "Chip 0's AP  UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
-echo "Chip 0's MM  UART Log = "$PWD/${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}
+echo "Chip 0's TF/MM UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
+echo "Chip 0's UEFI/OS UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME}
 echo
 echo -e "${GREEN_FONT}Launching RD-V1-MC model${NORMAL_FONT}"
 echo
