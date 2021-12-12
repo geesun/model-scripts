@@ -264,12 +264,10 @@ PARAMS=" \
 	-C css0.pl011_uart_ap.unbuffered_output=1 \
 	-C css0.mcp.pl011_uart0_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
 	-C css0.mcp.pl011_uart0_mcp.unbuffered_output=1 \
-	-C soc0.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
-	-C soc0.pl011_uart0.unbuffered_output=1 \
-	-C soc0.pl011_uart0.flow_ctrl_mask_en=1 \
-	-C soc0.pl011_uart0.enable_dc4=0 \
-	-C soc0.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
-	-C soc0.pl011_uart1.unbuffered_output=1 \
+	-C css0.pl011_uart1_ap.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
+	-C css0.pl011_uart1_ap.unbuffered_output=1 \
+	-C css0.pl011_uart1_ap.flow_ctrl_mask_en=1 \
+	-C css0.pl011_uart1_ap.enable_dc4=0 \
 	-C css0.gic_distributor.ITS-device-bits=20 \
 	-C css0.gic_distributor.multichip-threaded-dgi=0 \
 
@@ -292,10 +290,8 @@ PARAMS=" \
 	-C css1.pl011_uart_ap.unbuffered_output=1 \
 	-C css1.mcp.pl011_uart0_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}_1 \
 	-C css1.mcp.pl011_uart0_mcp.unbuffered_output=1 \
-	-C soc1.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}_1 \
-	-C soc1.pl011_uart0.unbuffered_output=1 \
-	-C soc1.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}_1 \
-	-C soc1.pl011_uart1.unbuffered_output=1 \
+	-C css1.pl011_uart1_ap.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}_1 \
+	-C css1.pl011_uart1_ap.unbuffered_output=1 \
 	-C css1.gic_distributor.ITS-device-bits=20 \
 	-C css1.gic_distributor.multichip-threaded-dgi=0 \
 	${MODEL_PARAMS} \
@@ -304,8 +300,8 @@ PARAMS=" \
 echo
 echo "Chip 0's SCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}
 echo "Chip 0's MCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}
-echo "Chip 0's AP  UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
-echo "Chip 0's MM  UART Log = "$PWD/${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}
+echo "Chip 0's TF/MM UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
+echo "Chip 0's UEFI/OS UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME}
 echo
 echo
 echo -e "${GREEN_FONT}Launching RD-N1-Edge-X2 model${NORMAL_FONT}"
