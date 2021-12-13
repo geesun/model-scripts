@@ -39,9 +39,8 @@ CURRENT_DATE_TIME=`date +%Y-%m-%d_%H.%M.%S`
 MYPID=$$
 
 # UART Log files
-UART0_ARMTF_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-0-armtf_$CURRENT_DATE_TIME
-UART1_MM_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-1-mm_$CURRENT_DATE_TIME
-UART0_CONSOLE_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-0-console_$CURRENT_DATE_TIME
+UART_SEC_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-0-sec_$CURRENT_DATE_TIME
+UART_NSEC_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-0-nsec_$CURRENT_DATE_TIME
 UART0_SCP_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-0-scp_$CURRENT_DATE_TIME
 UART0_MCP_OUTPUT_FILE_NAME=refinfra-${MYPID}-uart-0-mcp_$CURRENT_DATE_TIME
 
@@ -203,7 +202,7 @@ parse_log_file ()
 ##
 get_ip_addr_fedora () {
 	local _IP=""
-	console_op=$(grep -e 'Admin Console' $PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME)
+	console_op=$(grep -e 'Admin Console' $PWD/$platform/$UART_NSEC_OUTPUT_FILE_NAME)
 	re="https://([^/]+):" # regular expression
 	if [[ $console_op =~ $re ]]; then _IP=${BASH_REMATCH[1]}; fi
 	echo -e "\n[INFO] IP address of the model: $_IP"

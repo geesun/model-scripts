@@ -113,8 +113,8 @@ get_ras_log ()
 	echo -e "\n[Result] RAS log file at $RESULT_FOLDER/$RESULT_LOG_FILE1\n"
 	echo -e "                           $RESULT_FOLDER/$RESULT_LOG_FILE2"
 
-	cp $PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME $RESULT_FOLDER/$RESULT_LOG_FILE1
-	cp $PWD/$platform/$UART1_MM_OUTPUT_FILE_NAME $RESULT_FOLDER/$RESULT_LOG_FILE2
+	cp $PWD/$platform/$UART_NSEC_OUTPUT_FILE_NAME $RESULT_FOLDER/$RESULT_LOG_FILE1
+	cp $PWD/$platform/$UART_SEC_OUTPUT_FILE_NAME $RESULT_FOLDER/$RESULT_LOG_FILE2
 
 	# Check if the log file contains the linux cper dump
 	grep -q -s "Error 0, type: corrected" $RESULT_FOLDER/$RESULT_LOG_FILE1
@@ -182,7 +182,7 @@ if [ "$MODEL_PID" == "0" ] ; then
 fi
 
 # Check if the distro booted till login prompt
-parse_log_file "$PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME" "localhost login: " 7200
+parse_log_file "$PWD/$platform/$UART_NSEC_OUTPUT_FILE_NAME" "localhost login: " 7200
 if [ $? -ne 0 ]; then
 	echo -e "\n[ERROR]: System Boot failed or timed out!"
 	kill_model

@@ -116,12 +116,12 @@ print_acs_test_summary()
 	# Parse and print UEFI shell results
 	echo "UEFI shell based SBSA test results..................."
 	sed -n '/SBSA Architecture Compliance Suite/{:a;n;/SBSA tests complete/b;p;ba}' \
-			$PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME
+			$PWD/$platform/$UART_NSEC_OUTPUT_FILE_NAME
 
 	# Parse and print ACS results
 	echo "FWTS and ACS SBSA results..........................."
 	sed -n '/Test results summary/{:a;n;/qemuarm64 login/b;p;ba}' \
-			$PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME
+			$PWD/$platform/$UART_NSEC_OUTPUT_FILE_NAME
 }
 
 while getopts "p:n:a:j:v:h" opt; do
@@ -175,7 +175,7 @@ if [ "$MODEL_PID" == "0" ] ; then
 fi
 
 # wait for the test to complete
-parse_log_file "$PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME" "login:" 7200
+parse_log_file "$PWD/$platform/$UART_NSEC_OUTPUT_FILE_NAME" "login:" 7200
 ret=$?
 
 # kill the model's children, then kill the model

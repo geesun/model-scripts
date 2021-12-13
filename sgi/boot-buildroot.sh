@@ -117,7 +117,7 @@ if [ "$MODEL_PID" == "0" ] ; then
 fi
 
 # wait for boot to complete and the model to be killed
-parse_log_file "$PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME" "buildroot login" 300
+parse_log_file "$PWD/$platform/$UART_NSEC_OUTPUT_FILE_NAME" "buildroot login" 300
 ret=$?
 
 kill_model
