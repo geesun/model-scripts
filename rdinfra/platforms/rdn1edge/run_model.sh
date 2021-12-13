@@ -240,11 +240,11 @@ PARAMS="-C css.cmn600.mesh_config_file=$PATH_TO_MODEL/RD_N1_E1_cmn600.yml \
 	-S -R \
 	-C css.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME} \
 	-C css.scp.pl011_uart_scp.unbuffered_output=1 \
-	-C css.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
-	-C css.pl011_uart_ap.unbuffered_output=1 \
 	-C css.mcp.pl011_uart0_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
 	-C css.mcp.pl011_uart0_mcp.unbuffered_output=1 \
-	-C css.pl011_uart1_ap.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
+	-C css.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART_NSEC_OUTPUT_FILE_NAME} \
+	-C css.pl011_uart_ap.unbuffered_output=1 \
+	-C css.pl011_uart1_ap.out_file=${MODEL_TYPE,,}/${UART_SEC_OUTPUT_FILE_NAME} \
 	-C css.pl011_uart1_ap.unbuffered_output=1 \
 	-C css.pl011_uart1_ap.flow_ctrl_mask_en=1 \
 	-C css.pl011_uart1_ap.enable_dc4=0 \
@@ -261,8 +261,8 @@ export FASTSIM_AUTO_SYNC=1
 echo
 echo "SCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}
 echo "MCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}
-echo "TF/MM UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
-echo "UEFI/OS UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME}
+echo "TF/MM UART Log = "$PWD/${MODEL_TYPE,,}/${UART_SEC_OUTPUT_FILE_NAME}
+echo "UEFI/OS UART Log = "$PWD/${MODEL_TYPE,,}/${UART_NSEC_OUTPUT_FILE_NAME}
 echo
 echo -e "${GREEN_FONT}Launching RD-N1-Edge model${NORMAL_FONT}"
 echo

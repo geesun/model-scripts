@@ -149,7 +149,7 @@ if [ "$MODEL_PID" == "0" ] ; then
 fi
 
 # wait for the test to complete
-parse_log_file "$PWD/$platform/$UART0_ARMTF_OUTPUT_FILE_NAME" "UEFI-SCT Done!" 7200
+parse_log_file "$PWD/$platform/$UART_NSEC_OUTPUT_FILE_NAME" "UEFI-SCT Done!" 7200
 ret=$?
 
 # kill the model's children, then kill the model
