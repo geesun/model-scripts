@@ -266,18 +266,14 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css.scp.pl011_uart_scp.out_file=${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME} \
 	-C css.scp.pl011_uart_scp.unbuffered_output=1 \
 	-C css.scp.pl011_uart_scp.uart_enable=true \
-	-C css.pl011_s_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
+	-C css.pl011_ns_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME} \
+	-C css.pl011_ns_uart_ap.unbuffered_output=1 \
 	-C css.mcp.pl011_uart_mcp.out_file=${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME} \
 	-C css.mcp.pl011_uart_mcp.unbuffered_output=1 \
-	-C soc.pl011_uart0.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
-	-C soc.pl011_uart0.unbuffered_output=1 \
-	-C soc.pl011_uart0.flow_ctrl_mask_en=1 \
-	-C soc.pl011_uart0.enable_dc4=0 \
-	-C soc.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
-	-C soc.pl011_uart1.unbuffered_output=1 \
-	-C soc.pl011_uart1.flow_ctrl_mask_en=1 \
-	-C soc.pl011_uart1.enable_dc4=0 \
+	-C css.pl011_s_uart_ap.out_file=${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME} \
 	-C css.pl011_s_uart_ap.unbuffered_output=1 \
+	-C css.pl011_s_uart_ap.flow_ctrl_mask_en=1 \
+	-C css.pl011_s_uart_ap.enable_dc4=0 \
 	-C css.gic_distributor.ITS-device-bits=20 \
 	-C pcie_group_0.pciex16.hierarchy_file_name=<default> \
 	-C pcie_group_0.pciex16.pcie_rc.ahci0.endpoint.ats_supported=true \
@@ -300,8 +296,8 @@ export FASTSIM_AUTO_SYNC=1
 echo
 echo "SCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}
 echo "MCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}
-echo "AP  UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
-echo "MM  UART Log = "$PWD/${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}
+echo "TF/MM UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_ARMTF_OUTPUT_FILE_NAME}
+echo "UEFI/OS UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_CONSOLE_OUTPUT_FILE_NAME}
 echo
 echo -e "${GREEN_FONT}Launching RD-Edmunds model${NORMAL_FONT}"
 echo
