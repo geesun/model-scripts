@@ -78,16 +78,18 @@ then
     echo "================== Launching Corstone1000 Model ==============================="
     $1 \
 	 -C se.trustedBootROMloader.fname="${OUTDIR}/bl1.bin" \
-        --data board.flash0=${OUTDIR}/${YOCTO_IMAGE}-${MACHINE}.wic.nopt@0x68050000 \
+        --data board.flash0=${OUTDIR}/${YOCTO_IMAGE}-${MACHINE}.wic.nopt@0x68100000 \
         -C board.xnvm_size=64 \
         -C se.trustedSRAM_config=6 \
         -C se.BootROM_config="3" \
         -C board.hostbridge.interfaceName="tap0" \
         -C board.smsc_91c111.enabled=1 \
-        -C board.hostbridge.userNetworking=1 \
+        -C board.hostbridge.userNetworking=true \
         -C board.hostbridge.userNetPorts="5555=5555,8080=80,8022=22" \
         -C board.se_flash_size=8192 \
         -C diagnostics=4 \
+        -C disable_visualisation=true \
+        -C se.nvm.update_raw_image=0 \
 	$2
     elif [[ $1 =~ $a5ds ]]; then
     echo "================== Launching CA5-DS Model ==============================="
