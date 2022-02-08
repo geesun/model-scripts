@@ -166,7 +166,7 @@ mkdir -p $LOGS_DIR
 "$MODEL" \
     -C css.scp.ROMloader.fname=$YOCTO_OUTDIR/scp_romfw.bin \
     -C css.trustedBootROMloader.fname=$YOCTO_OUTDIR/bl1-tc.bin \
-    -C board.flashloader0.fname=$YOCTO_OUTDIR/fip-tc.bin \
+    -C board.flashloader0.fname=$YOCTO_OUTDIR/fip_gpt-tc.bin \
     -C soc.pl011_uart0.out_file=$LOGS_DIR/uart0_soc.log \
     -C soc.pl011_uart0.unbuffered_output=1 \
     -C soc.pl011_uart1.out_file=$LOGS_DIR/uart1_soc.log \
