@@ -36,7 +36,7 @@ incorrect_script_use () {
 	echo "<path_to_run_model.sh> [OPTIONS]"
 	echo "OPTIONS:"
 	echo "-m, --model				path to model"
-	echo "-d, --distro				distro version, values supported [poky, android-nano, android-swr]"
+	echo "-d, --distro				distro version, values supported [poky, android-swr]"
 	echo "-a, --avb				[OPTIONAL] avb boot, values supported [true, false], DEFAULT: false"
 	echo "-t, --tap-interface			[OPTIONAL] tap interface"
 	echo "-e, --extra-model-params		[OPTIONAL] extra model parameters"
@@ -136,16 +136,6 @@ case $DISTRO in
     poky)
 		DISTRO_MODEL_PARAMS="--data board.dram=$YOCTO_OUTDIR/fitImage-core-image-minimal-tc0-tc0@0x20000000"
         ;;
-    android-nano)
-		[ -z "$ANDROID_PRODUCT_OUT" ] && echo "var ANDROID_PRODUCT_OUT is empty" && exit 1
-		check_dir_exists_and_exit $ANDROID_PRODUCT_OUT "android build images"
-		check_substring_and_exit $ANDROID_PRODUCT_OUT "tc_nano"
-		check_android_images
-		DISTRO_MODEL_PARAMS="-C board.mmc.p_mmc_file=$ANDROID_PRODUCT_OUT/android.img"
-		[ "$AVB" == true ] || DISTRO_MODEL_PARAMS="$DISTRO_MODEL_PARAMS \
-			--data board.dram=$ANDROID_PRODUCT_OUT/ramdisk_uboot.img@0x8000000 \
-			--data board.dram=$YOCTO_OUTDIR/Image@0x80000 "
-        ;;
     android-swr)
 		[ -z "$ANDROID_PRODUCT_OUT" ] && echo "var ANDROID_PRODUCT_OUT is empty" && exit 1
 		check_dir_exists_and_exit $ANDROID_PRODUCT_OUT "android build images"
@@ -176,7 +166,7 @@ mkdir -p $LOGS_DIR
 "$MODEL" \
     -C css.scp.ROMloader.fname=$YOCTO_OUTDIR/scp_romfw.bin \
     -C css.trustedBootROMloader.fname=$YOCTO_OUTDIR/bl1-tc.bin \
-    -C board.flashloader0.fname=$YOCTO_OUTDIR/fip-tc.bin \
+    -C board.flashloader0.fname=$YOCTO_OUTDIR/fip_gpt-tc.bin \
     -C soc.pl011_uart0.out_file=$LOGS_DIR/uart0_soc.log \
     -C soc.pl011_uart0.unbuffered_output=1 \
     -C soc.pl011_uart1.out_file=$LOGS_DIR/uart1_soc.log \
