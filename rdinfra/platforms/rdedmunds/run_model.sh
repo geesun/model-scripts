@@ -287,9 +287,15 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C soc.nonPCIe_devices_iomacro.pl330_dma_1.p_controller_nsecure=1 \
 	-C soc.nonPCIe_devices_iomacro.pl330_dma_1.p_irq_nsecure=1 \
 	-C soc.nonPCIe_devices_iomacro.pl330_dma_1.p_periph_nsecure=1 \
+	--min-sync-latency=0 \
+	--quantum=400 \
 	${MODEL_PARAMS} \
 	${TZC_BYPASS_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
+
+export FM_SCX_ENABLE_TIMER_LOCAL_TIME=1
+export FASTSIM_DISABLE_TA=0
+export FASTSIM_AUTO_SYNC=1
 
 echo
 echo "SCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}

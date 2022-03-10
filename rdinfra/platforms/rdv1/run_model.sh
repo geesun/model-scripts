@@ -266,9 +266,15 @@ PARAMS="-C css.cmn_650.force_rnsam_internal=true \
 	-C soc.pl011_uart1.unbuffered_output=1 \
 	-C css.gic_distributor.ITS-device-bits=20 \
 	-C pci.pcie_rc.ahci0.endpoint.ats_supported=true \
+	--min-sync-latency=0 \
+	--quantum=400 \
 	${MODEL_PARAMS} \
 	${TZC_BYPASS_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
+
+export FM_SCX_ENABLE_TIMER_LOCAL_TIME=1
+export FASTSIM_DISABLE_TA=0
+export FASTSIM_AUTO_SYNC=1
 
 echo
 echo "SCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}

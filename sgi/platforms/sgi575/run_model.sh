@@ -231,8 +231,14 @@ PARAMS="-C css.cmn600.mesh_config_file=\"$PATH_TO_MODEL/SGI-575_cmn600.yml\" \
 	-C soc.pl011_uart1.out_file=${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME} \
 	-C soc.pl011_uart1.unbuffered_output=1 \
 	-C css.gic_distributor.ITS-device-bits=20 \
+	--min-sync-latency=0 \
+	--quantum=500 \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
+
+export FM_SCX_ENABLE_TIMER_LOCAL_TIME=1
+export FASTSIM_DISABLE_TA=0
+export FASTSIM_AUTO_SYNC=1
 
 echo
 echo "SCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}
