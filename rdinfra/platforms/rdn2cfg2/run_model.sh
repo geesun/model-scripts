@@ -383,9 +383,15 @@ PARAMS="\
 	-C css3.pl011_s_uart_ap.enable_dc4=0 \
 	-C css3.gic_distributor.ITS-device-bits=20 \
 	-C css3.gic_distributor.multichip-threaded-dgi=0 \
+	--min-sync-latency=0 \
+	--quantum=500 \
 	${MODEL_PARAMS} \
 	${TZC_BYPASS_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
+
+export FM_SCX_ENABLE_TIMER_LOCAL_TIME=1
+export FASTSIM_DISABLE_TA=0
+export FASTSIM_AUTO_SYNC=1
 
 echo
 echo "SCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_SCP_OUTPUT_FILE_NAME}
