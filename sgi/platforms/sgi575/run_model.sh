@@ -240,7 +240,7 @@ echo "UEFI/OS UART Log = "$PWD/${MODEL_TYPE,,}/${UART_NSEC_OUTPUT_FILE_NAME}
 echo
 echo -e "${GREEN_FONT}Launching SGI-575 model${NORMAL_FONT}"
 echo
-echo -e "${CYAN_FONT}${MODEL} ${PARAMS}${NORMAL_FONT}"
+echo -e ${CYAN_FONT}${MODEL} ${PARAMS}${NORMAL_FONT}
 echo
 
 if [ "$AUTOMATE" == "true" ] ; then
