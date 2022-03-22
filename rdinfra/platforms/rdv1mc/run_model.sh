@@ -447,7 +447,7 @@ echo "Chip 0's MM  UART Log = "$PWD/${MODEL_TYPE,,}/${UART1_MM_OUTPUT_FILE_NAME}
 echo
 echo -e "${GREEN_FONT}Launching RD-V1-MC model${NORMAL_FONT}"
 echo
-echo -e "${CYAN_FONT}${MODEL} ${PARAMS}${NORMAL_FONT}"
+echo -e ${CYAN_FONT}${MODEL} ${PARAMS}${NORMAL_FONT}
 echo
 
 if [ "$AUTOMATE" == "true" ] ; then
