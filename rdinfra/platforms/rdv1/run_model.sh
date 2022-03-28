@@ -258,10 +258,14 @@ PARAMS="-C css.cmn_650.force_rnsam_internal=true \
 	-C css.mcp.pl011_uart0_mcp.unbuffered_output=1 \
 	-C css.pl011_uart_ap.out_file=${MODEL_TYPE,,}/${UART_NSEC_OUTPUT_FILE_NAME} \
 	-C css.pl011_uart_ap.unbuffered_output=1 \
+	-C css.pl011_uart_ap.flow_ctrl_mask_en=1 \
+	-C css.pl011_uart_ap.enable_dc4=1 \
 	-C css.pl011_uart1_ap.out_file=${MODEL_TYPE,,}/${UART_SEC_OUTPUT_FILE_NAME} \
 	-C css.pl011_uart1_ap.unbuffered_output=1 \
 	-C css.pl011_uart1_ap.flow_ctrl_mask_en=1 \
 	-C css.pl011_uart1_ap.enable_dc4=0 \
+	-C soc.pl011_uart0.flow_ctrl_mask_en=1 \
+	-C soc.pl011_uart0.enable_dc4=0 \
 	-C css.gic_distributor.ITS-device-bits=20 \
 	-C pci.pcie_rc.ahci0.endpoint.ats_supported=true \
 	--min-sync-latency=0 \

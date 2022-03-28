@@ -252,10 +252,14 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C css.mcp.pl011_uart_mcp.unbuffered_output=1 \
 	-C css.pl011_ns_uart_ap.out_file=${MODEL_TYPE,,}/${UART_NSEC_OUTPUT_FILE_NAME} \
 	-C css.pl011_ns_uart_ap.unbuffered_output=1 \
+	-C css.pl011_ns_uart_ap.flow_ctrl_mask_en=1 \
+	-C css.pl011_ns_uart_ap.enable_dc4=1 \
 	-C css.pl011_s_uart_ap.out_file=${MODEL_TYPE,,}/${UART_SEC_OUTPUT_FILE_NAME} \
 	-C css.pl011_s_uart_ap.unbuffered_output=1 \
 	-C css.pl011_s_uart_ap.flow_ctrl_mask_en=1 \
 	-C css.pl011_s_uart_ap.enable_dc4=0 \
+	-C soc.pl011_uart0.flow_ctrl_mask_en=1 \
+	-C soc.pl011_uart0.enable_dc4=0 \
 	-C css.gic_distributor.ITS-device-bits=20 \
 	-C pcie_group_0.pciex16.hierarchy_file_name=<default> \
 	-C pcie_group_0.pciex16.pcie_rc.ahci0.endpoint.ats_supported=true \
