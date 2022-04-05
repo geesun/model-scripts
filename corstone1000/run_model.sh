@@ -17,6 +17,8 @@ help() {
     echo "usage: run_model.sh \${FVP executable path} [ -u ]"
     echo "  -u: Run unit test selector using pyIRIS"
     echo "   No additional argument: load and execute model"
+    echo " -D: booting distro or ACS image on FVP"
+    echo " eg: -D <path_to_image>"
     exit 1
 }
 
@@ -61,9 +63,24 @@ else
   OUTDIR=${BASEDIR}/../../build-${YOCTO_DISTRO}/tmp-$(echo ${YOCTO_DISTRO} | sed 's/-/_/g')/deploy/images/a5ds
   DIRNAME=a5ds
 fi
-
-if [ -z "$2" -o "$2" == "-S" ]
+if [ "$2" ]
 then
+    case "$2" in
+	"-S")
+	    debug="$2"
+	    ;;
+        "-D")
+	    image="$3"
+	    echo "image path - $3"
+	    ;;
+        "-u")
+            unit_test="$2"
+	    ;;
+        *)
+	    help_msg=1
+	    ;;
+    esac
+
     if [[ $1 =~ $cs700 ]]; then
     echo "================== Launching Corstone700 Model ==============================="
     $1 \
@@ -73,7 +90,7 @@ then
         -C board.xnvm_size=64 \
         -C board.hostbridge.interfaceName="tap0" \
         -C board.smsc_91c111.enabled=1 \
-        $2
+        $debug
     elif [[ $1 =~ $cs1000 ]]; then
     echo "================== Launching Corstone1000 Model ==============================="
     $1 \
@@ -90,7 +107,13 @@ then
         -C diagnostics=4 \
         -C disable_visualisation=true \
         -C se.nvm.update_raw_image=0 \
-	$2
+	-C board.msd_mmc.p_mmc_file="$image" \
+	-C board.msd_mmc.card_type="SDHC" \
+	-C board.msd_mmc.p_fast_access=0 \
+	-C board.msd_mmc.diagnostics="2" \
+	-C board.msd_mmc.p_max_block_count="0xFFFF" \
+	-C board.msd_config.pl180_fifo_depth="16" \
+	$debug
     elif [[ $1 =~ $a5ds ]]; then
     echo "================== Launching CA5-DS Model ==============================="
     $1 \
@@ -100,7 +123,7 @@ then
     else
        help
     fi
-elif [ "$2" == "-u" ]
+elif [[ "$unit_test" ]]
 then
     if [[ $1 =~ $cs1000 ]]; then
     echo "Corstone1000: run unit test selector not supported."
@@ -109,6 +132,7 @@ then
     python ${BASEDIR}/scripts/test/testselector.py \
        --${DIRNAME} "--image_dir ${OUTDIR} --fvp ${1}"
     fi
-else
+elif [[ "$help_msg" ]]
+then
    help
 fi
