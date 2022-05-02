@@ -135,6 +135,8 @@ check_dir_exists_and_exit $YOCTO_OUTDIR "firmware and kernel images"
 case $DISTRO in
     poky)
 		DISTRO_MODEL_PARAMS="--data board.dram=$YOCTO_OUTDIR/fitImage-core-image-minimal-tc1-tc1@0x20000000"
+		BL1_IMAGE_FILE="${YOCTO_OUTDIR}/bl1-tc.bin"
+		FIP_IMAGE_FILE="${YOCTO_OUTDIR}/fip_gpt-tc.bin"
         ;;
     android-swr)
 		[ -z "$ANDROID_PRODUCT_OUT" ] && echo "var ANDROID_PRODUCT_OUT is empty" && exit 1
@@ -145,6 +147,8 @@ case $DISTRO in
 		[ "$AVB" == true ] || DISTRO_MODEL_PARAMS="$DISTRO_MODEL_PARAMS \
 			--data board.dram=$ANDROID_PRODUCT_OUT/ramdisk_uboot.img@0x8000000 \
 			--data board.dram=$YOCTO_OUTDIR/Image@0x80000 "
+		BL1_IMAGE_FILE="${YOCTO_OUTDIR}/bl1-trusty-tc.bin"
+		FIP_IMAGE_FILE="${YOCTO_OUTDIR}/fip-trusty-tc.bin"
         ;;
     *) echo "bad option for distro $3"; incorrect_script_use
         ;;
@@ -165,8 +169,8 @@ mkdir -p $LOGS_DIR
 
 "$MODEL" \
     -C css.scp.ROMloader.fname=$YOCTO_OUTDIR/scp_romfw.bin \
-    -C css.trustedBootROMloader.fname=$YOCTO_OUTDIR/bl1-tc.bin \
-    -C board.flashloader0.fname=$YOCTO_OUTDIR/fip_gpt-tc.bin \
+    -C css.trustedBootROMloader.fname=${BL1_IMAGE_FILE} \
+    -C board.flashloader0.fname=${FIP_IMAGE_FILE} \
     -C soc.pl011_uart0.out_file=$LOGS_DIR/uart0_soc.log \
     -C soc.pl011_uart0.unbuffered_output=1 \
     -C soc.pl011_uart1.out_file=$LOGS_DIR/uart1_soc.log \
