@@ -154,6 +154,11 @@ case $DISTRO in
 			--data board.dram=$DEPLOY_DIR/Image@0x80000 "
         BL1_IMAGE_FILE="$DEPLOY_DIR/bl1-trusty-tc.bin"
         FIP_IMAGE_FILE="$DEPLOY_DIR/fip-trusty-tc.bin"
+
+	DISTRO_MODEL_PARAMS="${DISTRO_MODEL_PARAMS} \
+	-C board.smsc_91c111.enabled=1 \
+	-C board.hostbridge.userNetworking=1 \
+	-C board.hostbridge.userNetPorts=\"5555=5555,8080=80,8022=22\""
         ;;
     *) echo "bad option for distro $3"; incorrect_script_use
         ;;
