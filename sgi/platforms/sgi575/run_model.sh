@@ -2,7 +2,7 @@
 
 # This proprietary software may be used only as authorised by a licensing
 # agreement from ARM Limited
-# (C) COPYRIGHT 2015-2021 ARM Limited
+# (C) COPYRIGHT 2015-2022 ARM Limited
 # The entire notice above must be reproduced on all authorised copies and
 # copies may only be made to the extent permitted by a licensing agreement from
 # ARM Limited.
@@ -234,7 +234,7 @@ PARAMS="-C css.cmn600.mesh_config_file=\"$PATH_TO_MODEL/SGI-575_cmn600.yml\" \
 	-C soc.pl011_uart0.enable_dc4=0 \
 	-C css.gic_distributor.ITS-device-bits=20 \
 	--min-sync-latency=0 \
-	--quantum=500 \
+	--quantum=480 \
 	${MODEL_PARAMS} \
 	${EXTRA_MODEL_PARAMS}"
 
