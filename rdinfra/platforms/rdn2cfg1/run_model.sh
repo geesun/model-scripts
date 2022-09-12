@@ -261,6 +261,7 @@ PARAMS="--data css.scp.armcortexm7ct=$OUTDIR/scp_ramfw.bin@0x0BD80000 \
 	-C soc.pl011_uart0.flow_ctrl_mask_en=1 \
 	-C soc.pl011_uart0.enable_dc4=0 \
 	-C css.gic_distributor.ITS-device-bits=20 \
+	-C css.cmn700.hnf_mpam_idr_override=0x43 \
 	-C pcie_group_0.pciex16.hierarchy_file_name=<default> \
 	-C pcie_group_0.pciex16.pcie_rc.ahci0.endpoint.ats_supported=true \
 	-C soc.nonPCIe_devices_iomacro.pl330_dma_0.p_controller_nsecure=1 \
