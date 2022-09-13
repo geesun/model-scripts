@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###############################################################################
-# Copyright (c) 2019, ARM Limited and Contributors. All rights reserved.
+# Copyright (c) 2019-2022, ARM Limited and Contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -41,7 +41,7 @@ platforms_rdinfra[rde1edge]=1
 platforms_rdinfra[rdv1]=1
 platforms_rdinfra[rdn2]=1
 platforms_rdinfra[rdn2cfg1]=1
-platforms_rdinfra[rdedmunds]=1
+platforms_rdinfra[rdv2]=1
 
 __print_examples()
 {

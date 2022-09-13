@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021, ARM Limited and Contributors. All rights reserved.
+# Copyright (c) 2021-2022, ARM Limited and Contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -36,9 +36,9 @@ RED_FONT="\e[31;1m"
 GREEN_FONT="\e[32;1m"
 YELLOW_FONT="\e[33;1m"
 CYAN_FONT="\033[0;36m"
-ROOTDIR="../../../../output/rdedmunds"
-OUTDIR=${ROOTDIR}/rdedmunds
-MODEL_TYPE="rdedmunds"
+ROOTDIR="../../../../output/rdv2"
+OUTDIR=${ROOTDIR}/rdv2
+MODEL_TYPE="rdv2"
 MODEL_PARAMS=""
 FS_TYPE=""
 TAP_INTERFACE=""
@@ -48,7 +48,7 @@ source $PWD/../../../sgi/sgi_common_util.sh
 
 # Check that the path to the model exists.
 if [ ! -f "$MODEL" ]; then
-	echo "ERROR: you should set variable MODEL to point to a valid FVP_RD_Edmunds" \
+	echo "ERROR: you should set variable MODEL to point to a valid FVP_RD_V2" \
 	     "model binary, currently it is set to \"$MODEL\""
 	exit 1
 fi
@@ -303,7 +303,7 @@ echo "MCP UART Log = "$PWD/${MODEL_TYPE,,}/${UART0_MCP_OUTPUT_FILE_NAME}
 echo "TF/MM UART Log = "$PWD/${MODEL_TYPE,,}/${UART_SEC_OUTPUT_FILE_NAME}
 echo "UEFI/OS UART Log = "$PWD/${MODEL_TYPE,,}/${UART_NSEC_OUTPUT_FILE_NAME}
 echo
-echo -e "${GREEN_FONT}Launching RD-Edmunds model${NORMAL_FONT}"
+echo -e "${GREEN_FONT}Launching RD-V2 model${NORMAL_FONT}"
 echo
 echo -e ${CYAN_FONT}${MODEL} ${PARAMS}${NORMAL_FONT}
 echo
