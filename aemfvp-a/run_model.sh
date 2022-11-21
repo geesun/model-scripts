@@ -63,15 +63,12 @@ if [ ! -e "$MODEL" ]; then
 	err=1
 else
 	# Check if we are running the foundation model or the AEMv8 model
-	version=$($MODEL --version)
-	echo version: $version
-
-	case $version in
+	case $MODEL in
 		*Foundation* )
 			err=1
 			;;
-		*Cortex_A32* )
-			err=1
+		*Cortex-A* )
+
 			;;
 		* )
 			model_type=aemv8
